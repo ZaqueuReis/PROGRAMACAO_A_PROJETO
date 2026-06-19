@@ -162,7 +162,7 @@ label_3.grid(column=0, row=2, sticky=W, **paddings)
 cor_preenchimento_var = StringVar(root)
 
 option_menu_3= ttk.OptionMenu(frame, cor_preenchimento_var,
-               "White", "White", "Yellow", "Red", "Green", "Blue","Orange"
+               "White", "White", "Yellow", "Red", "Green", "Blue","Orange" #alterei o valor default porque os desenhos antes já saiam preenchidos de preto
                 )
 option_menu_3.grid(column=1, row=2, sticky=W, **paddings)
 
