@@ -7,30 +7,30 @@ def iniciar_figura_nova(event):
     global figura_nova
     
     if tipo_figura_var.get() == 'Linha':
-        figura_nova = ("linha", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get()) 
+        figura_nova = ("linha", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get()) 
         
     elif tipo_figura_var.get() == 'Oval': # adicionada a figura oval
-        figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
 
     elif tipo_figura_var.get() == 'Circulo': #adicionada a figura circulo
-        figura_nova = ("circulo", (event.x, event.y, event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("circulo", (event.x, event.y, event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
         
     elif tipo_figura_var.get() == 'Retangulo' : #adicionada a figura retangulo
-        figura_nova = ('retangulo', (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ('retangulo', (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
         
     else :
-        figura_nova = ("rabisco", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("rabisco", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
 
 # Quando mouse é movido com o botão pressionado
 def atualizar_figura_nova(event):
     
     global figura_nova
     
-    tipo, valores, borda, preenchimento = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
+    tipo, valores, borda, preenchimento, tamanho_borda = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
 
     if tipo == "rabisco": # seguir exatamente o que é pedido no colab
         valores.append((event.x, event.y))
-        figura_nova = (tipo, valores, borda, preenchimento)
+        figura_nova = (tipo, valores, borda, preenchimento, tamanho_borda)
         
     elif tipo == 'circulo': #correção da forma de calcular círculo
 
@@ -38,10 +38,10 @@ def atualizar_figura_nova(event):
         centro_y = valores[5]
         raio = ((event.x - centro_x) ** 2 + (event.y - centro_y) ** 2) ** 0.5
 
-        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), borda, preenchimento)
+        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), borda, preenchimento, tamanho_borda)
     
     else:
-        figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), borda, preenchimento)
+        figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), borda, preenchimento, tamanho_borda)
 
     desenhar_figuras()
     desenhar_figura_nova()
@@ -52,7 +52,7 @@ recai no mesmo caso para todas as outras figuras"""
 
 # Quando mouse é solto
 '''Defini uma variavel global para definir o tamnaho da borda padrão para as figuras'''
-tamanho_borda = 2
+
 
 def incluir_figura_nova(event): 
     if not incompleta(figura_nova): # para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
@@ -61,7 +61,7 @@ def incluir_figura_nova(event):
 
 def desenhar_figuras():
     canvas.delete("all")
-    for fig, values, borda, preenchimento in figuras:
+    for fig, values, borda, preenchimento, tamanho_borda in figuras:
         if fig == "linha":
             canvas.create_line(values[0], values[1], values[2], values[3], fill = borda, width=tamanho_borda) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
         elif fig == "oval": #criado para desenhar ovais passadas
@@ -74,7 +74,7 @@ def desenhar_figuras():
             canvas.create_line(values, fill = borda, width=tamanho_borda) # altereii para fill = borda pois quando iniciava o programa a linha ficava invisivel
 
 def desenhar_figura_nova():
-    fig, values, borda, preenchimento = figura_nova
+    fig, values, borda, preenchimento, tamanho_borda = figura_nova
     if fig == "linha":
         canvas.create_line(values[0], values[1], values[2], values[3], fill = borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
     elif fig == "oval": #criado para desenhar oval 
@@ -87,7 +87,7 @@ def desenhar_figura_nova():
         canvas.create_line(values, fill = borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
 
 def incompleta(figura): 
-    fig, values, borda, preenchimento = figura
+    fig, values, borda, preenchimento, tamanho_borda = figura
     
     if fig == "rabisco":
         return len(values) <= 1
@@ -180,7 +180,7 @@ label_4 = ttk.Label(frame, text = 'Espessura da Borda:', font=negrito)
 label_4.grid(column=0, row=3, sticky=W, **paddings)
 
 # Criação do widget para selecionar a espessura da borda
-tamanho_borda = StringVar(root, value = "1")
+tamanho_borda = StringVar(root, value = '1')
 
 option_menu_2 = ttk.OptionMenu( 
     frame,
