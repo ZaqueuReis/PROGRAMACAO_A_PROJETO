@@ -20,7 +20,7 @@ def iniciar_figura_nova(event):
         figura_nova = ('retangulo', (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
         
     else :
-        figura_nova = ("rabisco", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("mao livre", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get())
 
 # Quando mouse é movido com o botão pressionado
 def atualizar_figura_nova(event):
@@ -29,7 +29,7 @@ def atualizar_figura_nova(event):
     
     tipo, valores, borda, preenchimento = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
 
-    if tipo == "rabisco":
+    if tipo == "mao livre":
         valores.append((event.x, event.y))
         figura_nova = (tipo, valores, borda, preenchimento)
         
@@ -93,7 +93,7 @@ def desenhar_figura_nova():
 def incompleta(figura): 
     fig, values, borda, preenchimento = figura
     
-    if fig == "rabisco":
+    if fig == "mao livre":
         return len(values) <= 1
 
     return (values[0] == values[2] and values[1] == values[3])
@@ -117,6 +117,7 @@ paddings = {'padx': 5, 'pady': 5}
 
 # label
 negrito = font.Font(family= 'Arial', size=10, weight='bold')
+
 label = ttk.Label(frame, text='Formato:', font=negrito)
 label.grid(column=0, row=0, sticky=W, **paddings)
 
@@ -130,7 +131,7 @@ option_menu = ttk.OptionMenu( #acrescentadas as outras opções de figuras defin
     'Retangulo',
     'Oval',
     'Circulo',
-    'Rabisco'
+    'Mao livre'
 )
 option_menu.grid(column=1, row=0, sticky=W, **paddings)
 
@@ -155,7 +156,7 @@ option_menu_2.grid(column=1, row=1, sticky=W, **paddings)
 
 
 # Criação do widget de texto para o preenchimento das figuras
-label_3 = ttk.Label(frame, text = 'Cor Preenchimento', font=negrito)
+label_3 = ttk.Label(frame, text = 'Cor Preenchimento:', font=negrito)
 label_3.grid(column=0, row=2, sticky=W, **paddings)
 
 
