@@ -75,13 +75,13 @@ def desenhar_figuras():
         elif fig == 'circulo' : #criado para desenhar circulos passados
             canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda)
         else : # fig == "rabisco"
-            canvas.create_line(values, fill = borda, width=tamanho_borda) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
+            canvas.create_line(values, fill = borda, width=tamanho_borda) # altereii para fill = borda pois quando iniciava o programa a linha ficava invisivel
 
 def desenhar_figura_nova():
     fig, values, borda, preenchimento = figura_nova
     if fig == "linha":
         canvas.create_line(values[0], values[1], values[2], values[3], fill = borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
-    elif fig == "oval": #criado para desenhar oval novo
+    elif fig == "oval": #criado para desenhar oval 
         canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda, dash =(4, 2))
     elif fig == 'circulo': #criado para desenhar retangulo novo
         canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda, dash=(4,2))
