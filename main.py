@@ -146,7 +146,7 @@ option_menu.grid(column=1, row=0, sticky=W, **paddings)
 
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=600, height=600)
-canvas.grid(column=0, row=3, columnspan=3, sticky=W, **paddings)
+canvas.grid(column=0, row=4, columnspan=3, sticky=W, **paddings) # modificação de onde o canvas está para acrescentar o botão de escolher espessura
 
 frame.pack()
 
@@ -174,6 +174,26 @@ cor_preenchimento_var = StringVar(root, value = 'white') # definição do valor 
 botao_preenchimento = ttk.Button(frame, text="Escolher cor do preenchimento", command=escolher_cor_preenchimento) # implementação do botão para preenchimento
 
 botao_preenchimento.grid(column=1, row=2, sticky=W, **paddings)
+
+# Criação do label para a espessura da borda
+label_4 = ttk.Label(frame, text = 'Espessura da Borda:', font=negrito)
+label_4.grid(column=0, row=3, sticky=W, **paddings)
+
+# Criação do widget para selecionar a espessura da borda
+tamanho_borda = StringVar(root, value = "1")
+
+option_menu_2 = ttk.OptionMenu( 
+    frame,
+    tamanho_borda,
+    '1',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5'
+)
+
+option_menu_2.grid(column=1, row=3, sticky=W, **paddings)
 
 # Eventos de mouse associados ao canvas - com seus callbacks
 canvas.bind('<ButtonPress-1>', iniciar_figura_nova)
