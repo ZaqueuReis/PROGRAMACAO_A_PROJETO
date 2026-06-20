@@ -1,7 +1,6 @@
 from tkinter import *
-from tkinter import ttk, font
-
-"""Nessa etapa, apenas adicionamos meio que um atributo para todas as figuras, que é a cor da borda e o restante a própria biblioteca faz"""
+from tkinter import ttk, font # importar a fonte diferente da letra
+from tkinter import colorchooser # importar espaço de selção de cor
 
 # Quando mouse é pressionado
 def iniciar_figura_nova(event): 
@@ -14,13 +13,13 @@ def iniciar_figura_nova(event):
         figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
 
     elif tipo_figura_var.get() == 'Circulo': #adicionada a figura circulo
-        figura_nova = ("circulo", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("circulo", (event.x, event.y, event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
         
     elif tipo_figura_var.get() == 'Retangulo' : #adicionada a figura retangulo
         figura_nova = ('retangulo', (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get())
         
     else :
-        figura_nova = ("mao livre", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get())
+        figura_nova = ("rabisco", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get())
 
 # Quando mouse é movido com o botão pressionado
 def atualizar_figura_nova(event):
@@ -29,20 +28,17 @@ def atualizar_figura_nova(event):
     
     tipo, valores, borda, preenchimento = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
 
-    if tipo == "mao livre":
+    if tipo == "rabisco": # seguir exatamente o que é pedido no colab
         valores.append((event.x, event.y))
         figura_nova = (tipo, valores, borda, preenchimento)
         
-    elif tipo == 'circulo': # adicionado forrma para calcular as coordenadas do circulo, considerando deslizamentos do cursor para direita e esquerda
+    elif tipo == 'circulo': #correção da forma de calcular círculo
 
-        x1 = valores[0]
-        y1 = valores[1]
-        raio = max( abs(event.x - x1), abs(event.y - y1))
+        centro_x = valores[4]
+        centro_y = valores[5]
+        raio = ((event.x - centro_x) ** 2 + (event.y - centro_y) ** 2) ** 0.5
 
-        x2 = x1 + raio if event.x >= x1 else x1 - raio
-        y2 = y1 + raio if event.y >= y1 else y1 - raio
-
-        figura_nova = (tipo, (x1, y1, x2, y2), borda, preenchimento)
+        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), borda, preenchimento)
     
     else:
         figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), borda, preenchimento)
@@ -93,7 +89,7 @@ def desenhar_figura_nova():
 def incompleta(figura): 
     fig, values, borda, preenchimento = figura
     
-    if fig == "mao livre":
+    if fig == "rabisco":
         return len(values) <= 1
 
     return (values[0] == values[2] and values[1] == values[3])
@@ -101,6 +97,19 @@ def incompleta(figura):
 """Como existem vários casos de figuras e, com exceção do rabisco, todas as outras exigem que o código faça a mesma coisa, é melhor organizar
 a função apenas para verificar se é rabisco ou não. Se for, já verifica. Caso não seja, recai no mesmo caso para todas as outras
 figuras """
+
+def escolher_cor_borda():
+    cor = colorchooser.askcolor(title="Escolha a cor da borda")
+    if cor[1]:
+        cor_borda_var.set(cor[1])
+
+
+def escolher_cor_preenchimento():
+    cor = colorchooser.askcolor(title="Escolha a cor de preenchimento")
+    if cor[1]:
+        cor_preenchimento_var.set(cor[1])
+
+'''Funções para colocar em funcionamento o método de selecão de cor arbitrária importada pelo tkinter'''
 
 
 #******* MAIN *******#
@@ -131,7 +140,7 @@ option_menu = ttk.OptionMenu( #acrescentadas as outras opções de figuras defin
     'Retangulo',
     'Oval',
     'Circulo',
-    'Mao livre'
+    'Rabisco'
 )
 option_menu.grid(column=1, row=0, sticky=W, **paddings)
 
@@ -147,12 +156,11 @@ label_2.grid(column=0, row=1, sticky=W, **paddings)
 
 
 # Criação do widgtet para selecionar a cor da borda
-cor_borda_var = StringVar(root)
+cor_borda_var = StringVar(root, value = 'black') # definição do valor default aqui
 
-option_menu_2 = ttk.OptionMenu(frame, cor_borda_var,
-               "Black", "Black", "Red", "Green", "Blue","Orange"
-                )
-option_menu_2.grid(column=1, row=1, sticky=W, **paddings)
+botao_borda = ttk.Button(frame, text="Escolher cor da borda", command=escolher_cor_borda) # implementação do botão para borda
+
+botao_borda.grid(column=1, row=1, sticky=W, **paddings)
 
 
 # Criação do widget de texto para o preenchimento das figuras
@@ -161,12 +169,11 @@ label_3.grid(column=0, row=2, sticky=W, **paddings)
 
 
 # Criação do widgtet para selecionar a cor do preenchimento
-cor_preenchimento_var = StringVar(root)
+cor_preenchimento_var = StringVar(root, value = 'white') # definição do valor default aqui
 
-option_menu_3= ttk.OptionMenu(frame, cor_preenchimento_var,
-               "White", "White", "Yellow", "Red", "Green", "Blue","Orange"
-                )
-option_menu_3.grid(column=1, row=2, sticky=W, **paddings)
+botao_preenchimento = ttk.Button(frame, text="Escolher cor do preenchimento", command=escolher_cor_preenchimento) # implementação do botão para preenchimento
+
+botao_preenchimento.grid(column=1, row=2, sticky=W, **paddings)
 
 # Eventos de mouse associados ao canvas - com seus callbacks
 canvas.bind('<ButtonPress-1>', iniciar_figura_nova)
