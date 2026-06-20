@@ -51,7 +51,7 @@ a função apenas para verificar se é rabisco ou circulo. Se for, já verifica 
 recai no mesmo caso para todas as outras figuras"""
 
 # Quando mouse é solto
-'''Defini uma variavel global para definir o tamnaho da borda padrão para as figuras'''
+
 
 
 def incluir_figura_nova(event): 
