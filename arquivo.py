@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, font
 
 """Nessa etapa, apenas adicionamos meio que um atributo para todas as figuras, que é a cor da borda e o restante a própria biblioteca faz"""
 
@@ -116,7 +116,8 @@ root.title('Paint Imperativo') # adicionado título a janela principal, para fic
 paddings = {'padx': 5, 'pady': 5} 
 
 # label
-label = ttk.Label(frame, text='Formato:')
+negrito = font.Font(family= 'Arial', size=10, weight='bold')
+label = ttk.Label(frame, text='Formato:', font=negrito)
 label.grid(column=0, row=0, sticky=W, **paddings)
 
 # option menu
@@ -140,7 +141,7 @@ canvas.grid(column=0, row=3, columnspan=3, sticky=W, **paddings)
 frame.pack()
 
 # Criação do widget de texto para a parte da borda
-label_2 = ttk.Label(frame, text='Cor da borda:')
+label_2 = ttk.Label(frame, text='Cor da borda:', font=negrito)
 label_2.grid(column=0, row=1, sticky=W, **paddings)
 
 
@@ -154,7 +155,7 @@ option_menu_2.grid(column=1, row=1, sticky=W, **paddings)
 
 
 # Criação do widget de texto para o preenchimento das figuras
-label_3 = ttk.Label(frame, text = 'Cor Preenchimento')
+label_3 = ttk.Label(frame, text = 'Cor Preenchimento', font=negrito)
 label_3.grid(column=0, row=2, sticky=W, **paddings)
 
 
