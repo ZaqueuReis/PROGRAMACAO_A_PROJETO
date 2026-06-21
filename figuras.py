@@ -24,6 +24,10 @@ class Linha(Figura):
         self.x2 = x2
         self.y2 = y2
     
+    def atualizar(self, x, y) :
+        self.x2 = x
+        self.y2 = y
+    
     def desenhar(self, canvas):
         canvas.create_line(self.x1, self.y1, self.x2, self.y2, fill = self.borda, width = self.tamanho_borda)
     
@@ -35,6 +39,9 @@ class Rabisco(Figura):
         super().__init__(borda, '', tamanho_borda)
         self.pontos = pontos
     
+    def atualizar(self, x, y) :
+        self.pontos.append((x, y))
+
     def desenhar(self, canvas):
         canvas.create_line(self.pontos, fill = self.borda, width = self.tamanho_borda)
     
@@ -49,6 +56,10 @@ class Retangulo(Figura):
         self.x2 = x2
         self.y2 = y2
 
+    def atualizar(self, x, y) :
+        self.x2 = x
+        self.y2 = y
+
     def desenhar(self, canvas):
         canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, outline = self.borda, fill = self.preenchimento, width = self.tamanho_borda)
     
@@ -62,7 +73,11 @@ class Oval(Figura):
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-    
+
+    def atualizar(self, x, y) :
+        self.x2 = x
+        self.y2 = y
+
     def desenhar(self, canvas):
         canvas.create_oval(self.x1, self.y1, self.x2, self.y2, outline = self.borda, fill = self.preenchimento, width = self.tamanho_borda)
     
@@ -76,6 +91,10 @@ class Circulo(Figura):
         self.centro_x = centro_x
         self.centro_y = centro_y
         self.raio = raio
+    
+    def atualizar(self, x, y) :
+        raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5
+        self.raio = raio
 
     def desenhar(self, canvas):
         canvas.create_oval(self.centro_x - self.raio, self.centro_y - self.raio, self.centro_x + self.raio, self.centro_y + self.raio, outline=self.borda, fill=self.preenchimento, width = self.tamanho_borda)
@@ -88,6 +107,9 @@ class Poligono(Figura):
     def __init__(self, pontos, borda, preenchimento, tamanho_borda):
         super().__init__(borda, preenchimento, tamanho_borda)
         self.pontos = pontos
+    
+    def atualizar(self, x, y) :
+        self.pontos.append((x,y))
 
     def desenhar(self, canvas):
         canvas.create_polygon(self.pontos, outline=self.borda, fill=self.preenchimento, width = self.tamanho_borda)

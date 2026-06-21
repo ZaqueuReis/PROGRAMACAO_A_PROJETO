@@ -1,102 +1,79 @@
 from tkinter import *
 from tkinter import ttk, font # importar a fonte diferente da letra
 from tkinter import colorchooser # importar espaço de selção de cor
+from figuras import *
 
 # Quando mouse é pressionado
+dict_figuras_nova = {'Oval' : Oval,
+                     'Circulo' : Circulo,
+                     'Retangulo' : Retangulo,
+                     'Rabisco' : Rabisco,
+                     'Poligono' : Poligono,
+                     'Linha' : Linha}
+
+#Quando o mouse eh pressionado
 def iniciar_figura_nova(event): 
     global figura_nova
-    
-    if tipo_figura_var.get() == 'Linha':
-        figura_nova = ("linha", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get()) 
-        
-    elif tipo_figura_var.get() == 'Oval': # adicionada a figura oval
-        figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
+    tipo = tipo_figura_var.get()
+    cls_figura = dict_figuras_nova.get(tipo)
 
-    elif tipo_figura_var.get() == 'Circulo': #adicionada a figura circulo
-        figura_nova = ("circulo", (event.x, event.y, event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
+    if cls_figura :
+        if tipo in ['Oval', 'Retangulo', 'Linha'] :
+            figura_nova = cls_figura(event.x, event.y, event.x, event.y,
+                                     cor_borda_var.get(), 
+                                     cor_preenchimento_var.get(),
+                                     tamanho_borda.get()
+                                     )
+        elif tipo == 'Rabisco' :
+            figura_nova = cls_figura([(event.x, event.y)],
+                                     cor_borda_var.get(), 
+                                     tamanho_borda.get()
+                                     )
         
-    elif tipo_figura_var.get() == 'Retangulo' : #adicionada a figura retangulo
-        figura_nova = ('retangulo', (event.x, event.y, event.x, event.y), cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
-        
-    else :
-        figura_nova = ("rabisco", [(event.x, event.y)], cor_borda_var.get(), cor_preenchimento_var.get(), tamanho_borda.get())
-
+        elif tipo == 'Circulo' :
+            figura_nova = cls_figura(event.x, event.y, 0, 
+                                     cor_borda_var.get(),
+                                     cor_preenchimento_var.get(),
+                                     tamanho_borda.get()
+                                     )
+        else :
+            figura_nova = cls_figura([(event.x, event.y, event.x, event.y)],
+                                     cor_borda_var.get(),
+                                     cor_preenchimento_var.get(),
+                                     tamanho_borda.get()
+                                     )
 # Quando mouse é movido com o botão pressionado
-def atualizar_figura_nova(event):
-    
+def atualizar_figura_nova(event) :
     global figura_nova
-    
-    tipo, valores, cor_borda, cor_preenchimento, tamanho_borda = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
 
-    if tipo == "rabisco": # seguir exatamente o que é pedido no colab
-        valores.append((event.x, event.y))
-        figura_nova = (tipo, valores, cor_borda, cor_preenchimento, tamanho_borda)
-        
-    elif tipo == 'circulo': #correção da forma de calcular círculo
+    if figura_nova :
+        figura_nova.atualizar(event.x, event.y)
+        desenhar_figuras()
+        figura_nova.desenhar(canvas)
 
-        centro_x = valores[4]
-        centro_y = valores[5]
-        raio = ((event.x - centro_x) ** 2 + (event.y - centro_y) ** 2) ** 0.5
-
-        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), cor_borda, cor_preenchimento, tamanho_borda)
-    
-    else:
-        figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), cor_borda, cor_preenchimento, tamanho_borda)
-
-    desenhar_figuras()
-    desenhar_figura_nova()
-
-    """Como são vários casos de figuras e, com exceção do rabisco e circulo, todas as outras recaem no mesmo caso, é melhor organizar
-a função apenas para verificar se é rabisco ou circulo. Se for, já verifica e executa o trecho de código destinado a ela. Caso não seja, 
-recai no mesmo caso para todas as outras figuras"""
 
 # Quando mouse é solto
 
 
 
 def incluir_figura_nova(event): 
-    if not incompleta(figura_nova): #    para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
-        figuras.append(figura_nova) 
+    if figura_nova and not figura_nova.incompleta() :
+        figuras.append(figura_nova)
     desenhar_figuras()
 
-def desenhar_figuras():
-    canvas.delete("all")
-    for fig, values, cor_borda, cor_preenchimento, tamanho_borda in figuras:
-        if fig == "linha":
-            canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_borda, width=tamanho_borda) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
-        elif fig == "oval": #criado para desenhar ovais passadas
-            canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
-        elif fig == 'retangulo' : #criado para desenhar retangulos passados
-            canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
-        elif fig == 'circulo' : #criado para desenhar circulos passados
-            canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
-        else : # fig == "rabisco"
-            canvas.create_line(values, fill = cor_borda, width=tamanho_borda) # altereii para fill = borda pois quando iniciava o programa a linha ficava invisivel
+def incompleta(figura): 
+    return figura.incompelta()
+
+def desenhar_figuras() :
+    canvas.delete('all')
+    for figura in figuras :
+        figura.desenhar(canvas)
 
 def desenhar_figura_nova():
-    fig, values, cor_borda, cor_preenchimento, tamanho_borda = figura_nova
-    if fig == "linha":
-        canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
-    elif fig == "oval": #criado para desenhar oval 
-        canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash =(4, 2))
-    elif fig == 'circulo': #criado para desenhar retangulo novo
-        canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash=(4,2))
-    elif fig == 'retangulo' : #criado para desenhar circulo novo
-        canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash=(4, 2))
-    else : # fig == "rabisco"
-        canvas.create_line(values, fill = cor_borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
+    if figura_nova :
+        figura_nova.desenhar(canvas)
 
-def incompleta(figura): 
-    fig, values, cor_borda, cor_preenchimento, tamanho_borda = figura
-    
-    if fig == "rabisco":
-        return len(values) <= 1
-
-    return (values[0] == values[2] and values[1] == values[3])
-
-"""Como existem vários casos de figuras e, com exceção do rabisco, todas as outras exigem que o código faça a mesma coisa, é melhor organizar
-a função apenas para verificar se é rabisco ou não. Se for, já verifica. Caso não seja, recai no mesmo caso para todas as outras
-figuras """
+'''------------------------------------------------------------------------------'''
 
 def escolher_cor_borda():
     cor = colorchooser.askcolor(title="Escolha a cor da borda")
