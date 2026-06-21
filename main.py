@@ -26,11 +26,11 @@ def atualizar_figura_nova(event):
     
     global figura_nova
     
-    tipo, valores, borda, preenchimento, tamanho_borda = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
+    tipo, valores, cor_borda, cor_preenchimento, tamanho_borda = figura_nova # substituição para evitar o uso de indices em excesso no codigo abaixo
 
     if tipo == "rabisco": # seguir exatamente o que é pedido no colab
         valores.append((event.x, event.y))
-        figura_nova = (tipo, valores, borda, preenchimento, tamanho_borda)
+        figura_nova = (tipo, valores, cor_borda, cor_preenchimento, tamanho_borda)
         
     elif tipo == 'circulo': #correção da forma de calcular círculo
 
@@ -38,10 +38,10 @@ def atualizar_figura_nova(event):
         centro_y = valores[5]
         raio = ((event.x - centro_x) ** 2 + (event.y - centro_y) ** 2) ** 0.5
 
-        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), borda, preenchimento, tamanho_borda)
+        figura_nova = (tipo, (centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, centro_x, centro_y), cor_borda, cor_preenchimento, tamanho_borda)
     
     else:
-        figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), borda, preenchimento, tamanho_borda)
+        figura_nova = (tipo, (valores[0], valores[1], event.x, event.y), cor_borda, cor_preenchimento, tamanho_borda)
 
     desenhar_figuras()
     desenhar_figura_nova()
@@ -55,39 +55,39 @@ recai no mesmo caso para todas as outras figuras"""
 
 
 def incluir_figura_nova(event): 
-    if not incompleta(figura_nova): # para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
+    if not incompleta(figura_nova): #    para evitar incluir figuras incompletas, como uma linha sem comprimento ou um rabisco com um único ponto
         figuras.append(figura_nova) 
     desenhar_figuras()
 
 def desenhar_figuras():
     canvas.delete("all")
-    for fig, values, borda, preenchimento, tamanho_borda in figuras:
+    for fig, values, cor_borda, cor_preenchimento, tamanho_borda in figuras:
         if fig == "linha":
-            canvas.create_line(values[0], values[1], values[2], values[3], fill = borda, width=tamanho_borda) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
+            canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_borda, width=tamanho_borda) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
         elif fig == "oval": #criado para desenhar ovais passadas
-            canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda)
+            canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
         elif fig == 'retangulo' : #criado para desenhar retangulos passados
-            canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda)
+            canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
         elif fig == 'circulo' : #criado para desenhar circulos passados
-            canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda)
+            canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda)
         else : # fig == "rabisco"
-            canvas.create_line(values, fill = borda, width=tamanho_borda) # altereii para fill = borda pois quando iniciava o programa a linha ficava invisivel
+            canvas.create_line(values, fill = cor_borda, width=tamanho_borda) # altereii para fill = borda pois quando iniciava o programa a linha ficava invisivel
 
 def desenhar_figura_nova():
-    fig, values, borda, preenchimento, tamanho_borda = figura_nova
+    fig, values, cor_borda, cor_preenchimento, tamanho_borda = figura_nova
     if fig == "linha":
-        canvas.create_line(values[0], values[1], values[2], values[3], fill = borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
+        canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
     elif fig == "oval": #criado para desenhar oval 
-        canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda, dash =(4, 2))
+        canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash =(4, 2))
     elif fig == 'circulo': #criado para desenhar retangulo novo
-        canvas.create_oval(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda, dash=(4,2))
+        canvas.create_oval(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash=(4,2))
     elif fig == 'retangulo' : #criado para desenhar circulo novo
-        canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = borda, fill = preenchimento, width=tamanho_borda, dash=(4, 2))
+        canvas.create_rectangle(values[0], values[1], values[2], values[3], outline = cor_borda, fill = cor_preenchimento, width=tamanho_borda, dash=(4, 2))
     else : # fig == "rabisco"
-        canvas.create_line(values, fill = borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
+        canvas.create_line(values, fill = cor_borda, width=tamanho_borda, dash=(4, 2)) # alterei para fill = borda pois quando iniciava o programa a linha ficava invisivel
 
 def incompleta(figura): 
-    fig, values, borda, preenchimento, tamanho_borda = figura
+    fig, values, cor_borda, cor_preenchimento, tamanho_borda = figura
     
     if fig == "rabisco":
         return len(values) <= 1
