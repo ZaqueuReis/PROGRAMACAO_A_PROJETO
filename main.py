@@ -18,12 +18,22 @@ def iniciar_figura_nova(event):
     cls_figura = dict_figuras_nova.get(tipo)
 
     if cls_figura :
-        if tipo in ['Oval', 'Retangulo', 'Linha'] :
+        if tipo in ['Oval', 'Retangulo'] :
             figura_nova = cls_figura(event.x, event.y, event.x, event.y,
                                      cor_borda_var.get(), 
                                      cor_preenchimento_var.get(),
                                      tamanho_borda.get()
                                      )
+        
+        #FOI NECESSÁRIO SEPARAR LINHA DE OVAL E RETANGULO 
+        #POR QUE ERA NECESSÁRIO DE APENAS 7 ARGUMENTOS, 
+        # MAS ESTAVA SENDO PASSADO 8, E DAVA ERRO/BUG
+        elif tipo == 'Linha': 
+            figura_nova = cls_figura(event.x, event.y, event.x, event.y,
+                                     cor_borda_var.get(), 
+                                     tamanho_borda.get()
+                                     )
+            
         elif tipo == 'Rabisco' :
             figura_nova = cls_figura([(event.x, event.y)],
                                      cor_borda_var.get(), 
@@ -62,7 +72,7 @@ def incluir_figura_nova(event):
     desenhar_figuras()
 
 def incompleta(figura): 
-    return figura.incompelta()
+    return figura.incompleta() #CORREÇÃO DE NOME
 
 def desenhar_figuras() :
     canvas.delete('all')
@@ -117,7 +127,8 @@ option_menu = ttk.OptionMenu( #acrescentadas as outras opções de figuras defin
     'Retangulo',
     'Oval',
     'Circulo',
-    'Rabisco'
+    'Rabisco',
+    'Poligono'
 )
 option_menu.grid(column=1, row=0, sticky=W, **paddings)
 
