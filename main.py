@@ -11,7 +11,7 @@ dict_figuras_nova = {'Oval' : Oval,
                      'Poligono' : Poligono,
                      'Linha' : Linha}
 
-#Quando o mouse é pressionado
+#Quando o mouse é pressionad
 def iniciar_figura_nova(event): 
     global figura_nova
     tipo = tipo_figura_var.get()
