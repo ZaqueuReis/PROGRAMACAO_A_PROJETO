@@ -1,0 +1,160 @@
+from tkinter import *
+from tkinter import ttk, font
+from tkinter import colorchooser
+
+
+class Janela:
+
+    def __init__(self):
+
+        self.root = Tk()
+        self.root.title("Paint MVC")
+        self.frame = Frame(self.root)
+        self.frame.pack()
+
+        paddings = {'padx': 5, 'pady': 5}
+
+        negrito = font.Font(family='Arial', size=10, weight='bold')
+
+        # Widgets de texto e seleção do tipo da figura
+
+        label_1 = ttk.Label(self.frame, text='Formato:', font=negrito)
+        label_1.grid(column=0, row=0, sticky=W, **paddings)
+
+        self.tipo_figura_var = StringVar(self.root)
+
+        self.option_menu = ttk.OptionMenu(
+            self.frame,
+            self.tipo_figura_var,
+            'Linha',
+            'Linha',
+            'Retangulo',
+            'Oval',
+            'Circulo',
+            'Rabisco',
+            'Poligono'
+        )
+
+        self.option_menu.grid(column=1, row=0, sticky=W, **paddings)
+
+        # Widgets de texto e seleção da cor da borda das figuras
+
+        label_2 = ttk.Label(self.frame, text='Cor da borda:', font=negrito)
+        label_2.grid(column=0, row=1, sticky=W, **paddings)
+
+        self.cor_borda_var = StringVar(self.root, value='black')
+
+        botao_cor_borda = ttk.Button(self.frame, text='Escolher cor da borda', command=self.escolher_cor_borda)
+        botao_cor_borda.grid(column=1, row=1, sticky=W, **paddings)
+
+        # Widgets de texto e seleção da cor do preenchimento das figuras
+
+        label_3 = ttk.Label(self.frame, text='Cor preenchimento:', font=negrito)
+        label_3.grid(column=0, row=2, sticky=W, **paddings)
+
+        self.cor_preenchimento_var = StringVar(self.root, value='white')
+
+        botao_cor_prrenchimento = ttk.Button(self.frame, text='Escolher cor do preenchimento', command=self.escolher_cor_preenchimento)
+        botao_cor_prrenchimento.grid(column=1, row=2, sticky=W, **paddings)
+
+        # Widgets de texto e seleção da espessura da borda das figuras
+
+        label_4 = ttk.Label(self.frame, text='Espessura da borda:', font=negrito)
+        label_4.grid(column=0, row=3, sticky=W, **paddings)
+
+        self.tamanho_borda = StringVar(self.root, value='1')
+
+        self.option_menu_2 = ttk.OptionMenu(
+            self.frame,
+            self.tamanho_borda,
+            '1',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5'
+        )
+        
+        self.option_menu_2.grid(column=1, row=3, sticky=W, **paddings)
+
+    # Parte da área de desenho (canvas)
+
+        self.canvas = Canvas(self.frame, bg='white', width=600, height=600)
+        self.canvas.grid(column=0, row=4, columnspan=3, sticky=W, **paddings)
+
+    # Configuração do widget de escolher qualquer cor arbitrária
+
+    def escolher_cor_borda(self):
+        cor = colorchooser.askcolor(title="Escolha a cor da borda")
+        if cor[1]:
+            self.cor_borda_var.set(cor[1])
+
+    def escolher_cor_preenchimento(self):
+        cor = colorchooser.askcolor(title="Escolha a cor de preenchimento")
+        if cor[1]:
+            self.cor_preenchimento_var.set(cor[1])
+
+    # Getters para obter os atributos da janela
+
+    def obter_tipo_figura(self):
+        return self.tipo_figura_var.get()
+
+    def obter_cor_borda(self):
+        return self.cor_borda_var.get()
+
+    def obter_cor_preenchimento(self):
+        return self.cor_preenchimento_var.get()
+
+    def obter_tamanho_borda(self):
+        return int(self.tamanho_borda.get())
+
+    def obter_canvas(self):
+        return self.canvas
+
+    # Limpar todo o Canvas
+
+    def limpar_canvas(self):
+        self.canvas.delete("all")
+
+    # Metodos de desenho das figuras - Acredito que eles devem ficar na janela mesmo, porque é o tkinter que tem esses métodos imbutidos
+
+    def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
+        self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)
+
+    def desenhar_rabisco(self, pontos, cor_borda,tamanho_borda):
+        self.canvas.create_line(pontos, fill=cor_borda, width=tamanho_borda)
+
+    def desenhar_retangulo(self, x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda):
+        self.canvas.create_rectangle(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+
+    def desenhar_oval(self,x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda):
+        self.canvas.create_oval(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+
+    def desenhar_circulo(self, centro_x, centro_y, raio, cor_borda, cor_preenchimento, tamanho_borda):
+        self.canvas.create_oval(centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+
+    def desenhar_poligono(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado):
+        if len(pontos) == 0:
+            return
+
+        coordenadas = []
+        for x, y in pontos:
+            coordenadas.extend([x, y])
+
+        if fechado:
+            self.canvas.create_polygon(coordenadas, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+
+        else:
+            if len(pontos) >= 2:
+                self.canvas.create_line(coordenadas, fill=cor_borda, width=tamanho_borda)
+
+    def desenhar_linha_guia(self, ultimo_x, ultimo_y, mouse_x, mouse_y, mostrar_fechamento=False, inicio_x=None, inicio_y=None):
+        self.canvas.create_line(ultimo_x, ultimo_y, mouse_x, mouse_y, fill="black", dash=(4, 4))
+
+        if mostrar_fechamento:
+            self.canvas.create_rectangle(inicio_x - 5, inicio_y - 5, inicio_x + 5, inicio_y + 5, outline="red", fill="white")
+
+    # Pra finalizar, loop da janela
+
+    def iniciar(self):
+        self.root.mainloop()
