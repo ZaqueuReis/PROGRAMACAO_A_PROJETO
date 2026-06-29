@@ -10,7 +10,7 @@ class Figura(ABC):
         self.tamanho_borda = tamanho_borda
     
     @abstractmethod
-    def desenhar(self,canvas):
+    def atualizar(self, *args): # Todas as figuras são obrigadas a ter atualizar, e não desenhar agora
         pass
 
     @abstractmethod
@@ -32,9 +32,6 @@ class Linha(Figura):
         self.x2 = x
         self.y2 = y
     
-    def desenhar(self, canvas):
-        canvas.create_line(self.x1, self.y1, self.x2, self.y2, fill = self.cor_borda, width = self.tamanho_borda)
-    
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
 
@@ -49,9 +46,6 @@ class Rabisco(Figura):
     def atualizar(self, x, y) :
         self.pontos.append((x, y))
 
-    def desenhar(self, canvas):
-        canvas.create_line(self.pontos, fill = self.cor_borda, width = self.tamanho_borda)
-    
     def incompleta(self):
         return len(self.pontos) <= 1
 
@@ -69,8 +63,6 @@ class Retangulo(Figura):
         self.x2 = x
         self.y2 = y
 
-    def desenhar(self, canvas):
-        canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, outline = self.cor_borda, fill = self.cor_preenchimento, width = self.tamanho_borda)
     
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
@@ -89,9 +81,6 @@ class Oval(Figura):
     def atualizar(self, x, y) :
         self.x2 = x
         self.y2 = y
-
-    def desenhar(self, canvas):
-        canvas.create_oval(self.x1, self.y1, self.x2, self.y2, outline = self.cor_borda, fill = self.cor_preenchimento, width = self.tamanho_borda)
     
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
@@ -107,70 +96,34 @@ class Circulo(Figura):
         self.raio = raio
     
     def atualizar(self, x, y) :
-        raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5
-        self.raio = raio
-
-    def desenhar(self, canvas):
-        canvas.create_oval(self.centro_x - self.raio, self.centro_y - self.raio, self.centro_x + self.raio, self.centro_y + self.raio, outline=self.cor_borda, fill=self.cor_preenchimento, width = self.tamanho_borda)
+        self.raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5 # substituição aqui, pois estava redundante
 
     def incompleta(self):
         return self.raio <= 0
 
 
-
-#CLASSE POLIGONO FINAL BOSS =====================================
+# CLASSE POLIGONO =====================================
 class Poligono(Figura):
 
     def __init__(self, pontos, cor_borda, cor_preenchimento, tamanho_borda):
         super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
         self.pontos = pontos
-        self.mouse_x = None  # Rastreia o movimento livre do mouse
-        self.mouse_y = None # Rastreia o movimento livre do mouse
-        self.fechado = False # Rastreia se o polígono foi concluído
+        self.fechado = False # Tirei o self.mouse pois está função é do controler
 
     def atualizar(self, x, y):
-        # Atualiza a posição da linha guia enquanto o usuário move o mouse
-        self.mouse_x = x
-        self.mouse_y = y
+        """
+        Mantido apenas para preservar a interface da classe Figura, já que o polígono é atualizado adicionando novos vértices. Como foi sugerido por Giovanny em sala
+        """
+        pass
 
     def adicionar_ponto(self, x, y):
         self.pontos.append((x, y))
 
-    def desenhar(self, canvas):
-        if len(self.pontos) < 1:
-            return
+    # Função desenhar tirada, pois está no view
 
-        coordenadas = []
-        for x, y in self.pontos:
-            coordenadas.extend([x, y])
-
-        # Se o polígono foi finalizado, desenha preenchido
-        if self.fechado:
-            if len(self.pontos) >= 3:
-                canvas.create_polygon(coordenadas, outline=self.cor_borda, fill=self.cor_preenchimento, width=self.tamanho_borda)
-            return
-
-        # Enquanto desenha, mostra os segmentos já desenhados no Canvas
-        if len(self.pontos) >= 2:
-            canvas.create_line(coordenadas, fill=self.cor_borda, width=self.tamanho_borda)
-
-        # Vai mostrando na tela a linha guia dinâmica conforme vontade do usuário
-        if self.mouse_x is not None and not self.fechado:
-            ultimo_x, ultimo_y = self.pontos[-1]
-            canvas.create_line(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, fill=self.cor_borda, width=self.tamanho_borda, dash=(4, 4))
-            
-            # Se o mouse estiver perto do ponto inicial, desenha uma caixinha vermelha para dizer aos usuários que está perto de fechar o polígono
-            p_inicio_x, p_inicio_y = self.pontos[0]
-            distancia = ((self.mouse_x - p_inicio_x)**2 + (self.mouse_y - p_inicio_y)**2)**0.5
-            if distancia < 10 and len(self.pontos) >= 2: # 10 pixels de tolerância
-                canvas.create_rectangle(p_inicio_x - 5, p_inicio_y - 5, p_inicio_x + 5, p_inicio_y + 5, outline="red", fill="white")
-
-    def fechar(self, canvas):
+    def fechar(self): # Tirado canvas porque ele está na view
         self.fechado = True
-        self.mouse_x = None
-        self.mouse_y = None
+        # Tirado o movimento de rastreio do mouse, pois é função do controler
 
     def incompleta(self):
         return len(self.pontos) < 3
-    
-    '''classe polígono ajustada (TOMARA QUE SIM KK) para ficar parecido com o google drawing'''
