@@ -173,4 +173,4 @@ class Poligono(Figura):
     def incompleta(self):
         return len(self.pontos) < 3
     
-    '''classe polígono ajustada (TOMARA QUE SIM KK) para ficar parecido com o google drawing'''
+   

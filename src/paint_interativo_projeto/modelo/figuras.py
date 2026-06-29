@@ -112,7 +112,8 @@ class Poligono(Figura):
 
     def atualizar(self, x, y):
         """
-        Mantido apenas para preservar a interface da classe Figura, já que o polígono é atualizado adicionando novos vértices. Como foi sugerido por Giovanny em sala
+        Mantido apenas para preservar a interface da classe Figura, já que o polígono 
+        é atualizado adicionando novos vértices. Como foi sugerido por Giovanny em sala
         """
         pass
 
