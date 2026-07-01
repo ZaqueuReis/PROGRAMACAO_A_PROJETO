@@ -110,3 +110,76 @@ class Controlador:
         if event.state & 0x0100:
             figura_atual.atualizar(event.x,event.y)
             self.desenhar_figuras()
+
+# Finaliza o desenho das figuras, exceto polígono porque precisa ser atualizado até chegar ao vertice final ===================
+
+    # Quando o mouse é solto
+    def incluir_figura_atual(self, event):
+        figura_atual = self.desenho.obter_figura_atual()
+
+        if figura_atual is None:
+            return
+
+        # se for polígono, é atualizado por cliques sucessivos
+        if isinstance(figura_atual, Poligono):
+            return
+
+        # para armazenar apenas figuras completas
+        if not figura_atual.incompleta():
+            self.desenho.adicionar_figura_concluida()
+
+        self.desenhar_figuras()
+    
+    # Desenha todas as figuras naquela lista interessante da classe desenho =============================
+
+    def desenhar_figuras(self):
+        self.janela.limpar_canvas()
+
+        # Figuras já concluídas
+        for figura in self.desenho.obter_figuras():
+            self.desenhar_figura(figura)
+
+        # Figura que ainda está sendo desenhada
+        figura_atual = self.desenho.obter_figura_atual()
+        if figura_atual is not None:
+            self.desenhar_figura(figura_atual)
+
+            # Linha guia do polígono
+            if isinstance(figura_atual, Poligono):
+                if self.mouse_x is not None:
+                    ultimo_x, ultimo_y = figura_atual.pontos[-1]
+
+                    mostrar_fechamento = False
+                    inicio_x = None
+                    inicio_y = None
+
+                    # Verifica se o cursor está próximo do primeiro vértice
+                    if len(figura_atual.pontos) >= 3:
+                        inicio_x, inicio_y = figura_atual.pontos[0]
+                        distancia = ((self.mouse_x - inicio_x) ** 2 + (self.mouse_y - inicio_y) ** 2) ** 0.5
+
+                        if distancia < 10:
+                            mostrar_fechamento = True
+
+                    self.janela.desenhar_linha_guia(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, mostrar_fechamento, inicio_x, inicio_y)
+
+    # Método que desenha uma única figura na interface ========================
+    def desenhar_figura(self, figura):
+
+        if isinstance(figura, Linha):
+            self.janela.desenhar_linha(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.tamanho_borda)
+
+        elif isinstance(figura, Rabisco):
+            self.janela.desenhar_rabisco(figura.pontos, figura.cor_borda, figura.tamanho_borda)
+
+        elif isinstance(figura, Retangulo):
+            self.janela.desenhar_retangulo(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
+
+        elif isinstance(figura, Oval):
+            self.janela.desenhar_oval(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
+
+        elif isinstance(figura, Circulo):
+            self.janela.desenhar_circulo(figura.centro_x, figura.centro_y, figura.raio, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
+
+        elif isinstance(figura, Poligono):
+            self.janela.desenhar_poligono(figura.pontos, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda, figura.fechado)
