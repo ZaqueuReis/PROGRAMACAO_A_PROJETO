@@ -8,7 +8,7 @@ class Janela:
     def __init__(self):
 
         self.root = Tk()
-        self.root.title("Paint MVC")
+        self.root.title("Paint State")
         self.frame = Frame(self.root)
         self.frame.pack()
 
@@ -40,47 +40,71 @@ class Janela:
         # Widgets de texto e seleção da cor da borda das figuras
 
         label_2 = ttk.Label(self.frame, text='Cor da borda:', font=negrito)
-        label_2.grid(column=0, row=1, sticky=W, **paddings)
+        label_2.grid(column=2, row=0, sticky=W, **paddings)
 
         self.cor_borda_var = StringVar(self.root, value='black')
 
         botao_cor_borda = ttk.Button(self.frame, text='Escolher cor da borda', command=self.escolher_cor_borda)
-        botao_cor_borda.grid(column=1, row=1, sticky=W, **paddings)
+        botao_cor_borda.grid(column=3, row=0, sticky=W, **paddings)
 
         # Widgets de texto e seleção da cor do preenchimento das figuras
 
         label_3 = ttk.Label(self.frame, text='Cor preenchimento:', font=negrito)
-        label_3.grid(column=0, row=2, sticky=W, **paddings)
+        label_3.grid(column=4, row=0, sticky=W, **paddings)
 
         self.cor_preenchimento_var = StringVar(self.root, value='white')
 
         botao_cor_prrenchimento = ttk.Button(self.frame, text='Escolher cor do preenchimento', command=self.escolher_cor_preenchimento)
-        botao_cor_prrenchimento.grid(column=1, row=2, sticky=W, **paddings)
+        botao_cor_prrenchimento.grid(column=5, row=0, sticky=W, **paddings)
 
         # Widgets de texto e seleção da espessura da borda das figuras
 
         label_4 = ttk.Label(self.frame, text='Espessura da borda:', font=negrito)
-        label_4.grid(column=0, row=3, sticky=W, **paddings)
+        label_4.grid(column=6, row=0, sticky=W, **paddings)
 
         self.tamanho_borda = StringVar(self.root, value='1')
 
-        self.option_menu_2 = ttk.OptionMenu(
-            self.frame,
-            self.tamanho_borda,
-            '1',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5'
-        )
-        
-        self.option_menu_2.grid(column=1, row=3, sticky=W, **paddings)
+        self.tamanho_borda = StringVar(self.root, value='1')
 
+        self.barra_espessura = ttk.Scale(
+            self.frame,
+            from_= 1,
+            to = 10,
+            orient = 'horizontal',
+            command=lambda v: self.tamanho_borda.set(str(int(float(v))))
+        )
+
+        self.barra_espessura.grid(column=7, row=0, sticky=W, **paddings)
+
+        # Label adicional para permitir o usuário verificar qual a espessura selecionada
+        
+        self.label_espessura = ttk.Label(
+            self.frame,
+            textvariable=self.tamanho_borda,
+            width=2
+            )
+        
+        self.label_espessura.grid(column=8, row=0, sticky=W, **paddings)
+        
+        # Widgets para salvar e abrir arquivos 
+
+        self.salvar_arquivo = StringVar(self.root)
+        botao_para_salvar = ttk.Button(self.frame, text='Salvar', command = self.salvar_arquivo)
+        botao_para_salvar.grid(column = 0, row = 1, sticky=W, **paddings)
+
+        self.abrir_arquivo = StringVar(self.root)
+        botao_para_abrir = ttk.Button(self.frame, text='Abrir', command = self.abrir_arquivo)
+        botao_para_abrir.grid(column = 1, row = 1, sticky=W, **paddings)
+
+        self.limpar_tudo = StringVar(self.root)
+        botao_para_limpar = ttk.Button(self.frame, text='Limpar Tudo', command = self.limpar_tudo)
+        botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
+            
+        
     # Parte da área de desenho (canvas)
 
-        self.canvas = Canvas(self.frame, bg='white', width=600, height=600)
-        self.canvas.grid(column=0, row=4, columnspan=3, sticky=W, **paddings)
+        self.canvas = Canvas(self.frame, bg='white', width=1920, height=1080)
+        self.canvas.grid(column=0, row=4, columnspan=100, sticky=W, **paddings)
 
     # Configuração do widget de escolher qualquer cor arbitrária
 

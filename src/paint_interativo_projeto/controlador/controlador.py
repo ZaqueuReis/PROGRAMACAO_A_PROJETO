@@ -5,6 +5,7 @@ from controlador.ferramentas.ferramenta_oval import FerramentaOval
 from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
 from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
 from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
+
 class Controlador:
 
     def __init__(self, desenho, janela):
