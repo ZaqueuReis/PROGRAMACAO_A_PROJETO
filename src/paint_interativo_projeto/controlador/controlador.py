@@ -1,12 +1,15 @@
 from modelo.figuras import Linha, Rabisco, Retangulo, Oval, Circulo, Poligono
-from controlador.ferramentas import FerramentaLinha, FerramentaRetangulo, FerramentaOval, FerramentaCirculo, FerramentaRabisco, FerramentaPoligono # importa as classes de ferramenta
-
+from controlador.ferramentas.ferramenta_linha import FerramentaLinha
+from controlador.ferramentas.ferramenta_retangulo import FerramentaRetangulo
+from controlador.ferramentas.ferramenta_oval import FerramentaOval
+from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
+from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
+from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
 class Controlador:
 
     def __init__(self, desenho, janela):
         self.desenho = desenho # Referência ao model
         self.janela = janela # Referência ao view
-        self.janela.definir_controlador(self) # Associa o controlador com a janela para que os metodos salvar e abrir
 
         # Armazena a posição atual do mouse durante a construção de um polígono, permitindo desenhar a linha guia.
         self.mouse_x = None
