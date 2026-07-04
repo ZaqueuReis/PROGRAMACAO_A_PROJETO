@@ -1,6 +1,7 @@
 import json
 import modelo.figuras as figuras
-#IMPORTAÇÃO DO MODULO JSON PARA CONSEGUIR SALVAR OS ARQUIVOS EM JSON
+
+#Importação do módulo 'JSON' para conseguir salvar os arquivos em 'JSON'
 class Desenho :
     
     def __init__(self) :
@@ -22,16 +23,18 @@ class Desenho :
             self.figuras.append(self.figura_atual)
             self.figura_atual = None
 
-    # A partir desta função obter o controller irá ficar a par da lista de figuras
+    # A partir desta função 'obter' o controller irá ficar a par da lista de figuras
     def obter_figuras(self) :
         return self.figuras
     
-    #CRIAÇÃO DO MÉTODO SALVAR DESENHO
+     # ========= Para salvar os desenho contidos na lista em um arquivo ===========
     def salvar_desenhos(self, caminho):
-        dados_desenhos = [] #CRIADO PARA ARMAZENAR OS DADOS DOS DESENHOS
+        dados_desenhos = []
         
-        for figura in self.figuras: #PERCORRE TODAS AS FIGURAS DO CANVAS
-            dados_desenhos.append(figura.transformar_figura_dicionario()) #TRANSFORMA EM DICIONARIO E ADICIONA NA LISTA
+        for figura in self.figuras: 
+            #Traansforma em dicionário e adicona na lista
+            
+            dados_desenhos.append(figura.transformar_figura_dicionario())
             
         with open(caminho, "w", encoding="utf-8") as arquivo_desenho:
             
@@ -53,14 +56,14 @@ class Desenho :
             '''
             
 
-            
+    '''Este método serve para, abirir um desenho salvo, e alem disso ele também percorre cada dicionário da lista, aliás após percorrer e identifi-
+    car qual o tipo do objeto, ele pega os dados do dicionário e transforma em um objeto python (o desenho)'''     
     def abrir_arquivo_desenho(self, caminho):
         with open(caminho, "r", encoding="utf-8") as arquivo:
 
             lista_dados_figuras = json.load(arquivo)
             
-            '''
-            - método para abrir um desenho salvo.
+            '''Observações :
             - r vem de read = leitura
             - json.load le o json e transforma em dicionario
             
@@ -69,53 +72,39 @@ class Desenho :
 
         self.figuras = []
 
+    
+        ''''O dicionário construtor, tem por função, associar o nome da figura em questão e forma como ela deve
+        ser inicializada, -Do meu ponto de vista, essa opção eh uma forma muito eficiente e adequada para
+        substituir aqueles, ifs que tinhamos antes.'''
         
+        construtor = {
+            'Linha' : lambda d : figuras.Linha(d['x1'], d['y1'], d['x2'], d['y2'],
+                                              d['cor_borda'], d['tamanho_borda']),
+            'Retangulo' : lambda d : figuras.Retangulo(d['x1'], d['y1'], d['x2'], d['y2'],
+                                              d['cor_borda'], d['cor_preenchimento'], d['tamanho_borda']),
+            'Oval' : lambda d : figuras.Oval(d['x1'], d['y1'], d['x2'], d['y2'],
+                                              d['cor_borda'], d['cor_preenchimento'], d['tamanho_borda']),
+            'Circulo' : lambda d : figuras.Circulo(d['centro_x'], d['centro_y'], d['raio'],
+                                                 d['cor_borda'], d['cor_preenchimento'], d['tamanho_borda']),
+            'Poligono' : lambda d : figuras.Poligono(d['pontos'],
+                                                    d['cor_borda'], d['cor_preenchimento'], d['tamanho_borda'], d['fechado']),
+            'Rabisco' : lambda d : figuras.Rabisco(d['pontos'],
+                                                 d['cor_borda'], d['tamanho_borda'])                      
+        }
         
-        #MÉTODO PARA PERCORRER CADA DICIONARIO DA LISTA - IMPLEMENTAR MELHORIA PARA DIMINUIR ESSES IF
-        #APÓS PERCORRER E IDENTIFICAR QUAL O TIPO DO OBJETO ELE PEGA OS DADOS DO DICIONARIO E TRANSFORMA EM UM OBJETO PYTHON (O DESENHO)
-        for dados_desenhos in lista_dados_figuras:
-            tipo = dados_desenhos["tipo"]
+        '''Alterei a variável dados_desenho para dados'''
+        for dados in lista_dados_figuras :
+            tipo = dados.get('tipo', 'Rabisco') # Aqui estamos utilizando o get para obter o tipo da figura, e "Rabisco" eh o valor defalt...
+            if tipo in construtor :
+                figura = construtor[tipo](dados)
+                self.figuras.append(figura)
 
-            if tipo == "Linha":
-                figura = figuras.Linha(
-                    dados_desenhos["x1"], dados_desenhos["y1"], dados_desenhos["x2"], dados_desenhos["y2"], dados_desenhos["cor_borda"], dados_desenhos["tamanho_borda"]
-                )
+        '''Por fim, é aqui que a mágica acontece, primeiro para garantir, verificamos se 'tipo' realmente está naquele dicionário,
+        "construtor", daí, chamamos a função lambda correspondente, passando o dicionário de dados como argumento'''
 
-            elif tipo == "Retangulo":
-                figura = figuras.Retangulo(
-                    dados_desenhos["x1"], dados_desenhos["y1"], dados_desenhos["x2"], dados_desenhos["y2"], dados_desenhos["cor_borda"], dados_desenhos["cor_preenchimento"], dados_desenhos["tamanho_borda"]
-                )
-
-            elif tipo == "Oval":
-                figura = figuras.Oval(
-                    dados_desenhos["x1"], dados_desenhos["y1"], dados_desenhos["x2"], dados_desenhos["y2"], dados_desenhos["cor_borda"], dados_desenhos["cor_preenchimento"], dados_desenhos["tamanho_borda"]
-                )
-
-            elif tipo == "Circulo":
-                figura = figuras.Circulo(
-                    dados_desenhos["centro_x"], dados_desenhos["centro_y"], dados_desenhos["raio"], dados_desenhos["cor_borda"], dados_desenhos["cor_preenchimento"], dados_desenhos["tamanho_borda"]
-                )
-
-            elif tipo == "Poligono":
-                figura = figuras.Poligono(
-                    dados_desenhos["pontos"], dados_desenhos["cor_borda"], dados_desenhos["cor_preenchimento"], dados_desenhos["tamanho_borda"], dados_desenhos["fechado"]
-                )
-                
-
-            else:
-                
-                figura = figuras.Rabisco(
-                    dados_desenhos["pontos"], dados_desenhos["cor_borda"], dados_desenhos["tamanho_borda"]
-                )
-
-            self.figuras.append(figura)
             
     
     def limpar_desenhos(self):
         self.figuras = []
         self.figura_atual = None
     
-    '''Sinceramente, acredito eu que, usar o padrão MVC, ajuda não so nós que estamos
-    desenvolvendo, a enteder precisamente o código, como também outras pessoas que
-    não participou do desenvolvimento, gostei de mais disso, apesar que da um pouco
-    de trabalho também, mas nada vem de graça...'''

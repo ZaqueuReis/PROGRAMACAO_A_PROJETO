@@ -1,10 +1,11 @@
 from tkinter import *
 from tkinter import ttk, font
 from tkinter import colorchooser
-#####################
+
+#================================
 from tkinter import filedialog 
-#####################
-#IMPORTANDO ACIMA O FILEDIALOG METODO DO TKINTER 
+#=================================
+#Importanto acima o 'filedialog' metódo do tkinter
 
 
 class Janela:
@@ -142,10 +143,12 @@ class Janela:
     def limpar_canvas(self):
         self.canvas.delete("all")
 
-    # Metodos de desenho das figuras - Acredito que eles devem ficar na janela mesmo, porque é o tkinter que tem esses métodos imbutidos
-    
-    
-    # ---------------- INICIO DA PARTE DE SALVAMENTO DE DESENHOS, COMO ALGUNS METODOS SAO DO TKINTER, ENTÃO ALGUMAS PARTES SERÃO NECESSÁRIAS FICAR NA VIEW
+    '''Observação: a implementacão da função, salvar e abrir, foi dividida em duas partes,
+      "Part - 1" e "Part - 2", respectivamente :
+
+    ==================== Part - 1 : salvar desenhos -> - Como alguns metódos são do tkinter,
+    então algumas partes terão que ficar na view -> visao'''
+
     def obter_caminhoPC_salvar(self):
         return filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON", "*.json")])
     '''
@@ -159,9 +162,11 @@ class Janela:
     
     '''
     
-    #----------------- FIM DA PARTE INICIAL
+    #======================================================================================================
     
-    #--------------INICIO DA PARTE DE ABERTURA DE DADOS
+    '''
+    ==================== Part - 2 : Encontrar arquivo -> -Para ser mais exato, o caminho, no gerenciador de arquivos''' 
+
     def obter_caminhoPC_abrir(self):
         return filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
     
@@ -171,12 +176,8 @@ class Janela:
     - filetypes=[("JSON", "*.json")]: força a janela a exibir apenas arquivos .json;
     
     '''
+    #=========================================================================================================
     
-    #---------------- FIM
-    
-    
-    
-
     def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
         self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)
 

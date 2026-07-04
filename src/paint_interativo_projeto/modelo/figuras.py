@@ -198,7 +198,6 @@ class Circulo(Figura):
 
 # CLASSE POLIGONO =====================================
 class Poligono(Figura):
-    #ALTERAÇÃO NA CLASSE POLIGONO, AGORA ELA ATUALIZA SE FECHARMOS O POLIGONO, E JA INICIA COMO FALSO CASO NAO FECHEMOS
     def __init__(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado=False):
         super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
         self.pontos = pontos

@@ -98,10 +98,8 @@ class Controlador:
     
     
     
-    '''
-    LOGO ABAIXO OS METODOS DE SALVAR OS ARQUIVOS DE DESENHO, ABRIR, E LIMPAR O CANVAS
-    
-    '''
+    '''Segue abaixo, os metódos que serão resposáveis por salvar os desenhos em um arquivo, abir arquivos
+    e limpar o canvas '''
                     
     def salvar_arquivo_desenhos(self):
         caminho = self.janela.obter_caminhoPC_salvar()
