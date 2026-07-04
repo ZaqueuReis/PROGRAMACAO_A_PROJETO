@@ -1,11 +1,16 @@
 from tkinter import *
 from tkinter import ttk, font
 from tkinter import colorchooser
+#####################
+from tkinter import filedialog 
+#####################
+#IMPORTANDO ACIMA O FILEDIALOG METODO DO TKINTER 
 
 
 class Janela:
 
     def __init__(self):
+        self.controller = None #APENAS AVISANDO QUE O CONTROLLER SERÁ INJETADO EM FUNÇÕES LOGO ABAIXO
 
         self.root = Tk()
         self.root.title("Paint State")
@@ -86,16 +91,15 @@ class Janela:
         
         # Widgets para salvar, abrir arquivos e limpar tudo 
 
-        self.salvar_arquivo = StringVar(self.root)
-        botao_para_salvar = ttk.Button(self.frame, text='Salvar', command = self.salvar_arquivo)
+        botao_para_salvar = ttk.Button(self.frame, text='Salvar', command=lambda: self.controller.salvar_arquivo_desenhos())
         botao_para_salvar.grid(column = 0, row = 1, sticky=W, **paddings)
 
-        self.abrir_arquivo = StringVar(self.root)
-        botao_para_abrir = ttk.Button(self.frame, text='Abrir', command = self.abrir_arquivo)
+    
+        botao_para_abrir = ttk.Button(self.frame, text='Abrir', command=lambda: self.controller.abrir_arquivo_desenho())
         botao_para_abrir.grid(column = 1, row = 1, sticky=W, **paddings)
 
-        self.limpar_tudo = StringVar(self.root)
-        botao_para_limpar = ttk.Button(self.frame, text='Limpar Tudo', command = self.limpar_tudo)
+
+        botao_para_limpar = ttk.Button(self.frame, text='Limpar Tudo', command=lambda: self.controller.limpar_desenhos())
         botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
             
         
@@ -139,6 +143,39 @@ class Janela:
         self.canvas.delete("all")
 
     # Metodos de desenho das figuras - Acredito que eles devem ficar na janela mesmo, porque é o tkinter que tem esses métodos imbutidos
+    
+    
+    # ---------------- INICIO DA PARTE DE SALVAMENTO DE DESENHOS, COMO ALGUNS METODOS SAO DO TKINTER, ENTÃO ALGUMAS PARTES SERÃO NECESSÁRIAS FICAR NA VIEW
+    def obter_caminhoPC_salvar(self):
+        return filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON", "*.json")])
+    '''
+    - filedialog.asksavesfilename = método do tkinter que faz a janela de salvamento aparecer na tela;
+    
+    - defaultextension=".json": se o usuário apenas digitar o nome do arquivo e esquecer de colocar a extensão
+    que será ele, o tkinter irá adiciona o .json automaticamente no final;
+    
+    - filetypes=[("JSON", "*.json")]: cria um filtro na parte inferior da janela. 
+      Isso faz com que o sistema mostre apenas arquivos com a extensão .json;
+    
+    '''
+    
+    #----------------- FIM DA PARTE INICIAL
+    
+    #--------------INICIO DA PARTE DE ABERTURA DE DADOS
+    def obter_caminhoPC_abrir(self):
+        return filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
+    
+    '''
+    - filedialog.askopenfilename: método do tkinter que abre a janela para selecionar um arquivo existente no computador;
+    
+    - filetypes=[("JSON", "*.json")]: força a janela a exibir apenas arquivos .json;
+    
+    '''
+    
+    #---------------- FIM
+    
+    
+    
 
     def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
         self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)

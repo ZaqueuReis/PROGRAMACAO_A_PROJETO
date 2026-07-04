@@ -93,6 +93,41 @@ class Controlador:
                             mostrar_fechamento = True
 
                     self.janela.desenhar_linha_guia(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, mostrar_fechamento, inicio_x, inicio_y)
+                    
+                    
+    
+    
+    
+    '''
+    LOGO ABAIXO OS METODOS DE SALVAR OS ARQUIVOS DE DESENHO, ABRIR, E LIMPAR O CANVAS
+    
+    '''
+                    
+    def salvar_arquivo_desenhos(self):
+        caminho = self.janela.obter_caminhoPC_salvar()
+        if not caminho:
+            return
+        
+        self.desenho.salvar_desenhos(caminho)
+    
+    
+    
+    def abrir_arquivo_desenho(self):
+        caminho = self.janela.obter_caminhoPC_abrir()
+        if not caminho:
+            return
 
+        self.desenho.abrir_arquivo_desenho(caminho)
+        
+        self.desenhar_figuras()
+        
+        
+    
+    
+    def limpar_desenhos(self):
+        self.desenho.limpar_desenhos()
+        
+        self.desenhar_figuras()
+            
     ''' O método que ficava aqui virou finado, pois como Giovanny recomendou, podemos sacrificar um pouco do MVC e definir o método desenhar
     em todas as classes do model, para que ele seja usado de maneira objetiva e sem if's através do polimorfismo'''
