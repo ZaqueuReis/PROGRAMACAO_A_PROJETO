@@ -64,8 +64,6 @@ class Janela:
 
         self.tamanho_borda = StringVar(self.root, value='1')
 
-        self.tamanho_borda = StringVar(self.root, value='1')
-
         self.barra_espessura = ttk.Scale(
             self.frame,
             from_= 1,
@@ -77,7 +75,7 @@ class Janela:
         self.barra_espessura.grid(column=7, row=0, sticky=W, **paddings)
 
         # Label adicional para permitir o usuário verificar qual a espessura selecionada
-        
+
         self.label_espessura = ttk.Label(
             self.frame,
             textvariable=self.tamanho_borda,
@@ -86,7 +84,7 @@ class Janela:
         
         self.label_espessura.grid(column=8, row=0, sticky=W, **paddings)
         
-        # Widgets para salvar e abrir arquivos 
+        # Widgets para salvar, abrir arquivos e limpar tudo 
 
         self.salvar_arquivo = StringVar(self.root)
         botao_para_salvar = ttk.Button(self.frame, text='Salvar', command = self.salvar_arquivo)

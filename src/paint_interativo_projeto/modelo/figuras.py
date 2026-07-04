@@ -8,9 +8,13 @@ class Figura(ABC):
         self.cor_borda = cor_borda
         self.cor_preenchimento = cor_preenchimento
         self.tamanho_borda = tamanho_borda
+
+    @abstractmethod
+    def desenhar(self, janela):
+        pass
     
     @abstractmethod
-    def atualizar(self, *args): # Todas as figuras são obrigadas a ter atualizar, e não desenhar agora
+    def atualizar(self, *args): 
         pass
 
     @abstractmethod
@@ -28,6 +32,9 @@ class Linha(Figura):
         self.x2 = x2
         self.y2 = y2
     
+    def desenhar(self, janela):
+        janela.desenhar_linha(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.tamanho_borda)
+    
     def atualizar(self, x, y) :
         self.x2 = x
         self.y2 = y
@@ -42,7 +49,10 @@ class Rabisco(Figura):
     def __init__(self, pontos, cor_borda, tamanho_borda):
         super().__init__(cor_borda, '', tamanho_borda)
         self.pontos = pontos
-    
+
+    def desenhar(self, janela):
+        janela.desenhar_rabisco(self.pontos, self.cor_borda, self.tamanho_borda)
+
     def atualizar(self, x, y) :
         self.pontos.append((x, y))
 
@@ -59,11 +69,13 @@ class Retangulo(Figura):
         self.x2 = x2
         self.y2 = y2
 
+    def desenhar(self, janela):
+        janela.desenhar_retangulo(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+
     def atualizar(self, x, y) :
         self.x2 = x
         self.y2 = y
 
-    
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
 
@@ -77,6 +89,9 @@ class Oval(Figura):
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
+
+    def desenhar(self, janela):
+        janela.desenhar_oval(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
 
     def atualizar(self, x, y) :
         self.x2 = x
@@ -95,6 +110,9 @@ class Circulo(Figura):
         self.centro_y = centro_y
         self.raio = raio
     
+    def desenhar(self, janela):
+        janela.desenhar_circulo(self.centro_x, self.centro_y, self.raio, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+    
     def atualizar(self, x, y) :
         self.raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5 # substituição aqui, pois estava redundante
 
@@ -109,6 +127,9 @@ class Poligono(Figura):
         super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
         self.pontos = pontos
         self.fechado = False # Tirei o self.mouse pois está função é do controler
+
+    def desenhar(self, janela):
+        janela.desenhar_poligono(self.pontos, self.cor_borda, self.cor_preenchimento, self.tamanho_borda, self.fechado)
 
     def atualizar(self, x, y):
         """

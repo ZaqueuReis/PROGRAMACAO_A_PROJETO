@@ -68,12 +68,12 @@ class Controlador:
 
         # Figuras já concluídas
         for figura in self.desenho.obter_figuras():
-            self.desenhar_figura(figura)
+            figura.desenhar(self.janela)
 
         # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()
         if figura_atual is not None:
-            self.desenhar_figura(figura_atual)
+            figura_atual.desenhar(self.janela)
 
             # Linha guia do polígono
             if isinstance(figura_atual, Poligono):
@@ -94,23 +94,5 @@ class Controlador:
 
                     self.janela.desenhar_linha_guia(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, mostrar_fechamento, inicio_x, inicio_y)
 
-    # Método que desenha uma única figura na interface ========================
-    def desenhar_figura(self, figura):
-
-        if isinstance(figura, Linha):
-            self.janela.desenhar_linha(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.tamanho_borda)
-
-        elif isinstance(figura, Rabisco):
-            self.janela.desenhar_rabisco(figura.pontos, figura.cor_borda, figura.tamanho_borda)
-
-        elif isinstance(figura, Retangulo):
-            self.janela.desenhar_retangulo(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
-
-        elif isinstance(figura, Oval):
-            self.janela.desenhar_oval(figura.x1, figura.y1, figura.x2, figura.y2, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
-
-        elif isinstance(figura, Circulo):
-            self.janela.desenhar_circulo(figura.centro_x, figura.centro_y, figura.raio, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda)
-
-        elif isinstance(figura, Poligono):
-            self.janela.desenhar_poligono(figura.pontos, figura.cor_borda, figura.cor_preenchimento, figura.tamanho_borda, figura.fechado)
+    ''' O método que ficava aqui virou finado, pois como Giovanny recomendou, podemos sacrificar um pouco do MVC e definir o método desenhar
+    em todas as classes do model, para que ele seja usado de maneira objetiva e sem if's através do polimorfismo'''
