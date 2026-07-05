@@ -33,7 +33,7 @@ class Desenho :
         
         for figura in self.figuras: 
             #Traansforma em dicionário e adicona na lista
-            
+
             dados_desenhos.append(figura.transformar_figura_dicionario())
             
         with open(caminho, "w", encoding="utf-8") as arquivo_desenho:
@@ -92,7 +92,7 @@ class Desenho :
                                                  d['cor_borda'], d['tamanho_borda'])                      
         }
         
-        '''Alterei a variável dados_desenho para dados'''
+        '''Alterei a variável dados_desenho para dados  '''
         for dados in lista_dados_figuras :
             tipo = dados.get('tipo', 'Rabisco') # Aqui estamos utilizando o get para obter o tipo da figura, e "Rabisco" eh o valor defalt...
             if tipo in construtor :
