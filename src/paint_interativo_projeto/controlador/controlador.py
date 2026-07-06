@@ -139,15 +139,16 @@ class Controlador:
     
     
     def limpar_desenhos(self):
-        self.desenho.limpar_desenhos()
         
-        self.desenhar_figuras()
-        self.janela.aviso_limpeza_tela()
+        if self.desenho.limpar_desenhos():
+            self.desenhar_figuras()
+            self.janela.aviso_limpeza_tela()
+        else:
+            self.janela.aviso_tela_ja_limpa()
         #--------------------------------
         '''
-        IMPLEMENTAÇÃO DA FUNÇÃO QUE AVISA QUANDO A LIMPEZA DE TELA FOI CONCLUIDA, APENAS UMA MESSAGEBOX
-        SUGESTÃO DE MELHORIA: PODEMOS MOSTRAR UM ERRO QUANDO A TELA ESTIVER VAZIA, OU SEJA, SEM DESENHOS
-        MAS SO SE VOCES QUISEREM, E PRECISAREMOS IMPLEMENTAR UMA LOGICA, CREIO EU KK.
+        IMPLEMENTAÇÃO DA FUNÇÃO QUE AVISA QUANDO A LIMPEZA DE TELA FOI CONCLUIDA, E IMPLEMENTAÇÃO
+        DA LÓGICA PARA VERIFICAÇÃO SE A TELA ESTÁ LIMPA OU NAO.
         '''
         
         #--------------------------------

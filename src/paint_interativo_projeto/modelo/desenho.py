@@ -105,6 +105,18 @@ class Desenho :
             
     
     def limpar_desenhos(self):
+        if not self.figuras: #se a lista de figuras já estiver vazia, retorna falso
+            return False 
+            
         self.figuras = []
         self.figura_atual = None
+        return True #se nao, siga seu padrao normal
+    
+    
+    
+    '''
+    DEI O COMMIT ANTERIOR DIZENDO QUE PRECISARIA IMPLEMENTAR UMA LOGICA
+    PARA A VALIDAÇÃO SE A TELA ESTÁ VAZIA, A INSONIA ATACOU E DECIDI LOGO
+    FAZER ISSO KK
+    '''
     

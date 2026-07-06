@@ -190,6 +190,9 @@ class Janela:
      
     def aviso_limpeza_tela(self):
         return messagebox.showinfo("Sucesso", "Tela limpa!")
+    
+    def aviso_tela_ja_limpa(self):
+        return messagebox.showwarning("Aviso", "A tela já está limpa.")
 
         #FIM DESSA SEÇÃO
     
