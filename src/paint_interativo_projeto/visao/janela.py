@@ -6,6 +6,8 @@ from tkinter import colorchooser
 from tkinter import filedialog 
 #=================================
 #Importanto acima o 'filedialog' metódo do tkinter
+from tkinter import messagebox 
+#IMPLEMENTAÇÃO DO MESSAGEBOX PARA AVISOS COMO CONVERSADO NO GRUPO DO WHATSAPP
 
 
 class Janela:
@@ -177,6 +179,23 @@ class Janela:
     
     '''
     #=========================================================================================================
+    
+        #CRIAÇÃO DAS FUNÇÕES QUE RETORNAM MESSAGEBOX - MÓDULO DO TKINTER QUE EXIBE CAIXAS DE AVISO:
+    
+    def aviso_salvamento_desenho(self):
+        return messagebox.showinfo("Sucesso", "Desenho(s) salvo(s) com sucesso!")
+    
+    def aviso_carregamento_desenho(self):
+         return messagebox.showinfo("Sucesso", "Desenho(s) carregado(s) com sucesso!")
+     
+    def aviso_limpeza_tela(self):
+        return messagebox.showinfo("Sucesso", "Tela limpa!")
+
+        #FIM DESSA SEÇÃO
+    
+    
+    
+    
     
     def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
         self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)

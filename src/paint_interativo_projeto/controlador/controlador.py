@@ -28,7 +28,7 @@ class Controlador:
 
         # Eventos do mouse para os métodos do controlador 
         canvas = self.janela.obter_canvas()
-
+        
         canvas.bind("<ButtonPress-1>", self.iniciar_figura_atual)
         canvas.bind("<B1-Motion>", self.atualizar_figura_atual)
         canvas.bind("<Motion>", self.atualizar_figura_atual)
@@ -96,7 +96,7 @@ class Controlador:
                     
                     
     
-    
+  
     
     '''Segue abaixo, os metódos que serão resposáveis por salvar os desenhos em um arquivo, abir arquivos
     e limpar o canvas '''
@@ -107,6 +107,14 @@ class Controlador:
             return
         
         self.desenho.salvar_desenhos(caminho)
+        
+        self.janela.aviso_salvamento_desenho()
+        '''
+        IMPLEMENTAÇÃO DA MESSAGEBOX QUE AVISA
+        QUANDO OS DESENHOS FORAM SALVOS COM
+        SUCESSO.
+        '''
+        
     
     
     
@@ -119,6 +127,14 @@ class Controlador:
         
         self.desenhar_figuras()
         
+        self.janela.aviso_carregamento_desenho()
+        '''
+        IMPLEMENTAÇÃO DA MESSAGEBOX QUE AVISA 
+        QUANDO OS DESENHOS FORAM CARREGADOS COM
+        SUCESSO.
+        '''
+        
+        
         
     
     
@@ -126,6 +142,15 @@ class Controlador:
         self.desenho.limpar_desenhos()
         
         self.desenhar_figuras()
+        self.janela.aviso_limpeza_tela()
+        #--------------------------------
+        '''
+        IMPLEMENTAÇÃO DA FUNÇÃO QUE AVISA QUANDO A LIMPEZA DE TELA FOI CONCLUIDA, APENAS UMA MESSAGEBOX
+        SUGESTÃO DE MELHORIA: PODEMOS MOSTRAR UM ERRO QUANDO A TELA ESTIVER VAZIA, OU SEJA, SEM DESENHOS
+        MAS SO SE VOCES QUISEREM, E PRECISAREMOS IMPLEMENTAR UMA LOGICA, CREIO EU KK.
+        '''
+        
+        #--------------------------------
             
     ''' O método que ficava aqui virou finado, pois como Giovanny recomendou, podemos sacrificar um pouco do MVC e definir o método desenhar
     em todas as classes do model, para que ele seja usado de maneira objetiva e sem if's através do polimorfismo'''
