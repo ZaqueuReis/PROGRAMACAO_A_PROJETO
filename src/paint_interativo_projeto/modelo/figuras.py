@@ -21,22 +21,6 @@ class Figura(ABC):
     def incompleta(self):
         pass
     
-    
-    @abstractmethod
-    def transformar_figura_dicionario(self):
-        pass
-    
-    '''
-    UM ARQUIVO JSON NAO CONSEGUE ENTENDER O QUE É UM OBJETO EM PYTHON
-    ELE NÃO LÊ UM OBJETO COMO UM OBJETO, ELE CONSEGUE LER APENAS OUTRAS
-    MANEIRAS, E UMA DELAS É >>DICIONÁRIO<<, É PRECISO TRANSFORMAR TUDO
-    EM DICIONARIO, ENTÃO PARA NÃO TER QUE MEXER EM TUDO E BAGUNÇAR O CÓDIGO
-    A MELHOR OPÇÃO É CRIAR MÉTODO QUE TRANSFORMA OS DADOS DA FIGURA EM DICIONÁRIO
-    '''
-    
-    
-    
-
 
 #CLASSE LINHA ==========================
 class Linha(Figura):
@@ -57,18 +41,6 @@ class Linha(Figura):
     
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
-    
-    def transformar_figura_dicionario(self):
-        return {
-        "tipo": "Linha",
-        "x1": self.x1,
-        "y1": self.y1,
-        "x2": self.x2,
-        "y2": self.y2,
-        "cor_borda": self.cor_borda,
-        "tamanho_borda": self.tamanho_borda
-    }
-        
 
 
 #CLASSE RABISCO ==========================
@@ -86,14 +58,7 @@ class Rabisco(Figura):
 
     def incompleta(self):
         return len(self.pontos) <= 1
-    
-    def transformar_figura_dicionario(self):
-        return{
-            "tipo": "Rabisco",
-            "pontos": self.pontos,
-            "cor_borda": self.cor_borda,
-            "tamanho_borda": self.tamanho_borda
-        }
+
 
 #CLASSE RETANGULO =============================
 class Retangulo(Figura):
@@ -114,20 +79,6 @@ class Retangulo(Figura):
 
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
-    
-    
-    def transformar_figura_dicionario(self):
-        return {
-            "tipo": "Retangulo",
-            "x1": self.x1,
-            "y1": self.y1,
-            "x2": self.x2,
-            "y2": self.y2,
-            "cor_borda": self.cor_borda,
-            "cor_preenchimento": self.cor_preenchimento,
-            "tamanho_borda": self.tamanho_borda
-        }
-        
 
 
 #CLASSE OVAL ====================================
@@ -150,19 +101,6 @@ class Oval(Figura):
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
     
-    def transformar_figura_dicionario(self):
-        return {
-            "tipo": "Oval",
-            "x1": self.x1,
-            "y1": self.y1,
-            "x2": self.x2,
-            "y2": self.y2,
-            "cor_borda": self.cor_borda,
-            "cor_preenchimento": self.cor_preenchimento,
-            "tamanho_borda": self.tamanho_borda
-            
-        }
-
 
 #CLASSE CIRCULO =================================
 class Circulo(Figura):
@@ -182,19 +120,6 @@ class Circulo(Figura):
     def incompleta(self):
         return self.raio <= 0
     
-    
-    def transformar_figura_dicionario(self):
-        return {
-            "tipo": "Circulo",
-            "centro_x": self.centro_x,
-            "centro_y": self.centro_y,
-            "raio": self.raio,
-            "cor_borda": self.cor_borda,
-            "cor_preenchimento": self.cor_preenchimento,
-            "tamanho_borda": self.tamanho_borda
-            
-        }
-
 
 # CLASSE POLIGONO =====================================
 class Poligono(Figura):
@@ -224,15 +149,4 @@ class Poligono(Figura):
 
     def incompleta(self):
         return len(self.pontos) < 3
-    
-    def transformar_figura_dicionario(self):
-        return {
-            "tipo": "Poligono",
-            "pontos": self.pontos,
-            "cor_borda": self.cor_borda,
-            "cor_preenchimento": self.cor_preenchimento,
-            "tamanho_borda": self.tamanho_borda,
-            "fechado": self.fechado
-            
-        }
-        
+ 

@@ -1,19 +1,14 @@
 from tkinter import *
 from tkinter import ttk, font
 from tkinter import colorchooser
-
-#================================
 from tkinter import filedialog 
-#=================================
-#Importanto acima o 'filedialog' metódo do tkinter
 from tkinter import messagebox 
-#IMPLEMENTAÇÃO DO MESSAGEBOX PARA AVISOS COMO CONVERSADO NO GRUPO DO WHATSAPP
 
 
 class Janela:
 
     def __init__(self):
-        self.controller = None #APENAS AVISANDO QUE O CONTROLLER SERÁ INJETADO EM FUNÇÕES LOGO ABAIXO
+        self.controller = None 
 
         self.root = Tk()
         self.root.title("Paint State")
@@ -106,7 +101,7 @@ class Janela:
         botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
             
         
-    # Parte da área de desenho (canvas)
+        # Parte da área de desenho (canvas)
 
         self.canvas = Canvas(self.frame, bg='white', width=1920, height=1080)
         self.canvas.grid(column=0, row=4, columnspan=100, sticky=W, **paddings)
@@ -144,43 +139,42 @@ class Janela:
 
     def limpar_canvas(self):
         self.canvas.delete("all")
+    
+    # Registra o controlador que atenderá as ações da interface
+    def registrar_controlador(self, controlador):
+        self.controller = controlador
 
-    '''Observação: a implementacão da função, salvar e abrir, foi dividida em duas partes,
-      "Part - 1" e "Part - 2", respectivamente :
-
+    '''
     ==================== Part - 1 : salvar desenhos -> - Como alguns metódos são do tkinter,
     então algumas partes terão que ficar na view -> visao'''
 
     def obter_caminhoPC_salvar(self):
-        return filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON", "*.json")])
+        return filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Arquivos Pickle", "*.pkl")]) # Mudança pois agora é pickle
     '''
     - filedialog.asksavesfilename = método do tkinter que faz a janela de salvamento aparecer na tela;
     
-    - defaultextension=".json": se o usuário apenas digitar o nome do arquivo e esquecer de colocar a extensão
-    que será ele, o tkinter irá adiciona o .json automaticamente no final;
+    - defaultextension=".pkl": se o usuário apenas digitar o nome do arquivo e esquecer de colocar a extensão
+    que será ele, o tkinter irá adiciona o .pkl automaticamente no final;
     
-    - filetypes=[("JSON", "*.json")]: cria um filtro na parte inferior da janela. 
-      Isso faz com que o sistema mostre apenas arquivos com a extensão .json;
+    - filetypes=[("Arquivos Pickle", "*.pkl")]: cria um filtro na parte inferior da janela. 
+      Isso faz com que o sistema mostre apenas arquivos com a extensão .pkl;
     
     '''
-    
-    #======================================================================================================
     
     '''
     ==================== Part - 2 : Encontrar arquivo -> -Para ser mais exato, o caminho, no gerenciador de arquivos''' 
 
     def obter_caminhoPC_abrir(self):
-        return filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
+        return filedialog.askopenfilename(filetypes=[("Arquivos Pickle", "*.pkl")]) # Mudança pois agora é pickle
     
     '''
     - filedialog.askopenfilename: método do tkinter que abre a janela para selecionar um arquivo existente no computador;
     
-    - filetypes=[("JSON", "*.json")]: força a janela a exibir apenas arquivos .json;
+    - filetypes=[("Arquivos Pickle", "*.pkl")]: força a janela a exibir apenas arquivos .pkl;
     
     '''
-    #=========================================================================================================
     
-        #CRIAÇÃO DAS FUNÇÕES QUE RETORNAM MESSAGEBOX - MÓDULO DO TKINTER QUE EXIBE CAIXAS DE AVISO:
+    # Métodos que retornam messagebox - módulo do tkinter que recebe mensagens de aviso =============================
     
     def aviso_salvamento_desenho(self):
         return messagebox.showinfo("Sucesso", "Desenho(s) salvo(s) com sucesso!")
@@ -194,12 +188,8 @@ class Janela:
     def aviso_tela_ja_limpa(self):
         return messagebox.showwarning("Aviso", "A tela já está limpa.")
 
-        #FIM DESSA SEÇÃO
-    
-    
-    
-    
-    
+    # Métodos que permitem desenhar cada tipo de figura ===============================
+
     def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
         self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)
 

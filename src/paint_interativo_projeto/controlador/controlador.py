@@ -94,13 +94,7 @@ class Controlador:
 
                     self.janela.desenhar_linha_guia(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, mostrar_fechamento, inicio_x, inicio_y)
                     
-                    
-    
-  
-    
-    '''Segue abaixo, os metódos que serão resposáveis por salvar os desenhos em um arquivo, abir arquivos
-    e limpar o canvas '''
-                    
+    # Método de salvar arquivos =====================             
     def salvar_arquivo_desenhos(self):
         caminho = self.janela.obter_caminhoPC_salvar()
         if not caminho:
@@ -108,16 +102,9 @@ class Controlador:
         
         self.desenho.salvar_desenhos(caminho)
         
-        self.janela.aviso_salvamento_desenho()
-        '''
-        IMPLEMENTAÇÃO DA MESSAGEBOX QUE AVISA
-        QUANDO OS DESENHOS FORAM SALVOS COM
-        SUCESSO.
-        '''
+        self.janela.aviso_salvamento_desenho() # Messagebox para avisar que os desenhos foram salvos
         
-    
-    
-    
+    # Método de abrir arquivos =====================     
     def abrir_arquivo_desenho(self):
         caminho = self.janela.obter_caminhoPC_abrir()
         if not caminho:
@@ -127,31 +114,13 @@ class Controlador:
         
         self.desenhar_figuras()
         
-        self.janela.aviso_carregamento_desenho()
-        '''
-        IMPLEMENTAÇÃO DA MESSAGEBOX QUE AVISA 
-        QUANDO OS DESENHOS FORAM CARREGADOS COM
-        SUCESSO.
-        '''
-        
-        
-        
-    
-    
+        self.janela.aviso_carregamento_desenho() # Messagebox para avisar que os desenhos foram carregados com sucesso
+
+    # Método de limpar todo o canvas =====================  
     def limpar_desenhos(self):
         
         if self.desenho.limpar_desenhos():
             self.desenhar_figuras()
-            self.janela.aviso_limpeza_tela()
+            self.janela.aviso_limpeza_tela() # Messagebox para avisar que a tela foi limpa
         else:
-            self.janela.aviso_tela_ja_limpa()
-        #--------------------------------
-        '''
-        IMPLEMENTAÇÃO DA FUNÇÃO QUE AVISA QUANDO A LIMPEZA DE TELA FOI CONCLUIDA, E IMPLEMENTAÇÃO
-        DA LÓGICA PARA VERIFICAÇÃO SE A TELA ESTÁ LIMPA OU NAO.
-        '''
-        
-        #--------------------------------
-            
-    ''' O método que ficava aqui virou finado, pois como Giovanny recomendou, podemos sacrificar um pouco do MVC e definir o método desenhar
-    em todas as classes do model, para que ele seja usado de maneira objetiva e sem if's através do polimorfismo'''
+            self.janela.aviso_tela_ja_limpa() # Message para avisar que a tela já está limpa, caso seja apertado o botão com a tela limpa
