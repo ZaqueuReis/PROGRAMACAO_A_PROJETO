@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from modelo.calcular_distancia_fornecido import distancia # Importação do arquivo fornecido por Giovanny
 
 #CLASSE ABSTRATA FIGURA =====================
 class Figura(ABC):
@@ -56,7 +56,7 @@ class Linha(Figura):
         self.y2 += dy
 
     def contem(self, x, y):
-        pass
+        return distancia(self.x1, self.y1, self.x2, self.y2, x, y) <= 5 # Onde o 5 é a tolerância para a linha, como visto em sala
 
 
 #CLASSE RABISCO ==========================
@@ -81,7 +81,16 @@ class Rabisco(Figura):
             self.pontos[i] = (x + dx, y + dy)
 
     def contem(self, x, y):
-        pass
+        for i in range(len(self.pontos)-1):
+            x1, y1 = self.pontos[i]
+            x2, y2 = self.pontos[i+1]
+
+            if distancia(x1, y1, x2, y2, x, y) <= 5:
+                return True
+            
+        return False
+
+    '''Como o rabisco é um conjunto de linhas, então foi adaptado o metodo usado em linha para este caso'''
 
 
 #CLASSE RETANGULO =============================
@@ -111,7 +120,12 @@ class Retangulo(Figura):
         self.y2 += dy
 
     def contem(self, x, y):
-        pass
+        menor_x = min(self.x1, self.x2)
+        maior_x = max(self.x1, self.x2)
+        menor_y = min(self.y1, self.y2)
+        maior_y = max(self.y1, self.y2)
+
+        return menor_x <= x <= maior_x and menor_y <= y <= maior_y
 
 
 #CLASSE OVAL ====================================
@@ -141,7 +155,16 @@ class Oval(Figura):
         self.y2 += dy
 
     def contem(self, x, y):
-        pass
+        centro_x = (self.x1 + self.x2) / 2
+        centro_y = (self.y1 + self.y2) / 2
+
+        raio_x = abs(self.x2 - self.x1) / 2
+        raio_y = abs(self.y2 - self.y1) / 2
+
+        if raio_x == 0 or raio_y == 0:
+            return False
+
+        return (((x - centro_x) / raio_x) ** 2 + ((y - centro_y) / raio_y) ** 2) <= 1
     
 
 #CLASSE CIRCULO =================================
@@ -167,7 +190,8 @@ class Circulo(Figura):
         self.centro_y += dy
 
     def contem(self, x, y):
-        pass
+        distancia = ((x - self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5
+        return distancia <= self.raio
     
 
 # CLASSE POLIGONO =====================================
@@ -205,7 +229,40 @@ class Poligono(Figura):
             self.pontos[i] = (x + dx, y + dy)
 
     def contem(self, x, y):
-        pass
+        """
+        Verifica se o ponto (x, y) está dentro de um polígono.
+        O polígono está especificado na lista de tuplas self.pontos: [(x1, y1), (x2, y2), ...].
+        """
+        dentro = False
+        n = len(self.pontos)
+
+        # Se o polígono não tiver pelo menos 3 vértices, não é um polígono válido
+        if n < 3:
+            return False
+
+        # Inicializa o último vértice do polígono como ponto de partida
+        p1x, p1y = self.pontos[0]
+
+        for i in range(n + 1):
+            # Avança para o próximo vértice
+            p2x, p2y = self.pontos[i % n]
+
+            # Verifica se o raio horizontal intercepta a aresta do polígono
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        # Calcula a interceptação X exata da aresta
+                        if p1y != p2y:
+                            x_interceptado = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        # Se o ponto estiver à esquerda da interceptação, inverte o estado
+                        if p1x == p2x or x <= x_interceptado:
+                            dentro = not dentro
+
+            p1x, p1y = p2x, p2y
+
+        return dentro
  
-'''Adição dos métodos abstratos mover e contem, já implementei o mover mas acredito que o contem será um pouco mais complexo e,
- portanto, deixarei para ser implementado depois com mais calma no próximo commit'''
+'''Todos os métodos contém foram implementados, alguns foram criados e outros feitos aproveitando o código fornecido pelo
+professor. Depois deem uma olhada. Eu ia criar um arquivo só para esse metodo do poligono, mas ele precisa saber os pontos
+do poligono para funcionar. Então, acabei optando por deixar ele aqui mesmo, o único problema é que o código ficou um pouco
+extenso mas é a vida...'''
