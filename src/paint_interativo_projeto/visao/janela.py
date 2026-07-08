@@ -230,3 +230,7 @@ class Janela:
 
     def iniciar(self):
         self.root.mainloop()
+    
+    # Método que fornecerá um destaque na linha qunado o usuário clicar - Ainda não implementado
+    def destacar_figura(self, figura):
+        pass

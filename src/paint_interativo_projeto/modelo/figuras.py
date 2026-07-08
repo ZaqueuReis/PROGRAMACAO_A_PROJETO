@@ -20,7 +20,14 @@ class Figura(ABC):
     @abstractmethod
     def incompleta(self):
         pass
-    
+
+    @abstractmethod
+    def mover(self, dx, dy):
+        pass
+
+    @abstractmethod
+    def contem(self, x, y):
+        pass    
 
 #CLASSE LINHA ==========================
 class Linha(Figura):
@@ -42,6 +49,15 @@ class Linha(Figura):
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
 
+    def mover(self, dx, dy):
+        self.x1 += dx
+        self.y1 += dy
+        self.x2 += dx
+        self.y2 += dy
+
+    def contem(self, x, y):
+        pass
+
 
 #CLASSE RABISCO ==========================
 class Rabisco(Figura):
@@ -58,6 +74,14 @@ class Rabisco(Figura):
 
     def incompleta(self):
         return len(self.pontos) <= 1
+    
+    def mover(self, dx, dy):
+        for i in range(len(self.pontos)):
+            x, y = self.pontos[i]
+            self.pontos[i] = (x + dx, y + dy)
+
+    def contem(self, x, y):
+        pass
 
 
 #CLASSE RETANGULO =============================
@@ -80,6 +104,15 @@ class Retangulo(Figura):
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
 
+    def mover(self, dx, dy):
+        self.x1 += dx
+        self.y1 += dy
+        self.x2 += dx
+        self.y2 += dy
+
+    def contem(self, x, y):
+        pass
+
 
 #CLASSE OVAL ====================================
 class Oval(Figura):
@@ -100,6 +133,15 @@ class Oval(Figura):
     
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
+
+    def mover(self, dx, dy):
+        self.x1 += dx
+        self.y1 += dy
+        self.x2 += dx
+        self.y2 += dy
+
+    def contem(self, x, y):
+        pass
     
 
 #CLASSE CIRCULO =================================
@@ -119,6 +161,13 @@ class Circulo(Figura):
 
     def incompleta(self):
         return self.raio <= 0
+
+    def mover(self, dx, dy):
+        self.centro_x += dx
+        self.centro_y += dy
+
+    def contem(self, x, y):
+        pass
     
 
 # CLASSE POLIGONO =====================================
@@ -149,4 +198,14 @@ class Poligono(Figura):
 
     def incompleta(self):
         return len(self.pontos) < 3
+
+    def mover(self, dx, dy):
+        for i in range(len(self.pontos)):
+            x, y = self.pontos[i]
+            self.pontos[i] = (x + dx, y + dy)
+
+    def contem(self, x, y):
+        pass
  
+'''Adição dos métodos abstratos mover e contem, já implementei o mover mas acredito que o contem será um pouco mais complexo e,
+ portanto, deixarei para ser implementado depois com mais calma no próximo commit'''

@@ -5,6 +5,7 @@ class Desenho :
     def __init__(self) :
         self.figuras = []
         self.figura_atual = None
+        self.figura_selecionada = None # Adicionado atributo para verificar se uma figura está selecionada
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -13,6 +14,17 @@ class Desenho :
     
     def obter_figura_atual(self) :
         return self.figura_atual
+    
+    # ========== Para permitir a seleção de figuras com o mouse ===========
+    
+    def obter_figura_selecionada(self):
+        return self.figura_selecionada
+
+    def definir_figura_selecionada(self, figura):
+        self.figura_selecionada = figura
+
+    def limpar_selecao(self):
+        self.figura_selecionada = None
     
     # ========= Para as figuras que estão na lista self.figuras ===========
 
