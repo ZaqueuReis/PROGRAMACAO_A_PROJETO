@@ -10,7 +10,7 @@ class Figura(ABC):
         self.tamanho_borda = tamanho_borda
 
     @abstractmethod
-    def desenhar(self, janela):
+    def desenhar(self, janela, selecionada = False):
         pass
     
     @abstractmethod
@@ -39,8 +39,12 @@ class Linha(Figura):
         self.x2 = x2
         self.y2 = y2
     
-    def desenhar(self, janela):
-        janela.desenhar_linha(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.tamanho_borda)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_linha(self.x1, self.y1, self.x2, self.y2, self.cor_borda, largura)
     
     def atualizar(self, x, y) :
         self.x2 = x
@@ -66,8 +70,12 @@ class Rabisco(Figura):
         super().__init__(cor_borda, '', tamanho_borda)
         self.pontos = pontos
 
-    def desenhar(self, janela):
-        janela.desenhar_rabisco(self.pontos, self.cor_borda, self.tamanho_borda)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_rabisco(self.pontos, self.cor_borda, largura)
 
     def atualizar(self, x, y) :
         self.pontos.append((x, y))
@@ -103,8 +111,12 @@ class Retangulo(Figura):
         self.x2 = x2
         self.y2 = y2
 
-    def desenhar(self, janela):
-        janela.desenhar_retangulo(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_retangulo(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, largura)
 
     def atualizar(self, x, y) :
         self.x2 = x
@@ -138,8 +150,12 @@ class Oval(Figura):
         self.x2 = x2
         self.y2 = y2
 
-    def desenhar(self, janela):
-        janela.desenhar_oval(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_oval(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, largura)
 
     def atualizar(self, x, y) :
         self.x2 = x
@@ -176,8 +192,12 @@ class Circulo(Figura):
         self.centro_y = centro_y
         self.raio = raio
     
-    def desenhar(self, janela):
-        janela.desenhar_circulo(self.centro_x, self.centro_y, self.raio, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_circulo(self.centro_x, self.centro_y, self.raio, self.cor_borda, self.cor_preenchimento, largura)
     
     def atualizar(self, x, y) :
         self.raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5 # substituição aqui, pois estava redundante
@@ -201,8 +221,12 @@ class Poligono(Figura):
         self.pontos = pontos
         self.fechado = fechado # Tirei o self.mouse pois está função é do controler
 
-    def desenhar(self, janela):
-        janela.desenhar_poligono(self.pontos, self.cor_borda, self.cor_preenchimento, self.tamanho_borda, self.fechado)
+    def desenhar(self, janela, selecionada = False):
+        largura = self.tamanho_borda
+        if selecionada:
+            largura += 2
+
+        janela.desenhar_poligono(self.pontos, self.cor_borda, self.cor_preenchimento, largura, self.fechado)
 
     def atualizar(self, x, y):
         """

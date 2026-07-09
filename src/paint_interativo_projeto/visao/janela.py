@@ -29,7 +29,8 @@ class Janela:
         self.option_menu = ttk.OptionMenu(
             self.frame,
             self.tipo_figura_var,
-            'Linha',
+            'Selecionar', # Acrescentei e definir o selecionar como o inicio do programa, podemos trocar depois...
+            'Selecionar',
             'Linha',
             'Retangulo',
             'Oval',
@@ -231,6 +232,5 @@ class Janela:
     def iniciar(self):
         self.root.mainloop()
     
-    # Método que fornecerá um destaque na linha qunado o usuário clicar - Ainda não implementado
-    def destacar_figura(self, figura):
-        pass
+'''O método que estava aqui foi excluído. Pensando um pouco antes, vi que seria mais fácil fazer com que as próprias figuras
+saibam se destacar do que criar um método aqui'''

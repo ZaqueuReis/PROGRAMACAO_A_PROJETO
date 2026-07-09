@@ -5,6 +5,7 @@ from controlador.ferramentas.ferramenta_oval import FerramentaOval
 from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
 from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
 from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
+from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao # importando para o controlador o arquivo criado
 
 class Controlador:
 
@@ -23,7 +24,8 @@ class Controlador:
             "Oval": FerramentaOval(self),
             "Circulo": FerramentaCirculo(self),
             "Rabisco": FerramentaRabisco(self),
-            "Poligono": FerramentaPoligono(self)
+            "Poligono": FerramentaPoligono(self),
+            "Selecionar": FerramentaSelecao(self) # adicionada a ferramenta seleção criada
         }
 
         # Eventos do mouse para os métodos do controlador 
@@ -66,9 +68,11 @@ class Controlador:
     def desenhar_figuras(self):
         self.janela.limpar_canvas()
 
-        # Figuras já concluídas
+        # Figuras já concluídas - Adequação para já incluir o destaque da borda se for selecionada
+        figura_selecionada = self.desenho.obter_figura_selecionada()
+
         for figura in self.desenho.obter_figuras():
-            figura.desenhar(self.janela)
+            figura.desenhar(self.janela, figura == figura_selecionada)
 
         # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()
