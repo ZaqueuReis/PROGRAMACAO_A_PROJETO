@@ -13,10 +13,6 @@ class Controlador:
         self.desenho = desenho # Referência ao model
         self.janela = janela # Referência ao view
 
-        # Armazena a posição atual do mouse durante a construção de um polígono, permitindo desenhar a linha guia.
-        self.mouse_x = None
-        self.mouse_y = None
-
         # Associa cada ferramenta de desenho a opção correspondente (lembre que é em string) da interface
         self.ferramentas = {
             "Linha": FerramentaLinha(self),
@@ -78,25 +74,6 @@ class Controlador:
         figura_atual = self.desenho.obter_figura_atual()
         if figura_atual is not None:
             figura_atual.desenhar(self.janela)
-
-            # Linha guia do polígono
-            if isinstance(figura_atual, Poligono):
-                if self.mouse_x is not None:
-                    ultimo_x, ultimo_y = figura_atual.pontos[-1]
-
-                    mostrar_fechamento = False
-                    inicio_x = None
-                    inicio_y = None
-
-                    # Verifica se o cursor está próximo do primeiro vértice
-                    if len(figura_atual.pontos) >= 3:
-                        inicio_x, inicio_y = figura_atual.pontos[0]
-                        distancia = ((self.mouse_x - inicio_x) ** 2 + (self.mouse_y - inicio_y) ** 2) ** 0.5
-
-                        if distancia < 10:
-                            mostrar_fechamento = True
-
-                    self.janela.desenhar_linha_guia(ultimo_x, ultimo_y, self.mouse_x, self.mouse_y, mostrar_fechamento, inicio_x, inicio_y)
                     
     # Método de salvar arquivos =====================             
     def salvar_arquivo_desenhos(self):

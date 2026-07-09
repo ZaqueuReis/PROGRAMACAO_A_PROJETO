@@ -16,11 +16,33 @@ class FerramentaSelecao(Ferramenta):
                 break
 
         self.controlador.desenho.definir_figura_selecionada(figura_selecionada)
-        self.ultima_posicao = (event.x, event.y)
+
+        if figura_selecionada is not None:
+            self.ultima_posicao = (event.x, event.y)
+        else:
+            self.ultima_posicao = None
+
         self.controlador.desenhar_figuras()
 
     def mouse_move(self, event):
-        pass
+        figura = self.controlador.desenho.obter_figura_selecionada()
+
+        if figura is None:
+            return
+
+        if self.ultima_posicao is None:
+            return
+
+        x_antigo, y_antigo = self.ultima_posicao
+
+        dx = event.x - x_antigo
+        dy = event.y - y_antigo
+
+        figura.mover(dx, dy)
+
+        self.ultima_posicao = (event.x, event.y)
+
+        self.controlador.desenhar_figuras()
 
     def mouse_release(self, event):
-        pass
+        self.ultima_posicao = None
