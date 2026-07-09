@@ -32,6 +32,10 @@ class Controlador:
         canvas.bind("<Motion>", self.atualizar_figura_atual)
         canvas.bind("<ButtonRelease-1>", self.incluir_figura_atual)
         self.janela.root.bind("<Delete>", self.deletar_selecionada)
+        self.janela.root.bind("<Up>", self.mover_para_topo)
+        self.janela.root.bind("<Down>", self.mover_para_fundo)
+        self.janela.root.bind("<Right>", self.mover_para_frente)
+        self.janela.root.bind("<Left>", self.mover_para_tras)
         
         #======= POR QUE O self.janela.root.bind é diferente dos demais?
         '''
@@ -127,7 +131,29 @@ class Controlador:
     #MÉTODO PARA DELETAR SELECIONADA =================
     def deletar_selecionada(self, event):
         
-        figura_apagada = self.desenho.deletar_selecionada()
-        if figura_apagada:
+        if self.desenho.deletar_selecionada():
             self.desenhar_figuras()
             
+
+        #=========== MOVER PARA O TOPO:
+    
+    
+    def mover_para_topo(self, event):
+        self.desenho.mover_para_topo()
+        self.desenhar_figuras()
+        
+        
+    def mover_para_fundo(self, event):
+        self.desenho.mover_para_fundo()
+        self.desenhar_figuras()
+        
+    def mover_para_tras(self, event):
+        self.desenho.mover_para_tras()
+        self.desenhar_figuras()
+        
+    def mover_para_frente(self, event):
+        self.desenho.mover_para_frente()
+        self.desenhar_figuras()
+
+            
+  
