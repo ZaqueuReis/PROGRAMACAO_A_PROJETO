@@ -31,7 +31,25 @@ class Controlador:
         canvas.bind("<B1-Motion>", self.atualizar_figura_atual)
         canvas.bind("<Motion>", self.atualizar_figura_atual)
         canvas.bind("<ButtonRelease-1>", self.incluir_figura_atual)
-    
+        self.janela.root.bind("<Delete>", self.deletar_selecionada)
+        
+        #======= POR QUE O self.janela.root.bind é diferente dos demais?
+        '''
+        PARA RECEBER COMANDOS DO TECLADO A JANELA PRECISA ESTÁ EM FOCO,
+        EU PODERIA RESOLVER DEIXANDO APENAS O CANVAS EM FOCO COM O COMANDO:
+        - canvas.focus_set()  - setaria foco em todo canvas;
+        
+        Mas ficava um contorno em volta do canvas e quando o usuário
+        clicava fora do canvas acabava tirando o foco e a função delete
+        parava de funciona.
+        
+        Então com o self.janela.root.bind;
+        Ele associa o delete a todo o programa, não precisa um widgete em espécifico
+        que anteriormente era o canvas estar em foco, então ele consegue capturar o click
+        da tecla delete;   
+        '''
+        #==================================
+        
     # Retorna a ferramenta correspondente ao tipo de figura atualmente selecionado.
     def obter_ferramenta(self):
         return self.ferramentas[self.janela.obter_tipo_figura()]
@@ -105,3 +123,11 @@ class Controlador:
             self.janela.aviso_limpeza_tela() # Messagebox para avisar que a tela foi limpa
         else:
             self.janela.aviso_tela_ja_limpa() # Message para avisar que a tela já está limpa, caso seja apertado o botão com a tela limpa
+            
+    #MÉTODO PARA DELETAR SELECIONADA =================
+    def deletar_selecionada(self, event):
+        
+        figura_apagada = self.desenho.deletar_selecionada()
+        if figura_apagada:
+            self.desenhar_figuras()
+            

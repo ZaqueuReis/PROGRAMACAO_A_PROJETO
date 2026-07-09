@@ -25,6 +25,19 @@ class Desenho :
 
     def limpar_selecao(self):
         self.figura_selecionada = None
+        
+        
+    #DELETAR FIGURAS SELECIONADAS =======================
+    
+    def deletar_selecionada(self):
+        if self.figura_selecionada:
+            self.figuras.remove(self.figura_selecionada)
+            figura_apagada = self.figura_selecionada
+            self.figura_selecionada = None
+            return figura_apagada
+        return None
+    
+    #FIM DESSA SEÇÃO DE DELETAR FIGURAS SELECIONADAS==========
     
     # ========= Para as figuras que estão na lista self.figuras ===========
 
