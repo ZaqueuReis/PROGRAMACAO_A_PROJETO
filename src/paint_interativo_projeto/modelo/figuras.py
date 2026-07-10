@@ -154,8 +154,7 @@ class Retangulo(Figura):
     
     def copiar(self):
         return Retangulo(
-            self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.tamanho_borda, self.cor_preenchimento, self.largura
-        )
+            self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.tamanho_borda, self.cor_preenchimento)
 
 
 #CLASSE OVAL ====================================

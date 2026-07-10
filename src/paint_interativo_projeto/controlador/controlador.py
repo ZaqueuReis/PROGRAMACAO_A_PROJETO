@@ -163,3 +163,19 @@ class Controlador:
     def colar_figura(self, event):
         self.desenho.colar_figura()
         self.desenhar_figuras()
+
+
+    #Método para mudar a cor da figura selecionada -> borda =================
+    def mudar_cor_borda_selecionada(self, nova_cor) :
+        figura_selecionada = self.desenho.obter_figura_selecionada()
+        if figura_selecionada :
+            figura_selecionada.cor_borda = nova_cor
+            self.desenhar_figuras() 
+
+            
+    #Método para mudar a cor da figura selecionada -> preenchimento=================
+    def mudar_cor_preenchimento_selecionada(self, nova_cor) :
+        figura_selecionada = self.desenho.obter_figura_selecionada()
+        if figura_selecionada :
+            figura_selecionada.cor_preenchimento = nova_cor
+            self.desenhar_figuras()
