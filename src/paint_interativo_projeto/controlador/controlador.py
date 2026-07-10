@@ -36,6 +36,8 @@ class Controlador:
         self.janela.root.bind("<Down>", self.mover_para_fundo)
         self.janela.root.bind("<Right>", self.mover_para_frente)
         self.janela.root.bind("<Left>", self.mover_para_tras)
+        self.janela.root.bind("<Control-c>", self.copiar_figura)
+        self.janela.root.bind("<Control-v>", self.colar_figura)
         
         #======= POR QUE O self.janela.root.bind é diferente dos demais?
         '''
@@ -154,6 +156,10 @@ class Controlador:
     def mover_para_frente(self, event):
         self.desenho.mover_para_frente()
         self.desenhar_figuras()
-
-            
-  
+        
+    def copiar_figura(self, event):
+        self.desenho.copiar_figura()
+        
+    def colar_figura(self, event):
+        self.desenho.colar_figura()
+        self.desenhar_figuras()

@@ -85,8 +85,25 @@ class Desenho :
             
     #============ FIM DA SESSÃO DE MOVER PARA FRENTE 1 POR VEZ =================
     
+    #===============COPIAR E COLAR FIGURA=========#
     
-    
+    def copiar_figura(self):
+        if self.figura_selecionada:
+            self.figura_copiada = self.figura_selecionada.copiar()
+            
+            
+    def colar_figura(self):
+        if self.figura_copiada:
+            figura_nova_copiada = self.figura_copiada.copiar()
+            figura_nova_copiada.mover(20, 20)
+            self.figuras.append(figura_nova_copiada)
+            self.figura_selecionada = figura_nova_copiada
+        
+    #============ COPIAR E COLAR FIGURA=========#    
+        
+        
+        
+        
     #========== MOVER PARA TRAS 1 POR VEZ =================
     def mover_para_tras(self):
            #PERCORRE TODA LISTA DE FIGURAS, MENOS O ULTIMO INDICE
