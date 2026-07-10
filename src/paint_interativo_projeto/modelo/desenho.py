@@ -131,7 +131,4 @@ class Desenho :
         self.figura_atual = None
         return True
     
-    '''Aqui, foram substituídos aqueles métodos complicados e trabalhosos do JSON. Agora, foram implementados os métodos conforme 
-    os moldes do pickle (visto em aula hoje). Acredito que isso trará uma melhoria significativa no tamanho do código e na 
-    simplificação do projeto'''
-    
+   

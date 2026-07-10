@@ -108,9 +108,8 @@ class Rabisco(Figura):
         return False
     
     def copiar(self):
-        return Rabisco(
-            self.pontos, self.cor_borda, self.tamanho_borda
-        )
+        pontos_copia = list(self.pontos)
+        return Rabisco(pontos_copia, self.cor_borda, self.tamanho_borda)
 
     '''Como o rabisco é um conjunto de linhas, então foi adaptado o metodo usado em linha para este caso'''
 
@@ -316,12 +315,12 @@ class Poligono(Figura):
         return dentro
     
     def copiar(self):
-        return Poligono(
-            self.pontos, self.cor_borda, self.cor_preenchimento, self.tamanho_borda, self.fechado
-        )
+        pontos_copia = list(self.pontos)
+        poligono_copia = Poligono(pontos_copia, self.cor_borda, self.cor_preenchimento, self.tamanho_borda, self.fechado)
+        return poligono_copia
         
- 
-'''Todos os métodos contém foram implementados, alguns foram criados e outros feitos aproveitando o código fornecido pelo
-professor. Depois deem uma olhada. Eu ia criar um arquivo só para esse metodo do poligono, mas ele precisa saber os pontos
-do poligono para funcionar. Então, acabei optando por deixar ele aqui mesmo, o único problema é que o código ficou um pouco
-extenso mas é a vida...'''
+'''Tive que fazer uma breve alteração nesta função, dado que ao invés de copiar, ela apenas movia o poligono,
+ isso porque, pelo que entendi, estavamos usando a mesma lista de pontos, da figura original, para copiar e 
+ depois colar, dai na hora de colar, ela apenas somava aquele deslocamento na coordenada da figura original,
+ o segredo eh fazer uma cópia da figura, para deixar a orignal na sua posicão inicial, sem deslocar a mesma, 
+ observei que rabisco, estava com o mesmo bug, daí a solução foi a mesma...'''
