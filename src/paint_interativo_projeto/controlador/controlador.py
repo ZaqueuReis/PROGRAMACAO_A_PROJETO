@@ -5,13 +5,15 @@ from controlador.ferramentas.ferramenta_oval import FerramentaOval
 from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
 from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
 from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
-from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao # importando para o controlador o arquivo criado
+from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao 
+from visao.fabrica_desenho import FabricaDesenho # importando a classe que desenha todas as figuras já com a largura
 
 class Controlador:
 
     def __init__(self, desenho, janela):
         self.desenho = desenho # Referência ao model
         self.janela = janela # Referência ao view
+        self.fabrica = FabricaDesenho(janela) # Referencia a FabricaDesenho
 
         # Associa cada ferramenta de desenho a opção correspondente (lembre que é em string) da interface
         self.ferramentas = {
@@ -92,12 +94,12 @@ class Controlador:
         figura_selecionada = self.desenho.obter_figura_selecionada()
 
         for figura in self.desenho.obter_figuras():
-            figura.desenhar(self.janela, figura == figura_selecionada)
+            self.fabrica.desenhar(figura, figura == figura_selecionada)
 
         # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()
         if figura_atual is not None:
-            figura_atual.desenhar(self.janela)
+            self.fabrica.desenhar(figura_atual)
                     
     # Método de salvar arquivos =====================             
     def salvar_arquivo_desenhos(self):
@@ -178,4 +180,12 @@ class Controlador:
         figura_selecionada = self.desenho.obter_figura_selecionada()
         if figura_selecionada :
             figura_selecionada.cor_preenchimento = nova_cor
+            self.desenhar_figuras()
+
+    #Método para mudar a cor da figura selecionada -> espessura da borda=================
+    def mudar_tamanho_borda_selecionada(self, novo_tamanho):
+        figura_selecionada = self.desenho.obter_figura_selecionada()
+
+        if figura_selecionada:
+            figura_selecionada.tamanho_borda = novo_tamanho
             self.desenhar_figuras()

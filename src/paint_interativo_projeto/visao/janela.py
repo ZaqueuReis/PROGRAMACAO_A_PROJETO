@@ -88,7 +88,7 @@ class Janela:
             from_= 1,
             to = 10,
             orient = 'horizontal',
-            command=lambda v: self.tamanho_borda.set(str(int(float(v))))
+            command = self.alterar_espessura
         )
 
         self.barra_espessura.grid(column=9, row=0, sticky=W, **paddings)
@@ -258,6 +258,15 @@ class Janela:
 
         if mostrar_fechamento:
             self.canvas.create_rectangle(inicio_x - 5, inicio_y - 5, inicio_x + 5, inicio_y + 5, outline="red", fill="white")
+
+    # Permitir que o usuário altere a espessura da figura selecionada também 
+    
+    def alterar_espessura(self, valor):
+        valor = int(float(valor))
+        self.tamanho_borda.set(str(valor))
+
+        if self.controller is not None:
+            self.controller.mudar_tamanho_borda_selecionada(valor)
 
     # Pra finalizar, loop da janela
 

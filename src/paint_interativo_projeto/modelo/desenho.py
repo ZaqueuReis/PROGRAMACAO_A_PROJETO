@@ -6,6 +6,7 @@ class Desenho :
         self.figuras = []
         self.figura_atual = None
         self.figura_selecionada = None # Adicionado atributo para verificar se uma figura está selecionada
+        self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -26,7 +27,6 @@ class Desenho :
     def limpar_selecao(self):
         self.figura_selecionada = None
         
-        
     # ========= Para as figuras que estão na lista self.figuras ===========
 
     def adicionar_figura_concluida(self) :
@@ -37,10 +37,7 @@ class Desenho :
     # A partir desta função 'obter' o controller irá ficar a par da lista de figuras
     def obter_figuras(self) :
         return self.figuras
-    
-     # ========= Para salvar, abrir e limpar os desenho contidos na lista em um arquivo ===========
-      
-     
+
     #======== DELETAR FIGURAS SELECIONADAS =======================
     
     def deletar_selecionada(self):
@@ -51,30 +48,29 @@ class Desenho :
             return figura_apagada
         return None
     
-    #========== FIM DESSA SEÇÃO DE DELETAR FIGURAS SELECIONADAS==========  
-    
-    
-      
     #========= MOVER PARA O TOPO DE VEZ =================
     
     def mover_para_topo(self):
+        if self.figura_selecionada is None:
+            return
+        
         self.figuras.remove(self.figura_selecionada)
         self.figuras.append(self.figura_selecionada)
-    
-    #FIM DA SESSÃO DE MOVER PARA O TOPO DE VEZ =================
-    
     
     #========= MOVER PARA O FUNDO DE VEZ =========
     
     def mover_para_fundo(self):
+        if self.figura_selecionada is None:
+            return
+        
         self.figuras.remove(self.figura_selecionada)
         self.figuras.insert(0, self.figura_selecionada)
-        
-    #========== FIM DA SESSÃO DE MOVER PARA O FUNDO DE VEZ =================
-    
     
     #============ MOVER PARA FRENTE 1 POR VEZ =================
+
     def mover_para_frente(self):
+        if self.figura_selecionada is None:
+            return
         
         #PERCORRE TODA LISTA DE FIGURAS, MENOS O ULTIMO INDICE
         for i in range(len(self.figuras) - 1):
@@ -83,8 +79,6 @@ class Desenho :
                 self.figuras[i], self.figuras[i + 1] = self.figuras[i + 1], self.figuras[i]
                 return
             
-    #============ FIM DA SESSÃO DE MOVER PARA FRENTE 1 POR VEZ =================
-    
     #===============COPIAR E COLAR FIGURA=========#
     
     def copiar_figura(self):
@@ -99,22 +93,21 @@ class Desenho :
             self.figuras.append(figura_nova_copiada)
             self.figura_selecionada = figura_nova_copiada
         
-    #============ COPIAR E COLAR FIGURA=========#    
-        
-        
-        
-        
     #========== MOVER PARA TRAS 1 POR VEZ =================
+
     def mover_para_tras(self):
+        if self.figura_selecionada is None:
+            return
+    
            #PERCORRE TODA LISTA DE FIGURAS, MENOS O ULTIMO INDICE
         for i in range(1, len(self.figuras)):
             figura_atual = self.figuras[i] #SE FOR A FIGURA SELECIONADA TROCA DE LUGAR COM A DO INDICE DA DE TRAS
             if figura_atual == self.figura_selecionada:
                 self.figuras[i], self.figuras[i - 1] = self.figuras[i - 1], self.figuras[i]
                 return
-    #========== FIM DA SESSÃO DE MOVER PARA TRAS 1 POR VEZ ================
-        
-        
+
+     # ========= Para salvar, abrir e limpar os desenho contidos na lista em um arquivo ===========  
+
     def salvar_desenhos(self, caminho):
         with open(caminho, "wb") as arquivo:
             pickle.dump(self.figuras, arquivo)  
@@ -122,6 +115,10 @@ class Desenho :
     def abrir_arquivo_desenho(self, caminho):
         with open(caminho, "rb") as arquivo:
             self.figuras = pickle.load(arquivo)
+            
+        self.figura_atual = None
+        self.figura_selecionada = None
+        self.figura_copiada = None
     
     def limpar_desenhos(self):
         if not self.figuras:
@@ -129,6 +126,9 @@ class Desenho :
 
         self.figuras = []
         self.figura_atual = None
+        self.figura_selecionada = None
+        self.figura_copiada = None
+
         return True
     
    
