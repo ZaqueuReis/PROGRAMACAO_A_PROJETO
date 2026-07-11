@@ -8,7 +8,7 @@ class Desenho :
         self.figura_atual = None
         self.figura_selecionada = None # Adicionado atributo para verificar se uma figura está selecionada
         self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
-        self.deslocamento_colar = 15 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
+        self.deslocamento_colar = 0 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -86,7 +86,7 @@ class Desenho :
     def copiar_figura(self):
         if self.figura_selecionada:
             self.figura_copiada = copy.deepcopy(self.figura_selecionada)
-            self.deslocamento_colar = self.deslocamento_colar
+            self.deslocamento_colar = 15
 
     def colar_figura(self):
         if self.figura_copiada:
