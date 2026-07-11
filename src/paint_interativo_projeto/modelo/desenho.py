@@ -1,4 +1,5 @@
 import pickle # Substituição pela biblioteca vista em aula hoje
+import copy #Importação do método copy que o professor apresentou na aula.
 
 class Desenho :
     
@@ -7,6 +8,7 @@ class Desenho :
         self.figura_atual = None
         self.figura_selecionada = None # Adicionado atributo para verificar se uma figura está selecionada
         self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
+        self.deslocamento_colar = 15 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -83,16 +85,18 @@ class Desenho :
     
     def copiar_figura(self):
         if self.figura_selecionada:
-            self.figura_copiada = self.figura_selecionada.copiar()
-            
-            
+            self.figura_copiada = copy.deepcopy(self.figura_selecionada)
+            self.deslocamento_colar = self.deslocamento_colar
+
     def colar_figura(self):
         if self.figura_copiada:
-            figura_nova_copiada = self.figura_copiada.copiar()
-            figura_nova_copiada.mover(20, 20)
-            self.figuras.append(figura_nova_copiada)
-            self.figura_selecionada = figura_nova_copiada
-        
+            figura = copy.deepcopy(self.figura_copiada)
+            figura.mover(self.deslocamento_colar, self.deslocamento_colar)
+            self.figuras.append(figura)
+            self.figura_selecionada = figura
+            self.deslocamento_colar += 10
+
+
     #========== MOVER PARA TRAS 1 POR VEZ =================
 
     def mover_para_tras(self):

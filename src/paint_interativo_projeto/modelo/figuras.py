@@ -25,9 +25,7 @@ class Figura(ABC):
     def contem(self, x, y):
         pass  
     
-    @abstractmethod
-    def copiar(self):
-        pass
+
 
 #CLASSE LINHA ==========================
 class Linha(Figura):
@@ -55,10 +53,6 @@ class Linha(Figura):
     def contem(self, x, y):
         return distancia(self.x1, self.y1, self.x2, self.y2, x, y) <= 5 # Onde o 5 é a tolerância para a linha, como visto em sala
     
-    def copiar(self):
-        return Linha(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.tamanho_borda)
-
-
 #CLASSE RABISCO ==========================
 class Rabisco(Figura):
 
@@ -87,10 +81,6 @@ class Rabisco(Figura):
             
         return False
     
-    def copiar(self):
-        pontos_copia = list(self.pontos)
-        return Rabisco(pontos_copia, self.cor_borda, self.tamanho_borda)
-
     '''Como o rabisco é um conjunto de linhas, então foi adaptado o metodo usado em linha para este caso'''
 
 
@@ -124,9 +114,7 @@ class Retangulo(Figura):
         maior_y = max(self.y1, self.y2)
 
         return menor_x <= x <= maior_x and menor_y <= y <= maior_y
-    
-    def copiar(self):
-        return Retangulo(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
+
     # Tava dando bug por causa da ordem, já consertei
 
 
@@ -143,7 +131,7 @@ class Oval(Figura):
     def atualizar(self, x, y) :
         self.x2 = x
         self.y2 = y
-    
+
     def incompleta(self):
         return self.x1 == self.x2 and self.y1 == self.y2
 
@@ -164,10 +152,9 @@ class Oval(Figura):
             return False
 
         return (((x - centro_x) / raio_x) ** 2 + ((y - centro_y) / raio_y) ** 2) <= 1
-    
-    def copiar(self):
-        return Oval(self.x1, self.y1, self.x2, self.y2, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
-    
+
+
+
 
 #CLASSE CIRCULO =================================
 class Circulo(Figura):
@@ -191,10 +178,7 @@ class Circulo(Figura):
     def contem(self, x, y):
         distancia = ((x - self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5
         return distancia <= self.raio
-    
-    def copiar(self):
-        return Circulo(self.centro_x, self.centro_y, self.raio, self.cor_borda, self.cor_preenchimento, self.tamanho_borda)
-    
+
 
 # CLASSE POLIGONO =====================================
 class Poligono(Figura):
@@ -259,12 +243,7 @@ class Poligono(Figura):
             p1x, p1y = p2x, p2y
 
         return dentro
-    
-    def copiar(self):
-        pontos_copia = list(self.pontos)
-        poligono_copia = Poligono(pontos_copia, self.cor_borda, self.cor_preenchimento, self.tamanho_borda, self.fechado)
-        return poligono_copia
-        
+
 '''Tive que fazer uma breve alteração nesta função, dado que ao invés de copiar, ela apenas movia o poligono,
  isso porque, pelo que entendi, estavamos usando a mesma lista de pontos, da figura original, para copiar e 
  depois colar, dai na hora de colar, ela apenas somava aquele deslocamento na coordenada da figura original,
