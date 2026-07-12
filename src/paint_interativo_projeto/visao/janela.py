@@ -11,7 +11,7 @@ class Janela:
         self.controller = None 
 
         self.root = Tk()
-        self.root.title("Paint State")
+        self.root.title("Paint com Seleção")
         self.frame = Frame(self.root)
         self.frame.pack()
 
@@ -56,7 +56,7 @@ class Janela:
         self.caixa_cor_borda.grid(column=4, row=0, sticky=W , **paddings)
 
         #implementação do botão na caixa -> cor_borda
-        self.caixa_cor_borda.bind("<Button-1>", lambda event : self.escolher_cor_borda())
+        self.caixa_cor_borda.bind("<Button-1>", self.aplicar_cor_borda)
         
         # Widgets de texto e seleção da cor do preenchimento das figuras
 
@@ -66,7 +66,7 @@ class Janela:
         self.cor_preenchimento_var = StringVar(self.root, value='white')
 
         botao_cor_prrenchimento = ttk.Button(self.frame, text='Escolher cor do preenchimento', command=self.escolher_cor_preenchimento)
-        botao_cor_prrenchimento.grid(column=5, row=0, sticky=W, **paddings)
+        botao_cor_prrenchimento.grid(column=6, row=0, sticky=W, **paddings)
  
         #Caixa de cor preenchimento
 
@@ -74,7 +74,7 @@ class Janela:
         self.caixa_cor_preenchimento.grid(column=7, row=0, sticky=W, **paddings)
         
         #implementação do botão na caixa -> cor_preenchimento
-        self.caixa_cor_preenchimento.bind("<Button-1>", lambda event : self.escolher_cor_preenchimento())
+        self.caixa_cor_preenchimento.bind("<Button-1>", self.aplicar_cor_preenchimento)
         
         # Widgets de texto e seleção da espessura da borda das figuras
 
@@ -129,27 +129,30 @@ class Janela:
     def atualizar_indicador_preenchimento(self, cor_hex) :
         self.caixa_cor_preenchimento.config(bg=cor_hex)
 
-    # Configuração do widget de escolher qualquer cor arbitrária
+    # Modificação dos widgets para trocar a cor / preenchimetno da figura com a cor que aparece nele
 
     def escolher_cor_borda(self, event=None):
         cor = colorchooser.askcolor(title="Escolha a cor da borda")
         if cor[1]:
             self.cor_borda_var.set(cor[1])
             self.atualizar_indicador_borda(cor[1])
-            
-            #Se houver alguma figura selecionada, manda um aviso para o controlador alterar a cor da mesma
-            if self.controller :
-                self.controller.mudar_cor_borda_selecionada(cor[1])
-            
+        
+
     def escolher_cor_preenchimento(self):
         cor = colorchooser.askcolor(title="Escolha a cor de preenchimento")
         if cor[1]:
             self.cor_preenchimento_var.set(cor[1])
             self.atualizar_indicador_preenchimento(cor[1])
+    
+    def aplicar_cor_borda(self, event=None):
+        if self.controller:
+            self.controller.mudar_cor_borda_selecionada(self.cor_borda_var.get())
+
+
+    def aplicar_cor_preenchimento(self, event=None):
+        if self.controller:
+            self.controller.mudar_cor_preenchimento_selecionada(self.cor_preenchimento_var.get())
             
-            #Se houver alguma figura selecionada, manda um aviso para o controlador alterar a cor da mesma
-            if self.controller :
-                self.controller.mudar_cor_preenchimento_selecionada(cor[1])
 
     # Getters para obter os atributos da janela
 
