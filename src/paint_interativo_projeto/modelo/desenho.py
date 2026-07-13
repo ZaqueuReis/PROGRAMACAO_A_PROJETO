@@ -6,7 +6,7 @@ class Desenho :
     def __init__(self) :
         self.figuras = []
         self.figura_atual = None
-        self.figura_selecionada = None # Adicionado atributo para verificar se uma figura está selecionada
+        self.figuras_selecionadas = [] # Adicionado atributo para verificar se uma figura está selecionada
         self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
         self.deslocamento_colar = 0 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
 
@@ -20,15 +20,31 @@ class Desenho :
     
     # ========== Para permitir a seleção de figuras com o mouse ===========
     
-    def obter_figura_selecionada(self):
-        return self.figura_selecionada
+    def obter_figuras_selecionadas(self):
+        return self.figuras_selecionadas
 
-    def definir_figura_selecionada(self, figura):
-        self.figura_selecionada = figura
+    def definir_figuras_selecionadas(self, figuras):
+        self.figuras_selecionadas = figuras
 
     def limpar_selecao(self):
-        self.figura_selecionada = None
-        
+        self.figuras_selecionadas.clear()
+        #FUNÇÃO CLEAR SERVE PARA ESVAZIAR UMA LISTA
+
+
+
+    #ADICIONANDO NOVOS MÉTODOS PARA SELEÇAO MULTIPLA DE FIGURAS:
+    def adicionar_selecao(self, figura):
+        if figura not in self.figuras_selecionadas:
+            self.figuras_selecionadas.append(figura)
+    
+    def remover_selecao(self, figura):
+        if figura in self.figuras_selecionadas:
+            self.figuras_selecionadas.remove(figura)
+    
+    
+    #FIM NOVOS MÉTODOS
+    
+    
     # ========= Para as figuras que estão na lista self.figuras ===========
 
     def adicionar_figura_concluida(self) :
@@ -43,72 +59,88 @@ class Desenho :
     #======== DELETAR FIGURAS SELECIONADAS =======================
     
     def deletar_selecionada(self):
-        if self.figura_selecionada:
-            self.figuras.remove(self.figura_selecionada)
-            figura_apagada = self.figura_selecionada
-            self.figura_selecionada = None
-            return figura_apagada
-        return None
+        if not self.figuras_selecionadas:
+            return None
+
+        for figura in self.figuras_selecionadas:
+            if figura in self.figuras:
+                self.figuras.remove(figura)
+
+        self.figuras_selecionadas.clear()
+        #FUNÇÃO CLEAR SERVE PARA ESVAZIAR UMA LISTA
+
+        return True
     
     #========= MOVER PARA O TOPO DE VEZ =================
     
     def mover_para_topo(self):
-        if self.figura_selecionada is None:
+        if not self.figuras_selecionadas:
             return
-        
-        self.figuras.remove(self.figura_selecionada)
-        self.figuras.append(self.figura_selecionada)
+
+        for figura in self.figuras_selecionadas:
+            self.figuras.remove(figura)
+
+        self.figuras.extend(self.figuras_selecionadas)
     
     #========= MOVER PARA O FUNDO DE VEZ =========
     
     def mover_para_fundo(self):
-        if self.figura_selecionada is None:
+        if not self.figuras_selecionadas:
             return
-        
-        self.figuras.remove(self.figura_selecionada)
-        self.figuras.insert(0, self.figura_selecionada)
+
+        for figura in self.figuras_selecionadas:
+            self.figuras.remove(figura)
+
+        self.figuras = self.figuras_selecionadas + self.figuras
     
     #============ MOVER PARA FRENTE 1 POR VEZ =================
 
     def mover_para_frente(self):
-        if self.figura_selecionada is None:
+        if not self.figuras_selecionadas:
             return
-        
-        #PERCORRE TODA LISTA DE FIGURAS, MENOS O ULTIMO INDICE
-        for i in range(len(self.figuras) - 1):
-            figura_atual = self.figuras[i] #SE FOR A FIGURA SELECIONADA TROCA DE LUGAR COM A DO INDICE DA FRENTE
-            if figura_atual == self.figura_selecionada:
-                self.figuras[i], self.figuras[i + 1] = self.figuras[i + 1], self.figuras[i]
-                return
+
+        for i in range(len(self.figuras)-2, -1, -1):
+
+            if (self.figuras[i] in self.figuras_selecionadas and
+                self.figuras[i+1] not in self.figuras_selecionadas):
+
+                self.figuras[i], self.figuras[i+1] = self.figuras[i+1], self.figuras[i]
             
+
+    #========== MOVER PARA TRAS 1 POR VEZ =================
+    def mover_para_tras(self):
+        if not self.figuras_selecionadas:
+            return
+
+        for i in range(1, len(self.figuras)):
+
+            if (self.figuras[i] in self.figuras_selecionadas and
+                self.figuras[i-1] not in self.figuras_selecionadas):
+
+                self.figuras[i], self.figuras[i-1] = self.figuras[i-1], self.figuras[i]
     #===============COPIAR E COLAR FIGURA=========#
     
     def copiar_figura(self):
-        if self.figura_selecionada:
-            self.figura_copiada = copy.deepcopy(self.figura_selecionada)
+        if self.figuras_selecionadas:
+            self.figura_copiada = copy.deepcopy(self.figuras_selecionadas)
             self.deslocamento_colar = 15
 
     def colar_figura(self):
-        if self.figura_copiada:
-            figura = copy.deepcopy(self.figura_copiada)
-            figura.mover(self.deslocamento_colar, self.deslocamento_colar)
-            self.figuras.append(figura)
-            self.figura_selecionada = figura
+            if not self.figura_copiada:
+                return
+
+            novas_figuras = copy.deepcopy(self.figura_copiada)
+
+            for figura in novas_figuras:
+                figura.mover(self.deslocamento_colar, self.deslocamento_colar)
+                self.figuras.append(figura)
+
+            self.figuras_selecionadas = novas_figuras
+
             self.deslocamento_colar += 10
 
 
-    #========== MOVER PARA TRAS 1 POR VEZ =================
 
-    def mover_para_tras(self):
-        if self.figura_selecionada is None:
-            return
-    
-           #PERCORRE TODA LISTA DE FIGURAS, MENOS O ULTIMO INDICE
-        for i in range(1, len(self.figuras)):
-            figura_atual = self.figuras[i] #SE FOR A FIGURA SELECIONADA TROCA DE LUGAR COM A DO INDICE DA DE TRAS
-            if figura_atual == self.figura_selecionada:
-                self.figuras[i], self.figuras[i - 1] = self.figuras[i - 1], self.figuras[i]
-                return
 
      # ========= Para salvar, abrir e limpar os desenho contidos na lista em um arquivo ===========  
 
@@ -121,7 +153,7 @@ class Desenho :
             self.figuras = pickle.load(arquivo)
             
         self.figura_atual = None
-        self.figura_selecionada = None
+        self.figuras_selecionadas = []
         self.figura_copiada = None
     
     def limpar_desenhos(self):
@@ -130,9 +162,7 @@ class Desenho :
 
         self.figuras = []
         self.figura_atual = None
-        self.figura_selecionada = None
+        self.figuras_selecionadas = []
         self.figura_copiada = None
 
         return True
-    
-   

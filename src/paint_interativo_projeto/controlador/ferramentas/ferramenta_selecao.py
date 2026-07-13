@@ -7,17 +7,32 @@ class FerramentaSelecao(Ferramenta):
         self.ultima_posicao = None
 
     def mouse_press(self, event):
-        figura_selecionada = None
+        figuras_selecionadas = None
         figuras = self.controlador.desenho.obter_figuras()
 
-        for figura in reversed(figuras): # usa reversed pois procuramos na lsita de desenhos de trás para frente
+        for figura in reversed(figuras): # usa reversed pois procuramos na lista de desenhos de trás para frente
             if figura.contem(event.x, event.y):
-                figura_selecionada = figura
+                figuras_selecionadas = figura
                 break
+            
+        if self.controlador.ctrl_pressionado: #SE O CTRL ESTIVER PRESSIONADO SIGA O BLOCO A SEGUIR:
+            if figuras_selecionadas is not None:
+                if figuras_selecionadas in self.controlador.desenho.obter_figuras_selecionadas():
+                    self.controlador.desenho.remover_selecao(figuras_selecionadas)
+                else:
+                    self.controlador.desenho.adicionar_selecao(figuras_selecionadas)
+        else:
+        # SO IRÁ TROCAR A SELECAO SE CLICAR EM UMA FIGURA QUE NAO ESTA SELECIONADA OU LOCAL
+        #FOI A UNICA MANEIRA QUE EU CONSEGUI IMPLEMENTAR ISSO
+        
+            if figuras_selecionadas not in self.controlador.desenho.obter_figuras_selecionadas():
+                self.controlador.desenho.limpar_selecao()
 
-        self.controlador.desenho.definir_figura_selecionada(figura_selecionada)
+                if figuras_selecionadas is not None:
+                    self.controlador.desenho.adicionar_selecao(figuras_selecionadas)
 
-        if figura_selecionada is not None:
+
+        if figuras_selecionadas is not None:
             self.ultima_posicao = (event.x, event.y)
         else:
             self.ultima_posicao = None
@@ -25,9 +40,9 @@ class FerramentaSelecao(Ferramenta):
         self.controlador.desenhar_figuras()
 
     def mouse_move(self, event):
-        figura = self.controlador.desenho.obter_figura_selecionada()
+        figuras = self.controlador.desenho.obter_figuras_selecionadas()
 
-        if figura is None:
+        if not figuras:
             return
 
         if self.ultima_posicao is None:
@@ -37,8 +52,10 @@ class FerramentaSelecao(Ferramenta):
 
         dx = event.x - x_antigo
         dy = event.y - y_antigo
-
-        figura.mover(dx, dy)
+        
+        for figura in figuras:
+            
+            figura.mover(dx, dy)
 
         self.ultima_posicao = (event.x, event.y)
 
@@ -46,3 +63,5 @@ class FerramentaSelecao(Ferramenta):
 
     def mouse_release(self, event):
         self.ultima_posicao = None
+
+

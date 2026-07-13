@@ -14,6 +14,7 @@ class Controlador:
         self.desenho = desenho # Referência ao model
         self.janela = janela # Referência ao view
         self.fabrica = FabricaDesenho(janela) # Referencia a FabricaDesenho
+        self.ctrl_pressionado = False
 
         # Associa cada ferramenta de desenho a opção correspondente (lembre que é em string) da interface
         self.ferramentas = {
@@ -40,6 +41,10 @@ class Controlador:
         self.janela.root.bind("<Left>", self.mover_para_tras)
         self.janela.root.bind("<Control-c>", self.copiar_figura)
         self.janela.root.bind("<Control-v>", self.colar_figura)
+        self.janela.root.bind("<KeyPress-Control_L>", self.ctrl_press) #CRIAÇÃO DOS BOTOES CTRL LEFT
+        self.janela.root.bind("<KeyRelease-Control_L>", self.ctrl_release) #CRIAÇÃO DOS BOTOES CTRL LEFT
+        self.janela.root.bind("<KeyPress-Control_R>", self.ctrl_press)# CRIAÇÃO DOS BOTOES CTRL RIGHT
+        self.janela.root.bind("<KeyRelease-Control_R>", self.ctrl_release) # CRIAÇÃO DOS BOTOES CTRL RIGHT
         
         #======= POR QUE O self.janela.root.bind é diferente dos demais?
         '''
@@ -91,10 +96,10 @@ class Controlador:
         self.janela.limpar_canvas()
 
         # Figuras já concluídas - Adequação para já incluir o destaque da borda se for selecionada
-        figura_selecionada = self.desenho.obter_figura_selecionada()
+        selecionadas = self.desenho.obter_figuras_selecionadas()
 
         for figura in self.desenho.obter_figuras():
-            self.fabrica.desenhar(figura, figura == figura_selecionada)
+            self.fabrica.desenhar(figura, figura in selecionadas)
 
         # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()
@@ -168,24 +173,33 @@ class Controlador:
 
 
     #Método para mudar a cor da figura selecionada -> borda =================
-    def mudar_cor_borda_selecionada(self, nova_cor) :
-        figura_selecionada = self.desenho.obter_figura_selecionada()
-        if figura_selecionada :
-            figura_selecionada.cor_borda = nova_cor
-            self.desenhar_figuras() 
+    def mudar_cor_borda_selecionada(self, nova_cor):
+
+        for figura in self.desenho.obter_figuras_selecionadas():
+            figura.cor_borda = nova_cor
+
+        self.desenhar_figuras()
 
             
     #Método para mudar a cor da figura selecionada -> preenchimento=================
-    def mudar_cor_preenchimento_selecionada(self, nova_cor) :
-        figura_selecionada = self.desenho.obter_figura_selecionada()
-        if figura_selecionada :
-            figura_selecionada.cor_preenchimento = nova_cor
-            self.desenhar_figuras()
+    def mudar_cor_preenchimento_selecionada(self, nova_cor):
+
+        for figura in self.desenho.obter_figuras_selecionadas():
+            figura.cor_preenchimento = nova_cor
+
+        self.desenhar_figuras()
 
     #Método para mudar a cor da figura selecionada -> espessura da borda=================
-    def mudar_tamanho_borda_selecionada(self, novo_tamanho):
-        figura_selecionada = self.desenho.obter_figura_selecionada()
+    def mudar_tamanho_borda_selecionada(self, tamanho):
 
-        if figura_selecionada:
-            figura_selecionada.tamanho_borda = novo_tamanho
-            self.desenhar_figuras()
+        for figura in self.desenho.obter_figuras_selecionadas():
+            figura.tamanho_borda = tamanho
+
+        self.desenhar_figuras()
+            
+            
+    def ctrl_press(self, event):
+        self.ctrl_pressionado = True
+    #CRIAÇÃO DOS MÉTODOS PARA SABER SE O CTRL ESTA PRESSIONADO OU SOLTO
+    def ctrl_release(self, event):
+        self.ctrl_pressionado = False
