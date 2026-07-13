@@ -6,7 +6,7 @@ class Desenho :
     def __init__(self) :
         self.figuras = []
         self.figura_atual = None
-        self.figuras_selecionadas = [] # Adicionado atributo para verificar se uma figura está selecionada
+        self.figuras_selecionadas = [] # Transformação em figuras selecionadas, ou seja, uma lista.
         self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
         self.deslocamento_colar = 0 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
 
