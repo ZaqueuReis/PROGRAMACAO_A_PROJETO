@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from modelo.calcular_distancia_fornecido import distancia # Importação do arquivo fornecido por Giovanny
+import math
 
 #CLASSE ABSTRATA FIGURA =====================
 class Figura(ABC):
@@ -249,3 +250,101 @@ class Poligono(Figura):
  depois colar, dai na hora de colar, ela apenas somava aquele deslocamento na coordenada da figura original,
  o segredo eh fazer uma cópia da figura, para deixar a orignal na sua posicão inicial, sem deslocar a mesma, 
  observei que rabisco, estava com o mesmo bug, daí a solução foi a mesma...'''
+
+
+# CLASSE POLIGONO REGULARES =====================================
+class PoligonoRegular(Figura) :
+    def __init__(self, centro_x, centro_y, lados, cor_borda, cor_preenchimento, tamanho_borda, fechado=True):
+        super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
+        self.centro_x = centro_x
+        self.centro_y = centro_y
+        self.lados = lados
+        self.raio = 0
+        self.pontos = [] 
+        
+        #Um poligono regular eh sempre fechado, talvez não seja necessário manter isto aqui
+        self.fechado = fechado 
+
+    def atualizar(self, x, y):
+        self.pontos = []
+
+        '''A figura precisa saber se redesenhar, caso o usuáio altere a quantidade de lados durante a sua constr-
+        ução'''
+
+        self.ultimo_x = x
+        self.ultimo_y = y 
+        
+        self.raio = math.hypot(x - self.centro_x, y - self.centro_y)
+
+        if self.raio == 0 :
+            return
+        
+        angulo_inicial = math.atan2(y - self.centro_y, x - self.centro_x)
+        
+        # 4. Calcula o tamanho do ângulo entre um vértice e outro
+        passo_angulo = (2 * math.pi) / self.lados
+        
+        # 5. Calcula as coordenadas (X, Y) de cada vértice
+        for i in range(self.lados):
+            angulo_atual = angulo_inicial + (i * passo_angulo)
+            
+            # Fórmulas trigonométricas para encontrar um ponto na circunferência
+            ponto_x = self.centro_x + self.raio * math.cos(angulo_atual)
+            ponto_y = self.centro_y + self.raio * math.sin(angulo_atual)
+
+            self.pontos.append((ponto_x, ponto_y))
+
+    
+    def aumentar_lados(self) :
+        self.lados += 1
+        self.atualizar(self.ultimo_x, self.ultimo_y)
+
+    def diminuir_lados(self) :
+        if self.lados > 3 :
+            self.lados -= 1
+            self.atualizar(self.ultimo_x, self.ultimo_y)
+
+    def incompleta(self) :
+        #Na real, isso não eh necessário, porém, deixei aqui...
+        return self.raio == 0
+
+    def mover(self, dx, dy):
+        self.centro_x += dx
+        self.centro_y += dy
+        self.atualizar(self.ultimo_x + dx, self.ultimo_y + dy)
+    
+    #Ainda bem que o método contém, de poligono irregular serve perfeitamente aqui
+    def contem(self, x, y):
+        """
+        Verifica se o ponto (x, y) está dentro de um polígono.
+        O polígono está especificado na lista de tuplas self.pontos: [(x1, y1), (x2, y2), ...].
+        """
+        dentro = False
+        n = len(self.pontos)
+
+        # Se o polígono não tiver pelo menos 3 vértices, não é um polígono válido
+        if n < 3:
+            return False
+
+        # Inicializa o último vértice do polígono como ponto de partida
+        p1x, p1y = self.pontos[0]
+
+        for i in range(n + 1):
+            # Avança para o próximo vértice
+            p2x, p2y = self.pontos[i % n]
+
+            # Verifica se o raio horizontal intercepta a aresta do polígono
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        # Calcula a interceptação X exata da aresta
+                        if p1y != p2y:
+                            x_interceptado = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        # Se o ponto estiver à esquerda da interceptação, inverte o estado
+                        if p1x == p2x or x <= x_interceptado:
+                            dentro = not dentro
+
+            p1x, p1y = p2x, p2y
+
+        return dentro
+    

@@ -5,6 +5,7 @@ from controlador.ferramentas.ferramenta_oval import FerramentaOval
 from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
 from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
 from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
+from controlador.ferramentas.ferramenta_poligonoRegular import FerramentaPoligonoRegular
 from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao 
 from visao.fabrica_desenho import FabricaDesenho # importando a classe que desenha todas as figuras já com a largura
 
@@ -24,6 +25,7 @@ class Controlador:
             "Circulo": FerramentaCirculo(self),
             "Rabisco": FerramentaRabisco(self),
             "Poligono": FerramentaPoligono(self),
+            "PoligonoRegular": FerramentaPoligonoRegular(self),
             "Selecionar": FerramentaSelecao(self) # adicionada a ferramenta seleção criada
         }
 
@@ -33,6 +35,7 @@ class Controlador:
         canvas.bind("<ButtonPress-1>", self.iniciar_figura_atual)
         canvas.bind("<B1-Motion>", self.atualizar_figura_atual)
         canvas.bind("<Motion>", self.atualizar_figura_atual)
+        canvas.bind("<Double-Button-1>", self.mouse_double_click)
         canvas.bind("<ButtonRelease-1>", self.incluir_figura_atual)
         self.janela.root.bind("<Delete>", self.deletar_selecionada)
         self.janela.root.bind("<Up>", self.mover_para_topo)
@@ -90,6 +93,10 @@ class Controlador:
         self.obter_ferramenta().mouse_release(event)
         return
     
+    def mouse_double_click(self, event) :
+        #Garantindo que isso só ocorra caso a figura em questão seja poligno regular
+        if hasattr(self.ferramenta, 'mouse_double_click') :
+            self.obter_ferramenta.mouse_double_click(event)
     # Desenha todas as figuras naquela lista interessante da classe desenho =============================
 
     def desenhar_figuras(self):
