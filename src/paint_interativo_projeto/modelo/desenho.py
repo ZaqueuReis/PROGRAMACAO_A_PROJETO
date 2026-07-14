@@ -36,10 +36,14 @@ class Desenho :
     def adicionar_selecao(self, figura):
         if figura not in self.figuras_selecionadas:
             self.figuras_selecionadas.append(figura)
+            #ESSA FUNÇÃO ACIMA FAZ O SEGUINTE: SE CASO VOCE CLICAR EM UMA FIGURA QUE NAO ESTÁ SELECIONADA ELE 
+            #ADICIONA NA LISTA DE FIGURAS SELECIONADAS
     
     def remover_selecao(self, figura):
         if figura in self.figuras_selecionadas:
             self.figuras_selecionadas.remove(figura)
+            #SE CLICAR NUMA FIGURA QUE JA ESTA NA LISTA DE FIGURAS SELECIONADAS
+            #REMOVA DA LISTA DE FIGURAS SELECIONADAS A FIGURA CLICADA
     
     
     #FIM NOVOS MÉTODOS
