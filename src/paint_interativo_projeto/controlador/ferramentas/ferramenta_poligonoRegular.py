@@ -39,9 +39,12 @@ class FerramentaPoligonoRegular(Ferramenta) :
         else :
             #Botão 1 = Esquerdo(Aumenta o número de lados); Botão 3 = Direito(Diminuí o número...)
             if getattr(event, 'num', 1) == 1 :
-                figura.aumentar_lados()
-            elif getattr(event, 'num', 3) == 3 or getattr(event, 'num', 2) == 2 :
-                figura.diminuir_lados()
+                shift_pressionado = (event.state & 0x0001) != 0
+                if shift_pressionado :
+                    figura.diminuir_lados()
+
+                else :
+                    figura.aumentar_lados()
         self.controlador.desenhar_figuras()
 
 
