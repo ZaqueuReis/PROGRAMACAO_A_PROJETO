@@ -1,9 +1,18 @@
+from modelo.figuras import FiguraComposta # importando a classe figura composta
+
+
 class FabricaDesenho:
 
     def __init__(self, janela):
         self.janela = janela
 
     def desenhar(self, figura, selecionada=False):
+
+        if isinstance(figura, FiguraComposta):
+            for f in figura.figuras:
+                self.desenhar(f, selecionada)
+            return
+    
         largura = figura.tamanho_borda
 
         if selecionada:

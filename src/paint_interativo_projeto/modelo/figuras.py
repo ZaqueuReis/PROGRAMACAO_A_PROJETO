@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from modelo.calcular_distancia_fornecido import distancia # Importação do arquivo fornecido por Giovanny
 import math
+from copy import deepcopy # Importei para permir copiar figuras compostas
 
 #CLASSE ABSTRATA FIGURA =====================
 class Figura(ABC):
@@ -347,4 +348,30 @@ class PoligonoRegular(Figura) :
             p1x, p1y = p2x, p2y
 
         return dentro
-    
+
+# CLASSE FIGURAS COMPOSTAS ======================
+
+class FiguraComposta(Figura):
+
+    def __init__(self, figuras):
+        super().__init__("", "", 1)
+        self.figuras = figuras
+
+    def atualizar(self, *args):
+        pass
+
+    def incompleta(self):
+        return False
+
+    def mover(self, dx, dy):
+        for figura in self.figuras:
+            figura.mover(dx, dy)
+
+    def contem(self, x, y):
+        for figura in self.figuras:
+            if figura.contem(x, y):
+                return True
+        return False
+
+    def copiar(self):
+        return deepcopy(self)
