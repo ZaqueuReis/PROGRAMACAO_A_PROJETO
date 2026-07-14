@@ -1,5 +1,6 @@
 import pickle # Substituição pela biblioteca vista em aula hoje
 import copy #Importação do método copy que o professor apresentou na aula.
+from modelo.figuras import FiguraComposta # Importando figura composta, acredito que isso é permitido no MVC
 
 class Desenho :
     
@@ -122,6 +123,7 @@ class Desenho :
                 self.figuras[i-1] not in self.figuras_selecionadas):
 
                 self.figuras[i], self.figuras[i-1] = self.figuras[i-1], self.figuras[i]
+
     #===============COPIAR E COLAR FIGURA=========#
     
     def copiar_figura(self):
@@ -142,6 +144,36 @@ class Desenho :
             self.figuras_selecionadas = novas_figuras
 
             self.deslocamento_colar += 10
+    
+    # Agrupar figuras ===========
+    def agrupar_figuras(self):
+        if len(self.figuras_selecionadas) < 2:
+            return
+
+        grupo = FiguraComposta(self.figuras_selecionadas)
+
+        for figura in self.figuras_selecionadas:
+            self.figuras.remove(figura)
+
+        self.figuras.append(grupo)
+        self.figuras_selecionadas = [grupo]
+    
+    # Desagrupar figuras ===========
+    def desagrupar_figuras(self):
+        if len(self.figuras_selecionadas) != 1:
+            return
+
+        grupo = self.figuras_selecionadas[0]
+
+        if not isinstance(grupo, FiguraComposta):
+            return
+
+        self.figuras.remove(grupo)
+
+        for figura in grupo.figuras:
+            self.figuras.append(figura)
+
+        self.figuras_selecionadas = list(grupo.figuras)
 
 
 

@@ -9,8 +9,8 @@ class FabricaDesenho:
     def desenhar(self, figura, selecionada=False):
 
         if isinstance(figura, FiguraComposta):
-            for f in figura.figuras:
-                self.desenhar(f, selecionada)
+            for figuras in figura.figuras:
+                self.desenhar(figuras, selecionada)
             return
     
         largura = figura.tamanho_borda

@@ -11,7 +11,7 @@ class Janela:
         self.controller = None 
 
         self.root = Tk()
-        self.root.title("Paint State")
+        self.root.title("Paint")
         self.frame = Frame(self.root)
         self.frame.pack()
 
@@ -116,7 +116,14 @@ class Janela:
 
         botao_para_limpar = ttk.Button(self.frame, text='Limpar Tudo', command=lambda: self.controller.limpar_desenhos())
         botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
-            
+
+        # Botão para agrupar
+        botao_agrupar = ttk.Button(self.frame, text="Agrupar", command=lambda: self.controller.agrupar_figuras())
+        botao_agrupar.grid(column=3, row=1, sticky=W, **paddings)
+        
+        # Botão para desagrupar
+        botao_desagrupar = ttk.Button(self.frame, text="Desagrupar",command=lambda: self.controller.desagrupar_figuras())
+        botao_desagrupar.grid(column=4, row=1, sticky=W, **paddings)
         
         # Parte da área de desenho (canvas)
 

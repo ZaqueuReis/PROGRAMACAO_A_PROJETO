@@ -210,6 +210,17 @@ class Controlador:
             
     def ctrl_press(self, event):
         self.ctrl_pressionado = True
+
     #CRIAÇÃO DOS MÉTODOS PARA SABER SE O CTRL ESTA PRESSIONADO OU SOLTO
     def ctrl_release(self, event):
         self.ctrl_pressionado = False
+    
+    # Método para agrupar as figuras, tornando-as compostas
+    def agrupar_figuras(self):
+        self.desenho.agrupar_figuras()
+        self.desenhar_figuras()
+    
+    # Método para desagrupar as figuras, tornando-as únicas novamente
+    def desagrupar_figuras(self):
+        self.desenho.desagrupar_figuras()
+        self.desenhar_figuras()
