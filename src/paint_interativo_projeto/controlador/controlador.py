@@ -95,8 +95,11 @@ class Controlador:
     
     def mouse_double_click(self, event) :
         #Garantindo que isso só ocorra caso a figura em questão seja poligno regular
-        if hasattr(self.ferramenta, 'mouse_double_click') :
-            self.obter_ferramenta.mouse_double_click(event)
+        tipo_selecionado = self.janela.obter_tipo_figura()
+        ferramenta_ativa = self.ferramentas.get(tipo_selecionado)
+
+        if ferramenta_ativa and hasattr(ferramenta_ativa, 'mouse_double_click') :
+            ferramenta_ativa.mouse_double_click(event)
     # Desenha todas as figuras naquela lista interessante da classe desenho =============================
 
     def desenhar_figuras(self):

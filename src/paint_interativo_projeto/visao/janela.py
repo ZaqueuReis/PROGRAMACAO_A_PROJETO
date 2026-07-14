@@ -57,7 +57,7 @@ class Janela:
         self.caixa_cor_borda.grid(column=4, row=0, sticky=W , **paddings)
 
         #implementação do botão na caixa -> cor_borda
-        self.caixa_cor_borda.bind("<Button-1>", lambda event : self.escolher_cor_borda())
+        self.caixa_cor_borda.bind("<Button-1>", lambda event : self.controller.mudar_cor_borda_selecionada(self.cor_borda_var.get()) if self.controller else None)
         
         # Widgets de texto e seleção da cor do preenchimento das figuras
 
@@ -75,7 +75,7 @@ class Janela:
         self.caixa_cor_preenchimento.grid(column=7, row=0, sticky=W, **paddings)
         
         #implementação do botão na caixa -> cor_preenchimento
-        self.caixa_cor_preenchimento.bind("<Button-1>", lambda event : self.escolher_cor_preenchimento())
+        self.caixa_cor_preenchimento.bind("<Button-1>", lambda event : self.controller.mudar_cor_preenchimento_selecionada(self.cor_preenchimento_var.get()) if self.controller else None)
         
         # Widgets de texto e seleção da espessura da borda das figuras
 
