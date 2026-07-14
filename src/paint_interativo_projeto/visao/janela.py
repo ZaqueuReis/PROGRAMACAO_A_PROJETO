@@ -11,9 +11,15 @@ class Janela:
         self.controller = None 
 
         self.root = Tk()
-        self.root.title("Paint")
+        self.root.title("Paint - Figuras Compostas")
+
+        # Frame da parte superior
         self.frame = Frame(self.root)
         self.frame.pack()
+
+        #Frame da parte inferior (para os botões)
+        self.frame_botoes = Frame(self.frame)
+        self.frame_botoes.grid(row=1, column=0, columnspan=11, sticky=W)
 
         paddings = {'padx': 5, 'pady': 5}
 
@@ -67,7 +73,7 @@ class Janela:
         self.cor_preenchimento_var = StringVar(self.root, value='white')
 
         botao_cor_prrenchimento = ttk.Button(self.frame, text='Escolher cor do preenchimento', command=self.escolher_cor_preenchimento)
-        botao_cor_prrenchimento.grid(column=5, row=0, sticky=W, **paddings)
+        botao_cor_prrenchimento.grid(column=6, row=0, sticky=W, **paddings)
  
         #Caixa de cor preenchimento
 
@@ -106,23 +112,23 @@ class Janela:
         
         # Widgets para salvar, abrir arquivos e limpar tudo 
 
-        botao_para_salvar = ttk.Button(self.frame, text='Salvar', command=lambda: self.controller.salvar_arquivo_desenhos())
+        botao_para_salvar = ttk.Button(self.frame_botoes, text='Salvar', command=lambda: self.controller.salvar_arquivo_desenhos())
         botao_para_salvar.grid(column = 0, row = 1, sticky=W, **paddings)
 
     
-        botao_para_abrir = ttk.Button(self.frame, text='Abrir', command=lambda: self.controller.abrir_arquivo_desenho())
+        botao_para_abrir = ttk.Button(self.frame_botoes, text='Abrir', command=lambda: self.controller.abrir_arquivo_desenho())
         botao_para_abrir.grid(column = 1, row = 1, sticky=W, **paddings)
 
 
-        botao_para_limpar = ttk.Button(self.frame, text='Limpar Tudo', command=lambda: self.controller.limpar_desenhos())
+        botao_para_limpar = ttk.Button(self.frame_botoes, text='Limpar Tudo', command=lambda: self.controller.limpar_desenhos())
         botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
 
         # Botão para agrupar
-        botao_agrupar = ttk.Button(self.frame, text="Agrupar", command=lambda: self.controller.agrupar_figuras())
+        botao_agrupar = ttk.Button(self.frame_botoes, text="Agrupar", command=lambda: self.controller.agrupar_figuras())
         botao_agrupar.grid(column=3, row=1, sticky=W, **paddings)
         
         # Botão para desagrupar
-        botao_desagrupar = ttk.Button(self.frame, text="Desagrupar",command=lambda: self.controller.desagrupar_figuras())
+        botao_desagrupar = ttk.Button(self.frame_botoes, text="Desagrupar",command=lambda: self.controller.desagrupar_figuras())
         botao_desagrupar.grid(column=4, row=1, sticky=W, **paddings)
         
         # Parte da área de desenho (canvas)
