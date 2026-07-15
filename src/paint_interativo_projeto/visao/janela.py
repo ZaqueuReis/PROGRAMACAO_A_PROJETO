@@ -95,8 +95,7 @@ class Janela:
             from_= 1,
             to = 10,
             orient = 'horizontal',
-            command=lambda v: self.tamanho_borda.set(str(int(float(v))))
-        )
+            command= self.alterar_espessura)
 
         self.barra_espessura.grid(column=9, row=0, sticky=W, **paddings)
 
@@ -164,6 +163,14 @@ class Janela:
             #Se houver alguma figura selecionada, manda um aviso para o controlador alterar a cor da mesma
             if self.controller :
                 self.controller.mudar_cor_preenchimento_selecionada(cor[1])
+    
+    def alterar_espessura(self, valor):
+        valor = int(float(valor))
+
+        self.tamanho_borda.set(str(valor))
+
+        if self.controller:
+            self.controller.mudar_tamanho_borda_selecionada(valor)
 
     # Getters para obter os atributos da janela
 
