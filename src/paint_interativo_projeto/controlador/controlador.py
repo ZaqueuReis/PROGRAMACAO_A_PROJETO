@@ -103,27 +103,22 @@ class Controlador:
     # Desenha todas as figuras naquela lista interessante da classe desenho =============================
 
     def desenhar_figuras(self):
+
         self.janela.limpar_canvas()
 
-        # Figuras já concluídas - Adequação para já incluir o destaque da borda se for selecionada
         selecionadas = self.desenho.obter_figuras_selecionadas()
 
         for figura in self.desenho.obter_figuras():
             self.fabrica.desenhar(figura, figura in selecionadas)
-            
-        ferramenta = self.obter_ferramenta()
 
-        if isinstance(ferramenta, FerramentaSelecao):
-            if ferramenta.retangulo_selecao is not None:
-                self.janela.desenhar_retangulo_selecao(
-                    ferramenta.retangulo_selecao
-                )
+        self.obter_ferramenta().desenhar()
 
-        # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()
         if figura_atual is not None:
             self.fabrica.desenhar(figura_atual)
-                    
+            # Figura que ainda está sendo desenhada
+
+                        
     # Método de salvar arquivos =====================             
     def salvar_arquivo_desenhos(self):
         caminho = self.janela.obter_caminhoPC_salvar()
@@ -194,7 +189,7 @@ class Controlador:
     def mudar_cor_borda_selecionada(self, nova_cor):
 
         for figura in self.desenho.obter_figuras_selecionadas():
-            figura.cor_borda = nova_cor
+            figura.alterar_cor_borda(nova_cor)
 
         self.desenhar_figuras()
 
@@ -203,7 +198,7 @@ class Controlador:
     def mudar_cor_preenchimento_selecionada(self, nova_cor):
 
         for figura in self.desenho.obter_figuras_selecionadas():
-            figura.cor_preenchimento = nova_cor
+            figura.alterar_cor_preenchimento(nova_cor)
 
         self.desenhar_figuras()
 
@@ -211,7 +206,7 @@ class Controlador:
     def mudar_tamanho_borda_selecionada(self, tamanho):
 
         for figura in self.desenho.obter_figuras_selecionadas():
-            figura.tamanho_borda = tamanho
+            figura.alterar_tamanho_borda(tamanho)
 
         self.desenhar_figuras()
             

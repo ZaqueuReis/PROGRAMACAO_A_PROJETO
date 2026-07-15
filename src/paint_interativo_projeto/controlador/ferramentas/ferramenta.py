@@ -18,3 +18,18 @@ class Ferramenta(ABC):
     @abstractmethod
     def mouse_release(self, event):
         pass
+    
+    def desenhar(self):
+        pass
+        """
+        Antes o controlador.desenhar_figuras() desenhava apenas figuras do modelo.
+        Quando foi criado o retangulo de seleção surge um problema:
+        O retangulo de seleção nao possui ao modelo, porque nao é uma figura definitiva.
+        É uma figura auxiliar, temporária...
+        Então era preciso de algo para desenhar essa fingura temporariamente e quem conhece
+        esse objeto é justamente a ferramenta de seleção.
+
+        - Emanuel por que nao é um metodo abstrato?
+        Até poderia ser, mas seria desnecessário, pois todas as outras ferramentas
+        seriam obrigas a implementar esse método.
+        """

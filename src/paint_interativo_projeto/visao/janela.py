@@ -302,8 +302,8 @@ class Janela:
             retangulo.y1,
             retangulo.x2,
             retangulo.y2,
-            outline="blue",
-            fill="lightblue",
+            outline="red",
+            fill="salmon",
             stipple="gray25"
         )
             #ESSE STIPPLE FUNCIONA COMO UM PONTILHADO, E ESSE NUMERO É A % DE PONTILHADO

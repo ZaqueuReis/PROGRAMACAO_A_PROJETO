@@ -57,7 +57,25 @@ class FerramentaSelecao(Ferramenta):
             self.ultima_posicao = None
 
         self.controlador.desenhar_figuras()
+        
+        
+    def desenhar(self):
+        """
+       DESENHA APENAS AS FIGURAS TEMPORARIAS DA FERRAMENTA DE SELECAO.
 
+        Diferente das figuras do desenho, o retângulo de seleção não faz
+        parte do modelo (Desenho). Ele existe apenas enquanto o usuário
+        arrasta o mouse para selecionar uma área.
+
+        Por isso, sempre que o controlador redesenha o canvas, este método
+        é chamado para desenhar o retângulo de seleção, caso ele exista.
+        """
+        if self.retangulo_selecao is not None:
+            self.controlador.janela.desenhar_retangulo_selecao(self.retangulo_selecao)
+            # Caso exista um retângulo de seleção, ele deve ser desenhado.
+            # Esse retângulo é apenas um elemento visual temporário e não faz
+            # parte da lista de figuras do modelo.
+            
     def mouse_move(self, event):
 
         figuras = self.controlador.desenho.obter_figuras_selecionadas()
@@ -137,6 +155,8 @@ class FerramentaSelecao(Ferramenta):
         self.retangulo_selecao = None
 
         self.controlador.desenhar_figuras()
+        
+        
 
 
     def figura_dentro_retangulo_selecao(self, figura, x1, y1, x2, y2):

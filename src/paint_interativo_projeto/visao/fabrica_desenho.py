@@ -38,3 +38,4 @@ class FabricaDesenho:
         
         elif figura.__class__.__name__ == "Poligono_regular" :
             self.janela.desenhar_poligono_regular(figura.pontos, figura.cor_borda, figura.cor_preenchimento, largura, figura.fechado)
+    

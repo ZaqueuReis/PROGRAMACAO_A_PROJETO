@@ -27,6 +27,18 @@ class Figura(ABC):
     def contem(self, x, y):
         pass  
     
+    def alterar_cor_borda(self, cor):
+        self.cor_borda = cor
+
+    def alterar_cor_preenchimento(self, cor):
+        self.cor_preenchimento = cor
+
+    def alterar_tamanho_borda(self, tamanho):
+        self.tamanho_borda = tamanho
+
+    # Métodos responsáveis por alterar as propriedades visuais da figura.
+    # O controlador apenas solicita a alteração, sem acessar diretamente
+    # os atributos internos da classe (encapsulamento).
 
 
 #CLASSE LINHA ==========================
@@ -375,4 +387,29 @@ class FiguraComposta(Figura):
 
     def copiar(self):
         return deepcopy(self)
+    
+    def alterar_cor_borda(self, cor):
+        for figura in self.figuras:
+            figura.alterar_cor_borda(cor)
 
+    def alterar_cor_preenchimento(self, cor):
+        for figura in self.figuras:
+            figura.alterar_cor_preenchimento(cor)
+
+    def alterar_tamanho_borda(self, tamanho):
+        for figura in self.figuras:
+            figura.alterar_tamanho_borda(tamanho)
+
+'''
+POR QUE FOI PRECISO IMPLEMENTAR ESSES MÉTODOS NA FIGURA COMPOSTA?
+A FIGURA COMPOSTA NAO PODE SIMPLESMENTE FAZER 
+SELF.COR_BORDA = COR
+
+PORQUE A FIGURA COMPOSTA NAO É UM DESENHO PRÓPRIO, ELA SAO VÁRIAS FIGURAS.
+POR ISSO É PRECISO PERCORRER TODAS DO GRUPO PARA ALTERAR TUDO, ISSO RESOLVE
+O BUG DE FIGURAS COMPOSTAS QUE NAO ALTERAVAM COR DE BORDA, PREENCHIMENTO E ESPESSURA.
+
+NOVAMENTE NAO FOI IMPLEMENTADO COMO MÉTODO ABSTRATO PORQUE TODOS OS OUTROS 
+TERIAM QUE TER O METODO, E COMO SAO FIGURAS PROPRIAS CONSEGUEM SE SETAR SEUS ATRIBUTOS.
+
+'''
