@@ -1,4 +1,4 @@
-from modelo.figuras import Poligono
+from modelo.figuras import Poligono_irregular
 from .ferramenta import Ferramenta
 
 '''Classe responsável por controlar toda a interação do usuário com a ferramenta
@@ -6,7 +6,7 @@ de desenho do poligono. Cada método representa um evento do mouse durante
 a criação da figura (pressionar, mover e soltar o botão).'''
 
 
-class FerramentaPoligono(Ferramenta):
+class FerramentaPoligonoIrregular(Ferramenta):
 
     def __init__(self, controlador):
         super().__init__(controlador)
@@ -23,7 +23,7 @@ class FerramentaPoligono(Ferramenta):
         # Primeiro clique
         if figura is None:
 
-            figura = Poligono([(event.x, event.y)],janela.obter_cor_borda(),janela.obter_cor_preenchimento(),janela.obter_tamanho_borda())
+            figura = Poligono_irregular([(event.x, event.y)],janela.obter_cor_borda(),janela.obter_cor_preenchimento(),janela.obter_tamanho_borda())
             desenho.inicializar_figura_atual(figura)
 
         # Próximos cliques

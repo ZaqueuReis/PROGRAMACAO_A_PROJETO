@@ -197,7 +197,7 @@ class FerramentaSelecao(Ferramenta):
                 figura.centro_y + figura.raio <= y2
             )
 
-        elif figura.__class__.__name__ in ("Rabisco", "Poligono", "PoligonoRegular"):
+        elif figura.__class__.__name__ in ("Rabisco", "Poligono_irregular", "Poligono_regular"):
 
             for px, py in figura.pontos:
 

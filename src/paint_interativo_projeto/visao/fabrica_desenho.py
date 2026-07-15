@@ -33,8 +33,8 @@ class FabricaDesenho:
         elif figura.__class__.__name__ == "Rabisco":
             self.janela.desenhar_rabisco(figura.pontos, figura.cor_borda, largura)
 
-        elif figura.__class__.__name__ == "Poligono":
+        elif figura.__class__.__name__ == "Poligono_irregular":
             self.janela.desenhar_poligono(figura.pontos, figura.cor_borda, figura.cor_preenchimento, largura, figura.fechado)
-
-        elif figura.__class__.__name__ == "PoligonoRegular" :
+        
+        elif figura.__class__.__name__ == "Poligono_regular" :
             self.janela.desenhar_poligono_regular(figura.pontos, figura.cor_borda, figura.cor_preenchimento, largura, figura.fechado)

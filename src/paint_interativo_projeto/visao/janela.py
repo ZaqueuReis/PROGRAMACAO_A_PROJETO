@@ -42,8 +42,8 @@ class Janela:
             'Oval',
             'Circulo',
             'Rabisco',
-            'Poligono',
-            'PoligonoRegular',
+            'Poligono irregular',
+            'Poligono regular',
         )
 
         self.option_menu.grid(column=1, row=0, sticky=W, **paddings)

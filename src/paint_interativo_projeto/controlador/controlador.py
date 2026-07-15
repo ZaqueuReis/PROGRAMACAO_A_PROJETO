@@ -1,11 +1,11 @@
-from modelo.figuras import Linha, Rabisco, Retangulo, Oval, Circulo, Poligono
+from modelo.figuras import Linha, Rabisco, Retangulo, Oval, Circulo, Poligono_irregular
 from controlador.ferramentas.ferramenta_linha import FerramentaLinha
 from controlador.ferramentas.ferramenta_retangulo import FerramentaRetangulo
 from controlador.ferramentas.ferramenta_oval import FerramentaOval
 from controlador.ferramentas.ferramenta_circulo import FerramentaCirculo
 from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
-from controlador.ferramentas.ferramenta_poligono import FerramentaPoligono
-from controlador.ferramentas.ferramenta_poligonoRegular import FerramentaPoligonoRegular
+from controlador.ferramentas.ferramenta_poligono_irregular import FerramentaPoligonoIrregular
+from controlador.ferramentas.ferramenta_poligono_regular import FerramentaPoligonoRegular
 from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao 
 from visao.fabrica_desenho import FabricaDesenho # importando a classe que desenha todas as figuras já com a largura
 
@@ -24,8 +24,8 @@ class Controlador:
             "Oval": FerramentaOval(self),
             "Circulo": FerramentaCirculo(self),
             "Rabisco": FerramentaRabisco(self),
-            "Poligono": FerramentaPoligono(self),
-            "PoligonoRegular": FerramentaPoligonoRegular(self),
+            "Poligono irregular": FerramentaPoligonoIrregular(self),
+            "Poligono regular": FerramentaPoligonoRegular(self),
             "Selecionar": FerramentaSelecao(self) # adicionada a ferramenta seleção criada
         }
 

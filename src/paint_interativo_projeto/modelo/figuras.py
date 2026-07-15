@@ -182,8 +182,8 @@ class Circulo(Figura):
         return distancia <= self.raio
 
 
-# CLASSE POLIGONO =====================================
-class Poligono(Figura):
+# CLASSE POLIGONO_IRREGULAR=====================================
+class Poligono_irregular(Figura):
     def __init__(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado=False):
         super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
         self.pontos = pontos
@@ -254,7 +254,7 @@ class Poligono(Figura):
 
 
 # CLASSE POLIGONO REGULARES =====================================
-class PoligonoRegular(Figura) :
+class Poligono_regular(Figura) :
     def __init__(self, centro_x, centro_y, lados, cor_borda, cor_preenchimento, tamanho_borda, fechado=True):
         super().__init__(cor_borda, cor_preenchimento, tamanho_borda)
         self.centro_x = centro_x

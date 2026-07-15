@@ -1,4 +1,4 @@
-from modelo.figuras import PoligonoRegular
+from modelo.figuras import Poligono_regular
 from .ferramenta import Ferramenta
 
 '''Classe responsável por controlar toda a interação do usuário com a ferramenta
@@ -15,7 +15,7 @@ class FerramentaPoligonoRegular(Ferramenta) :
         figura = desenho.obter_figura_atual()
         
         #Verificando se a alguma figura sendo feita
-        if figura is not None and not isinstance(figura, PoligonoRegular) :
+        if figura is not None and not isinstance(figura, Poligono_regular) :
             figura = None
 
         #Estado inicial -> poligono irregular ainda não foi criado
@@ -24,7 +24,7 @@ class FerramentaPoligonoRegular(Ferramenta) :
             #Garantido que eh o botão esquerdo que está sendo pressionado
             if getattr(event, 'num', 1) == 1 :
                 lados = 3
-                figura = PoligonoRegular(
+                figura = Poligono_regular(
                 event.x, event.y,
                 lados,
                 janela.obter_cor_borda(),
