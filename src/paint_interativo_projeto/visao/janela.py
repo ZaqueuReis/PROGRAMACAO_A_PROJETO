@@ -1,14 +1,14 @@
 from tkinter import *
 from tkinter import ttk, font
 from tkinter import colorchooser
-from tkinter import filedialog 
-from tkinter import messagebox 
+from tkinter import filedialog
+from tkinter import messagebox
 
 
 class Janela:
 
     def __init__(self):
-        self.controller = None 
+        self.controller = None
 
         self.root = Tk()
         self.root.title("Paint - Figuras Compostas")
@@ -286,6 +286,22 @@ class Janela:
             width=tamanho_borda
         )
     # Pra finalizar, loop da janela
+
+    
+    def desenhar_retangulo_selecao(self, retangulo):
+
+        self.obter_canvas().create_rectangle(
+            retangulo.x1,
+            retangulo.y1,
+            retangulo.x2,
+            retangulo.y2,
+            outline="blue",
+            fill="lightblue",
+            stipple="gray25"
+        )
+            #ESSE STIPPLE FUNCIONA COMO UM PONTILHADO, E ESSE NUMERO É A % DE PONTILHADO
+            #SIGNIFICA QUE É 25% PONTILHADO SENDO POSSIVEL VER ATRAVES DELE
+        
 
     def iniciar(self):
         self.root.mainloop()

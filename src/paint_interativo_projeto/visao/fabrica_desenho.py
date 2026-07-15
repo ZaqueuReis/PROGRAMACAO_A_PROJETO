@@ -12,7 +12,7 @@ class FabricaDesenho:
             for figuras in figura.figuras:
                 self.desenhar(figuras, selecionada)
             return
-    
+
         largura = figura.tamanho_borda
 
         if selecionada:
@@ -35,6 +35,6 @@ class FabricaDesenho:
 
         elif figura.__class__.__name__ == "Poligono":
             self.janela.desenhar_poligono(figura.pontos, figura.cor_borda, figura.cor_preenchimento, largura, figura.fechado)
-        
+
         elif figura.__class__.__name__ == "PoligonoRegular" :
             self.janela.desenhar_poligono_regular(figura.pontos, figura.cor_borda, figura.cor_preenchimento, largura, figura.fechado)

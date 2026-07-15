@@ -110,6 +110,14 @@ class Controlador:
 
         for figura in self.desenho.obter_figuras():
             self.fabrica.desenhar(figura, figura in selecionadas)
+            
+        ferramenta = self.obter_ferramenta()
+
+        if isinstance(ferramenta, FerramentaSelecao):
+            if ferramenta.retangulo_selecao is not None:
+                self.janela.desenhar_retangulo_selecao(
+                    ferramenta.retangulo_selecao
+                )
 
         # Figura que ainda está sendo desenhada
         figura_atual = self.desenho.obter_figura_atual()

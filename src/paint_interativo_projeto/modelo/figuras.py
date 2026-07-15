@@ -375,3 +375,4 @@ class FiguraComposta(Figura):
 
     def copiar(self):
         return deepcopy(self)
+
