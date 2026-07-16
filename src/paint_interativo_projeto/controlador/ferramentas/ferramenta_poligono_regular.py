@@ -10,6 +10,7 @@ class FerramentaPoligonoRegular(Ferramenta) :
         super().__init__(controlador)
     
     def mouse_press(self, event) :
+        botao = event.num # Adaptação para reformular metodo de desenhar poligono regular
         desenho = self.controlador.desenho
         janela = self.controlador.janela
         figura = desenho.obter_figura_atual()
@@ -18,11 +19,11 @@ class FerramentaPoligonoRegular(Ferramenta) :
         if figura is not None and not isinstance(figura, Poligono_regular) :
             figura = None
 
-        #Estado inicial -> poligono irregular ainda não foi criado
+        #Estado inicial -> poligono regular ainda não foi criado
 
         if figura is None :
             #Garantido que eh o botão esquerdo que está sendo pressionado
-            if getattr(event, 'num', 1) == 1 :
+            if botao == 1:
                 lados = 3
                 figura = Poligono_regular(
                 event.x, event.y,
@@ -33,18 +34,16 @@ class FerramentaPoligonoRegular(Ferramenta) :
 
             )
             desenho.inicializar_figura_atual(figura)
-            self.controlador.desenhar_figuras()
 
         #Estado intermediáio -> a figura já existe
         else :
             #Botão 1 = Esquerdo(Aumenta o número de lados); Botão 3 = Direito(Diminuí o número...)
-            if getattr(event, 'num', 1) == 1 :
-                shift_pressionado = (event.state & 0x0001) != 0
-                if shift_pressionado :
-                    figura.diminuir_lados()
+            if botao == 1:
+                figura.aumentar_lados()
 
-                else :
-                    figura.aumentar_lados()
+            elif botao == 3:
+                figura.diminuir_lados()
+
         self.controlador.desenhar_figuras()
 
 

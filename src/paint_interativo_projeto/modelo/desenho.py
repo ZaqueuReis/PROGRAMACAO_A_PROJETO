@@ -32,7 +32,6 @@ class Desenho :
         #FUNÇÃO CLEAR SERVE PARA ESVAZIAR UMA LISTA
 
 
-
     #ADICIONANDO NOVOS MÉTODOS PARA SELEÇAO MULTIPLA DE FIGURAS:
     def adicionar_selecao(self, figura):
         if figura not in self.figuras_selecionadas:
@@ -174,9 +173,6 @@ class Desenho :
             self.figuras.append(figura)
 
         self.figuras_selecionadas = list(grupo.figuras)
-
-
-
 
      # ========= Para salvar, abrir e limpar os desenho contidos na lista em um arquivo ===========  
 

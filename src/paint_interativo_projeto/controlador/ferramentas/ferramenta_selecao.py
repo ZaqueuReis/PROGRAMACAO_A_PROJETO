@@ -19,9 +19,6 @@ class FerramentaSelecao(Ferramenta):
                 figuras_selecionadas = figura
                 break
 
-
-
-
         self.inicioX_retangulo_selecao = event.x
         self.inicioY_retangulo_selecao = event.y
         
@@ -170,9 +167,7 @@ class FerramentaSelecao(Ferramenta):
         VAI RETORNAR VERDADEIRO SE ESTIVER DENTRO
         
         '''
-        
     
-        
         if figura.__class__.__name__ == "FiguraComposta":
              # Caso seja uma figura composta, verificamos cada figura interna.
             # O grupo só será selecionado se TODAS as figuras que fazem parte dele

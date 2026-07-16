@@ -33,6 +33,7 @@ class Controlador:
         canvas = self.janela.obter_canvas()
         
         canvas.bind("<ButtonPress-1>", self.iniciar_figura_atual)
+        canvas.bind("<ButtonPress-3>", self.iniciar_figura_atual) # Para que os lados do poligono regular diminuam com botão direito do mouse
         canvas.bind("<B1-Motion>", self.atualizar_figura_atual)
         canvas.bind("<Motion>", self.atualizar_figura_atual)
         canvas.bind("<Double-Button-1>", self.mouse_double_click)
@@ -85,7 +86,7 @@ class Controlador:
         self.obter_ferramenta().mouse_move(event)
         return
 
-# Finaliza o desenho das figuras, exceto polígono porque precisa ser atualizado até chegar ao vertice final ===================
+    # Finaliza o desenho das figuras, exceto polígono porque precisa ser atualizado até chegar ao vertice final ===================
 
     # Quando o mouse é solto
     def incluir_figura_atual(self, event):
@@ -100,6 +101,7 @@ class Controlador:
 
         if ferramenta_ativa and hasattr(ferramenta_ativa, 'mouse_double_click') :
             ferramenta_ativa.mouse_double_click(event)
+
     # Desenha todas as figuras naquela lista interessante da classe desenho =============================
 
     def desenhar_figuras(self):
@@ -119,7 +121,8 @@ class Controlador:
             # Figura que ainda está sendo desenhada
 
                         
-    # Método de salvar arquivos =====================             
+    # Método de salvar arquivos =====================
+               
     def salvar_arquivo_desenhos(self):
         caminho = self.janela.obter_caminhoPC_salvar()
         if not caminho:
@@ -129,7 +132,8 @@ class Controlador:
         
         self.janela.aviso_salvamento_desenho() # Messagebox para avisar que os desenhos foram salvos
         
-    # Método de abrir arquivos =====================     
+    # Método de abrir arquivos =====================
+        
     def abrir_arquivo_desenho(self):
         caminho = self.janela.obter_caminhoPC_abrir()
         if not caminho:
@@ -142,6 +146,7 @@ class Controlador:
         self.janela.aviso_carregamento_desenho() # Messagebox para avisar que os desenhos foram carregados com sucesso
 
     # Método de limpar todo o canvas =====================  
+
     def limpar_desenhos(self):
         
         if self.desenho.limpar_desenhos():
@@ -150,20 +155,19 @@ class Controlador:
         else:
             self.janela.aviso_tela_ja_limpa() # Message para avisar que a tela já está limpa, caso seja apertado o botão com a tela limpa
             
-    #MÉTODO PARA DELETAR SELECIONADA =================
+    # Método para deletar figura selecionada =================
+
     def deletar_selecionada(self, event):
         
         if self.desenho.deletar_selecionada():
             self.desenhar_figuras()
             
 
-        #=========== MOVER PARA O TOPO:
-    
+    # Métodos de movimento da figura:
     
     def mover_para_topo(self, event):
         self.desenho.mover_para_topo()
         self.desenhar_figuras()
-        
         
     def mover_para_fundo(self, event):
         self.desenho.mover_para_fundo()
@@ -176,6 +180,8 @@ class Controlador:
     def mover_para_frente(self, event):
         self.desenho.mover_para_frente()
         self.desenhar_figuras()
+    
+    # Métodos de copiar e colar figuras
         
     def copiar_figura(self, event):
         self.desenho.copiar_figura()
