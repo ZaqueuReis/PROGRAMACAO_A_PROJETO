@@ -244,22 +244,22 @@ class Janela:
 
     # Métodos que permitem desenhar cada tipo de figura ===============================
 
-    def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda):
-        self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda)
+    def desenhar_linha(self, x1, y1, x2, y2, cor_borda, tamanho_borda, selecionado = False):
+        self.canvas.create_line(x1, y1, x2, y2, fill=cor_borda, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
-    def desenhar_rabisco(self, pontos, cor_borda,tamanho_borda):
-        self.canvas.create_line(pontos, fill=cor_borda, width=tamanho_borda)
+    def desenhar_rabisco(self, pontos, cor_borda,tamanho_borda, selecionado = False):
+        self.canvas.create_line(pontos, fill=cor_borda, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
-    def desenhar_retangulo(self, x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda):
-        self.canvas.create_rectangle(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+    def desenhar_retangulo(self, x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda, selecionado = False):
+        self.canvas.create_rectangle(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
-    def desenhar_oval(self,x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda):
-        self.canvas.create_oval(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+    def desenhar_oval(self,x1, y1, x2, y2, cor_borda, cor_preenchimento, tamanho_borda, selecionado = False):
+        self.canvas.create_oval(x1, y1, x2, y2, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
-    def desenhar_circulo(self, centro_x, centro_y, raio, cor_borda, cor_preenchimento, tamanho_borda):
-        self.canvas.create_oval(centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+    def desenhar_circulo(self, centro_x, centro_y, raio, cor_borda, cor_preenchimento, tamanho_borda, selecionado = False):
+        self.canvas.create_oval(centro_x - raio, centro_y - raio, centro_x + raio, centro_y + raio, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
-    def desenhar_poligono(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado):
+    def desenhar_poligono(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado, selecionado = False):
         if len(pontos) == 0:
             return
 
@@ -268,11 +268,11 @@ class Janela:
             coordenadas.extend([x, y])
 
         if fechado:
-            self.canvas.create_polygon(coordenadas, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda)
+            self.canvas.create_polygon(coordenadas, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
         else:
             if len(pontos) >= 2:
-                self.canvas.create_line(coordenadas, fill=cor_borda, width=tamanho_borda)
+                self.canvas.create_line(coordenadas, fill=cor_borda, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
     def desenhar_linha_guia(self, ultimo_x, ultimo_y, mouse_x, mouse_y, mostrar_fechamento=False, inicio_x=None, inicio_y=None):
         self.canvas.create_line(ultimo_x, ultimo_y, mouse_x, mouse_y, fill="black", dash=(4, 4))
@@ -280,7 +280,7 @@ class Janela:
         if mostrar_fechamento:
             self.canvas.create_rectangle(inicio_x - 5, inicio_y - 5, inicio_x + 5, inicio_y + 5, outline="red", fill="white")
     
-    def desenhar_poligono_regular(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado) :
+    def desenhar_poligono_regular(self, pontos, cor_borda, cor_preenchimento, tamanho_borda, fechado, selecionado = False) :
         if not pontos or len(pontos) < 3 :
             return
         coordenadas = []
@@ -290,11 +290,10 @@ class Janela:
             coordenadas,
             outline=cor_borda,
             fill=cor_preenchimento,
-            width=tamanho_borda
+            width=tamanho_borda,
+            dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ()
         )
-    # Pra finalizar, loop da janela
 
-    
     def desenhar_retangulo_selecao(self, retangulo):
 
         self.obter_canvas().create_rectangle(
@@ -310,8 +309,7 @@ class Janela:
             #SIGNIFICA QUE É 25% PONTILHADO SENDO POSSIVEL VER ATRAVES DELE
         
 
+    # Para finalizar, loop da janela
     def iniciar(self):
         self.root.mainloop()
     
-'''O método que estava aqui foi excluído. Pensando um pouco antes, vi que seria mais fácil fazer com que as próprias figuras
-saibam se destacar do que criar um método aqui'''

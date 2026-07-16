@@ -370,7 +370,8 @@ class FiguraComposta(Figura):
         self.figuras = figuras
 
     def atualizar(self, *args):
-        pass
+        for figura in self.figuras:
+            figura.atualizar(*args)
 
     def incompleta(self):
         return False
