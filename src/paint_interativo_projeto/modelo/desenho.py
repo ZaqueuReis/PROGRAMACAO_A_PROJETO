@@ -108,6 +108,7 @@ class Desenho :
             
 
     #========== MOVER PARA TRAS 1 POR VEZ =================
+    
     def mover_para_tras(self):
         if not self.figuras_selecionadas:
             return

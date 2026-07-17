@@ -7,7 +7,7 @@ from controlador.ferramentas.ferramenta_rabisco import FerramentaRabisco
 from controlador.ferramentas.ferramenta_poligono_irregular import FerramentaPoligonoIrregular
 from controlador.ferramentas.ferramenta_poligono_regular import FerramentaPoligonoRegular
 from controlador.ferramentas.ferramenta_selecao import FerramentaSelecao 
-from visao.fabrica_desenho import FabricaDesenho # importando a classe que desenha todas as figuras já com a largura
+from visao.fabrica_desenho import FabricaDesenho 
 
 class Controlador:
 
@@ -49,23 +49,6 @@ class Controlador:
         self.janela.root.bind("<KeyRelease-Control_L>", self.ctrl_release) 
         self.janela.root.bind("<KeyPress-Control_R>", self.ctrl_press)
         self.janela.root.bind("<KeyRelease-Control_R>", self.ctrl_release)
-        
-        #======= POR QUE O self.janela.root.bind é diferente dos demais?
-        '''
-        PARA RECEBER COMANDOS DO TECLADO A JANELA PRECISA ESTÁ EM FOCO,
-        EU PODERIA RESOLVER DEIXANDO APENAS O CANVAS EM FOCO COM O COMANDO:
-        - canvas.focus_set()  - setaria foco em todo canvas;
-        
-        Mas ficava um contorno em volta do canvas e quando o usuário
-        clicava fora do canvas acabava tirando o foco e a função delete
-        parava de funciona.
-        
-        Então com o self.janela.root.bind;
-        Ele associa o delete a todo o programa, não precisa um widgete em espécifico
-        que anteriormente era o canvas estar em foco, então ele consegue capturar o click
-        da tecla delete;   
-        '''
-        #==================================
         
     # Retorna a ferramenta correspondente ao tipo de figura atualmente selecionado.
     def obter_ferramenta(self):
@@ -161,8 +144,7 @@ class Controlador:
         if self.desenho.deletar_selecionada():
             self.desenhar_figuras()
             
-
-    # Métodos de movimento da figura:
+    # Métodos de movimento da figura ==============
     
     def mover_para_topo(self, event):
         self.desenho.mover_para_topo()
@@ -180,7 +162,7 @@ class Controlador:
         self.desenho.mover_para_frente()
         self.desenhar_figuras()
     
-    # Métodos de copiar e colar figuras
+    # Métodos de copiar e colar figuras ==================
         
     def copiar_figura(self, event):
         self.desenho.copiar_figura()
@@ -188,7 +170,6 @@ class Controlador:
     def colar_figura(self, event):
         self.desenho.colar_figura()
         self.desenhar_figuras()
-
 
     #Método para mudar a cor da figura selecionada -> borda =================
     def mudar_cor_borda_selecionada(self, nova_cor):
@@ -198,8 +179,7 @@ class Controlador:
 
         self.desenhar_figuras()
 
-            
-    #Método para mudar a cor da figura selecionada -> preenchimento=================
+    #Método para mudar a cor da figura selecionada -> preenchimento =================
     def mudar_cor_preenchimento_selecionada(self, nova_cor):
 
         for figura in self.desenho.obter_figuras_selecionadas():
@@ -207,7 +187,7 @@ class Controlador:
 
         self.desenhar_figuras()
 
-    #Método para mudar a cor da figura selecionada -> espessura da borda=================
+    #Método para mudar a cor da figura selecionada -> espessura da borda =================
     def mudar_tamanho_borda_selecionada(self, tamanho):
 
         for figura in self.desenho.obter_figuras_selecionadas():
@@ -215,20 +195,19 @@ class Controlador:
 
         self.desenhar_figuras()
             
-            
+    # Métodos para ver se o ctrl está pressionado ou não ===========        
     def ctrl_press(self, event):
         self.ctrl_pressionado = True
 
-    #CRIAÇÃO DOS MÉTODOS PARA SABER SE O CTRL ESTA PRESSIONADO OU SOLTO
     def ctrl_release(self, event):
         self.ctrl_pressionado = False
     
-    # Método para agrupar as figuras, tornando-as compostas
+    # Método para agrupar as figuras, tornando-as compostas ===========
     def agrupar_figuras(self):
         self.desenho.agrupar_figuras()
         self.desenhar_figuras()
     
-    # Método para desagrupar as figuras, tornando-as únicas novamente
+    # Método para desagrupar as figuras, tornando-as únicas novamente ==============
     def desagrupar_figuras(self):
         self.desenho.desagrupar_figuras()
         self.desenhar_figuras()

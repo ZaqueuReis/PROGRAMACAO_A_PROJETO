@@ -22,7 +22,6 @@ class FerramentaPoligonoIrregular(Ferramenta):
 
         # Primeiro clique
         if figura is None:
-
             figura = Poligono_irregular([(event.x, event.y)],janela.obter_cor_borda(),janela.obter_cor_preenchimento(),janela.obter_tamanho_borda())
             desenho.inicializar_figura_atual(figura)
 
@@ -79,7 +78,6 @@ class FerramentaPoligonoIrregular(Ferramenta):
 
         if len(figura.pontos) >= 3:
             inicio_x, inicio_y = figura.pontos[0]
-
             distancia = ((self.mouse_x - inicio_x) ** 2 + (self.mouse_y - inicio_y) ** 2) ** 0.5
 
             if distancia < 10:
