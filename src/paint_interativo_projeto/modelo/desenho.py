@@ -10,6 +10,8 @@ class Desenho :
         self.figuras_selecionadas = [] 
         self.figura_copiada = None 
         self.deslocamento_colar = 0 # Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
+        self.redo = []
+        self.undo = []
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -49,6 +51,7 @@ class Desenho :
 
     def adicionar_figura_concluida(self) :
         if self.figura_atual :
+            self.salvar_estado()
             self.figuras.append(self.figura_atual)
             self.figura_atual = None
 
@@ -61,6 +64,8 @@ class Desenho :
     def deletar_selecionada(self):
         if not self.figuras_selecionadas:
             return None
+        
+        self.salvar_estado()
 
         for figura in self.figuras_selecionadas:
             if figura in self.figuras:
@@ -77,6 +82,8 @@ class Desenho :
         if not self.figuras_selecionadas:
             return
 
+        self.salvar_estado()
+
         for figura in self.figuras_selecionadas:
             self.figuras.remove(figura)
 
@@ -87,6 +94,8 @@ class Desenho :
     def mover_para_fundo(self):
         if not self.figuras_selecionadas:
             return
+        
+        self.salvar_estado()        
 
         for figura in self.figuras_selecionadas:
             self.figuras.remove(figura)
@@ -98,6 +107,8 @@ class Desenho :
     def mover_para_frente(self):
         if not self.figuras_selecionadas:
             return
+
+        self.salvar_estado()
 
         for i in range(len(self.figuras)-2, -1, -1):
 
@@ -112,6 +123,8 @@ class Desenho :
     def mover_para_tras(self):
         if not self.figuras_selecionadas:
             return
+        
+        self.salvar_estado()        
 
         for i in range(1, len(self.figuras)):
 
@@ -130,6 +143,8 @@ class Desenho :
     def colar_figura(self):
             if not self.figura_copiada:
                 return
+            
+            self.salvar_estado()            
 
             novas_figuras = copy.deepcopy(self.figura_copiada)
 
@@ -145,6 +160,8 @@ class Desenho :
     def agrupar_figuras(self):
         if len(self.figuras_selecionadas) < 2:
             return
+        
+        self.salvar_estado()
 
         grupo = FiguraComposta(self.figuras_selecionadas)
 
@@ -163,6 +180,8 @@ class Desenho :
 
         if not isinstance(grupo, FiguraComposta):
             return
+
+        self.salvar_estado()
 
         self.figuras.remove(grupo)
 
@@ -188,6 +207,8 @@ class Desenho :
     def limpar_desenhos(self):
         if not self.figuras:
             return False
+        
+        self.salvar_estado()
 
         self.figuras = []
         self.figura_atual = None
@@ -195,3 +216,27 @@ class Desenho :
         self.figura_copiada = None
 
         return True
+
+    # =========== Método para salvar os estados, desfazer e refazer ==========
+
+    def salvar_estado(self):
+        self.undo.append(copy.deepcopy(self.figuras))
+        self.redo.clear()
+    
+    def desfazer(self):
+        if not self.undo:
+            return
+
+        self.redo.append(copy.deepcopy(self.figuras))
+        self.figuras = self.undo.pop()
+        self.figuras_selecionadas.clear()
+        self.figura_atual = None
+    
+    def refazer(self):
+        if not self.redo:
+            return
+
+        self.undo.append(copy.deepcopy(self.figuras))
+        self.figuras = self.redo.pop()
+        self.figuras_selecionadas.clear()
+        self.figura_atual = None

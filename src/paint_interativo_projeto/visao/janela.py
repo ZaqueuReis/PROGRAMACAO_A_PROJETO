@@ -112,23 +112,31 @@ class Janela:
         # Widgets para salvar, abrir arquivos e limpar tudo 
 
         botao_para_salvar = ttk.Button(self.frame_botoes, text='Salvar', command=lambda: self.controller.salvar_arquivo_desenhos())
-        botao_para_salvar.grid(column = 0, row = 1, sticky=W, **paddings)
+        botao_para_salvar.grid(column = 2, row = 1, sticky=W, **paddings)
 
     
         botao_para_abrir = ttk.Button(self.frame_botoes, text='Abrir', command=lambda: self.controller.abrir_arquivo_desenho())
-        botao_para_abrir.grid(column = 1, row = 1, sticky=W, **paddings)
+        botao_para_abrir.grid(column = 3, row = 1, sticky=W, **paddings)
 
 
         botao_para_limpar = ttk.Button(self.frame_botoes, text='Limpar Tudo', command=lambda: self.controller.limpar_desenhos())
-        botao_para_limpar.grid(column = 2, row = 1, sticky=W, **paddings)
+        botao_para_limpar.grid(column = 4, row = 1, sticky=W, **paddings)
 
         # Botão para agrupar
         botao_agrupar = ttk.Button(self.frame_botoes, text="Agrupar", command=lambda: self.controller.agrupar_figuras())
-        botao_agrupar.grid(column=3, row=1, sticky=W, **paddings)
+        botao_agrupar.grid(column=5, row=1, sticky=W, **paddings)
         
         # Botão para desagrupar
         botao_desagrupar = ttk.Button(self.frame_botoes, text="Desagrupar",command=lambda: self.controller.desagrupar_figuras())
-        botao_desagrupar.grid(column=4, row=1, sticky=W, **paddings)
+        botao_desagrupar.grid(column=6, row=1, sticky=W, **paddings)
+
+        # Botão Undo
+        botao_undo = ttk.Button(self.frame_botoes, text="↶", width=3, command=lambda: self.controller.desfazer())
+        botao_undo.grid(column=0, row=1, sticky=W, **paddings)
+
+        # Botão Redo
+        botao_redo = ttk.Button(self.frame_botoes, text="↷", width=3, command=lambda: self.controller.refazer())
+        botao_redo.grid(column=1, row=1, sticky=W, **paddings)
         
         # Parte da área de desenho (canvas)
 

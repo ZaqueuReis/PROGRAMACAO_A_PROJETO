@@ -49,6 +49,8 @@ class Controlador:
         self.janela.root.bind("<KeyRelease-Control_L>", self.ctrl_release) 
         self.janela.root.bind("<KeyPress-Control_R>", self.ctrl_press)
         self.janela.root.bind("<KeyRelease-Control_R>", self.ctrl_release)
+        self.janela.root.bind("<Control-z>", self.desfazer)
+        self.janela.root.bind("<Control-y>", self.refazer)
         
     # Retorna a ferramenta correspondente ao tipo de figura atualmente selecionado.
     def obter_ferramenta(self):
@@ -173,6 +175,8 @@ class Controlador:
 
     #Método para mudar a cor da figura selecionada -> borda =================
     def mudar_cor_borda_selecionada(self, nova_cor):
+        if self.desenho.obter_figuras_selecionadas():
+            self.desenho.salvar_estado()
 
         for figura in self.desenho.obter_figuras_selecionadas():
             figura.alterar_cor_borda(nova_cor)
@@ -181,6 +185,8 @@ class Controlador:
 
     #Método para mudar a cor da figura selecionada -> preenchimento =================
     def mudar_cor_preenchimento_selecionada(self, nova_cor):
+        if self.desenho.obter_figuras_selecionadas():
+            self.desenho.salvar_estado()
 
         for figura in self.desenho.obter_figuras_selecionadas():
             figura.alterar_cor_preenchimento(nova_cor)
@@ -189,6 +195,8 @@ class Controlador:
 
     #Método para mudar a cor da figura selecionada -> espessura da borda =================
     def mudar_tamanho_borda_selecionada(self, tamanho):
+        if self.desenho.obter_figuras_selecionadas():
+            self.desenho.salvar_estado()
 
         for figura in self.desenho.obter_figuras_selecionadas():
             figura.alterar_tamanho_borda(tamanho)
@@ -210,4 +218,13 @@ class Controlador:
     # Método para desagrupar as figuras, tornando-as únicas novamente ==============
     def desagrupar_figuras(self):
         self.desenho.desagrupar_figuras()
+        self.desenhar_figuras()
+    
+    # Métodos para desfazer e refazer (Undo e Redo) ===================
+    def desfazer(self, event = None):
+        self.desenho.desfazer()
+        self.desenhar_figuras()
+
+    def refazer(self, event = None):
+        self.desenho.refazer()
         self.desenhar_figuras()

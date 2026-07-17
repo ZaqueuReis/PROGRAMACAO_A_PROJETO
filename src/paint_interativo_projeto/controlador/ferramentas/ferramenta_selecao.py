@@ -6,6 +6,7 @@ class FerramentaSelecao(Ferramenta):
     def __init__(self, controlador):
         super().__init__(controlador)
         self.ultima_posicao = None
+        self.movimentando_figura = False
         self.retangulo_selecao = None
         self.inicioX_retangulo_selecao = 0
         self.inicioY_retangulo_selecao = 0
@@ -44,6 +45,7 @@ class FerramentaSelecao(Ferramenta):
 
         if figuras_selecionadas is not None:
             self.ultima_posicao = (event.x, event.y)
+            self.movimentando_figura = False
         else:
             self.ultima_posicao = None
 
@@ -73,6 +75,10 @@ class FerramentaSelecao(Ferramenta):
 
         if self.ultima_posicao is None:
             return
+        
+        if not self.movimentando_figura:
+            self.controlador.desenho.salvar_estado()
+            self.movimentando_figura = True
 
         x_antigo, y_antigo = self.ultima_posicao
         dx = event.x - x_antigo
@@ -86,6 +92,7 @@ class FerramentaSelecao(Ferramenta):
 
     def mouse_release(self, event):
         self.ultima_posicao = None
+        self.movimentando_figura = False
 
         # Se não existe um retângulo de seleção, então a figura está sendo movimentada
         if self.retangulo_selecao is None:
