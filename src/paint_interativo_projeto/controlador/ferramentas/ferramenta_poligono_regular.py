@@ -10,7 +10,7 @@ class FerramentaPoligonoRegular(Ferramenta) :
         super().__init__(controlador)
     
     def mouse_press(self, event) :
-        botao = event.num # Adaptação para reformular metodo de desenhar poligono regular
+        botao = event.num 
         desenho = self.controlador.desenho
         janela = self.controlador.janela
         figura = desenho.obter_figura_atual()

@@ -36,9 +36,9 @@ class Figura(ABC):
     def alterar_tamanho_borda(self, tamanho):
         self.tamanho_borda = tamanho
 
-    # Métodos responsáveis por alterar as propriedades visuais da figura.
-    # O controlador apenas solicita a alteração, sem acessar diretamente
-    # os atributos internos da classe (encapsulamento).
+    '''Métodos responsáveis por alterar as propriedades visuais da figura.
+    O controlador apenas solicita a alteração, sem acessar diretamente
+    os atributos internos da classe (encapsulamento).'''
 
 
 #CLASSE LINHA ==========================
@@ -180,7 +180,7 @@ class Circulo(Figura):
         self.raio = raio
 
     def atualizar(self, x, y) :
-        self.raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5 # substituição aqui, pois estava redundante
+        self.raio = ((x- self.centro_x) ** 2 + (y - self.centro_y) ** 2) ** 0.5 
 
     def incompleta(self):
         return self.raio <= 0
@@ -257,13 +257,6 @@ class Poligono_irregular(Figura):
             p1x, p1y = p2x, p2y
 
         return dentro
-
-'''Tive que fazer uma breve alteração nesta função, dado que ao invés de copiar, ela apenas movia o poligono,
- isso porque, pelo que entendi, estavamos usando a mesma lista de pontos, da figura original, para copiar e 
- depois colar, dai na hora de colar, ela apenas somava aquele deslocamento na coordenada da figura original,
- o segredo eh fazer uma cópia da figura, para deixar a orignal na sua posicão inicial, sem deslocar a mesma, 
- observei que rabisco, estava com o mesmo bug, daí a solução foi a mesma...'''
-
 
 # CLASSE POLIGONO REGULARES =====================================
 class Poligono_regular(Figura) :

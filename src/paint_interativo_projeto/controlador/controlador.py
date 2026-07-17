@@ -26,14 +26,14 @@ class Controlador:
             "Rabisco": FerramentaRabisco(self),
             "Poligono irregular": FerramentaPoligonoIrregular(self),
             "Poligono regular": FerramentaPoligonoRegular(self),
-            "Selecionar": FerramentaSelecao(self) # adicionada a ferramenta seleção criada
+            "Selecionar": FerramentaSelecao(self) 
         }
 
         # Eventos do mouse para os métodos do controlador 
         canvas = self.janela.obter_canvas()
         
         canvas.bind("<ButtonPress-1>", self.iniciar_figura_atual)
-        canvas.bind("<ButtonPress-3>", self.iniciar_figura_atual) # Para que os lados do poligono regular diminuam com botão direito do mouse
+        canvas.bind("<ButtonPress-3>", self.iniciar_figura_atual) 
         canvas.bind("<B1-Motion>", self.atualizar_figura_atual)
         canvas.bind("<Motion>", self.atualizar_figura_atual)
         canvas.bind("<Double-Button-1>", self.mouse_double_click)
@@ -45,10 +45,10 @@ class Controlador:
         self.janela.root.bind("<Left>", self.mover_para_tras)
         self.janela.root.bind("<Control-c>", self.copiar_figura)
         self.janela.root.bind("<Control-v>", self.colar_figura)
-        self.janela.root.bind("<KeyPress-Control_L>", self.ctrl_press) #CRIAÇÃO DOS BOTOES CTRL LEFT
-        self.janela.root.bind("<KeyRelease-Control_L>", self.ctrl_release) #CRIAÇÃO DOS BOTOES CTRL LEFT
-        self.janela.root.bind("<KeyPress-Control_R>", self.ctrl_press)# CRIAÇÃO DOS BOTOES CTRL RIGHT
-        self.janela.root.bind("<KeyRelease-Control_R>", self.ctrl_release) # CRIAÇÃO DOS BOTOES CTRL RIGHT
+        self.janela.root.bind("<KeyPress-Control_L>", self.ctrl_press) 
+        self.janela.root.bind("<KeyRelease-Control_L>", self.ctrl_release) 
+        self.janela.root.bind("<KeyPress-Control_R>", self.ctrl_press)
+        self.janela.root.bind("<KeyRelease-Control_R>", self.ctrl_release)
         
         #======= POR QUE O self.janela.root.bind é diferente dos demais?
         '''
@@ -120,7 +120,6 @@ class Controlador:
             self.fabrica.desenhar(figura_atual)
             # Figura que ainda está sendo desenhada
 
-                        
     # Método de salvar arquivos =====================
                
     def salvar_arquivo_desenhos(self):

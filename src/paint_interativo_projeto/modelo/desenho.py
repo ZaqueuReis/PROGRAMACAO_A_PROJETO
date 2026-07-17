@@ -7,9 +7,9 @@ class Desenho :
     def __init__(self) :
         self.figuras = []
         self.figura_atual = None
-        self.figuras_selecionadas = [] # Transformação em figuras selecionadas, ou seja, uma lista.
-        self.figura_copiada = None # Adicionado atributo para verificar se uma figura está selecionada
-        self.deslocamento_colar = 0 #Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
+        self.figuras_selecionadas = [] 
+        self.figura_copiada = None 
+        self.deslocamento_colar = 0 # Adição de um deslocamento ao colar as figuras para sempre que eu der CTRL V varias vezes nao sair uma em cima da outra
 
     # ========= Para figuras em construção no momento do desenho ==========
 
@@ -31,8 +31,8 @@ class Desenho :
         self.figuras_selecionadas.clear()
         #FUNÇÃO CLEAR SERVE PARA ESVAZIAR UMA LISTA
 
+    # ========== Métodos para seleção de múltiplas figuras =============
 
-    #ADICIONANDO NOVOS MÉTODOS PARA SELEÇAO MULTIPLA DE FIGURAS:
     def adicionar_selecao(self, figura):
         if figura not in self.figuras_selecionadas:
             self.figuras_selecionadas.append(figura)
@@ -44,10 +44,6 @@ class Desenho :
             self.figuras_selecionadas.remove(figura)
             #SE CLICAR NUMA FIGURA QUE JA ESTA NA LISTA DE FIGURAS SELECIONADAS
             #REMOVA DA LISTA DE FIGURAS SELECIONADAS A FIGURA CLICADA
-    
-    
-    #FIM NOVOS MÉTODOS
-    
     
     # ========= Para as figuras que estão na lista self.figuras ===========
 

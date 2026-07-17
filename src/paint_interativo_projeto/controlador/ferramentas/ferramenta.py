@@ -21,6 +21,7 @@ class Ferramenta(ABC):
     
     def desenhar(self):
         pass
+    
         """
         Antes o controlador.desenhar_figuras() desenhava apenas figuras do modelo.
         Quando foi criado o retangulo de seleção surge um problema:

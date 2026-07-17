@@ -23,15 +23,11 @@ class FerramentaSelecao(Ferramenta):
         self.inicioY_retangulo_selecao = event.y
         
         if figuras_selecionadas is None:
-            self.retangulo_selecao = RetanguloSelecao(
-            self.inicioX_retangulo_selecao,
-            self.inicioY_retangulo_selecao
-            )
-
+            self.retangulo_selecao = RetanguloSelecao(self.inicioX_retangulo_selecao, self.inicioY_retangulo_selecao)
             self.controlador.desenhar_figuras()
             return
 
-        if self.controlador.ctrl_pressionado: #SE O CTRL ESTIVER PRESSIONADO SIGA O BLOCO A SEGUIR:
+        if self.controlador.ctrl_pressionado: # SE O CTRL ESTIVER PRESSIONADO SIGA O BLOCO A SEGUIR:
             if figuras_selecionadas is not None:
                 if figuras_selecionadas in self.controlador.desenho.obter_figuras_selecionadas():
                     self.controlador.desenho.remover_selecao(figuras_selecionadas)

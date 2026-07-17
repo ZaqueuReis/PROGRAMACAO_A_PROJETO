@@ -35,7 +35,7 @@ class Janela:
         self.option_menu = ttk.OptionMenu(
             self.frame,
             self.tipo_figura_var,
-            'Selecionar', # Acrescentei e definir o selecionar como o inicio do programa, podemos trocar depois...
+            'Selecionar', 
             'Selecionar',
             'Linha',
             'Retangulo',
@@ -80,7 +80,7 @@ class Janela:
         self.caixa_cor_preenchimento = Label(self.frame, bg=self.cor_preenchimento_var.get(), width=3, relief='solid')
         self.caixa_cor_preenchimento.grid(column=7, row=0, sticky=W, **paddings)
         
-        #implementação do botão na caixa -> cor_preenchimento
+        # Implementação do botão na caixa -> cor_preenchimento
         self.caixa_cor_preenchimento.bind("<Button-1>", lambda event : self.controller.mudar_cor_preenchimento_selecionada(self.cor_preenchimento_var.get()) if self.controller else None)
         
         # Widgets de texto e seleção da espessura da borda das figuras
@@ -195,38 +195,19 @@ class Janela:
         self.canvas.delete("all")
     
     # Registra o controlador que atenderá as ações da interface
+
     def registrar_controlador(self, controlador):
         self.controller = controlador
 
-    '''
-    ==================== Part - 1 : salvar desenhos -> - Como alguns metódos são do tkinter,
-    então algumas partes terão que ficar na view -> visao'''
+    # Método para salvar desenhos
 
     def obter_caminhoPC_salvar(self):
         return filedialog.asksaveasfilename(defaultextension=".pkl", filetypes=[("Arquivos Pickle", "*.pkl")]) # Mudança pois agora é pickle
-    '''
-    - filedialog.asksavesfilename = método do tkinter que faz a janela de salvamento aparecer na tela;
-    
-    - defaultextension=".pkl": se o usuário apenas digitar o nome do arquivo e esquecer de colocar a extensão
-    que será ele, o tkinter irá adiciona o .pkl automaticamente no final;
-    
-    - filetypes=[("Arquivos Pickle", "*.pkl")]: cria um filtro na parte inferior da janela. 
-      Isso faz com que o sistema mostre apenas arquivos com a extensão .pkl;
-    
-    '''
-    
-    '''
-    ==================== Part - 2 : Encontrar arquivo -> -Para ser mais exato, o caminho, no gerenciador de arquivos''' 
+
+    # Método para encontrar o arquivo no gerenciador
 
     def obter_caminhoPC_abrir(self):
         return filedialog.askopenfilename(filetypes=[("Arquivos Pickle", "*.pkl")]) # Mudança pois agora é pickle
-    
-    '''
-    - filedialog.askopenfilename: método do tkinter que abre a janela para selecionar um arquivo existente no computador;
-    
-    - filetypes=[("Arquivos Pickle", "*.pkl")]: força a janela a exibir apenas arquivos .pkl;
-    
-    '''
     
     # Métodos que retornam messagebox - módulo do tkinter que recebe mensagens de aviso =============================
     
@@ -286,29 +267,12 @@ class Janela:
         coordenadas = []
         for x, y in pontos :
             coordenadas.extend([x, y])
-        self.canvas.create_polygon(
-            coordenadas,
-            outline=cor_borda,
-            fill=cor_preenchimento,
-            width=tamanho_borda,
-            dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ()
-        )
+        self.canvas.create_polygon(coordenadas, outline=cor_borda, fill=cor_preenchimento, width=tamanho_borda, dash = (tamanho_borda * 2, tamanho_borda) if selecionado else ())
 
+    # Método que desenha o retângulo vermelho de seleção
     def desenhar_retangulo_selecao(self, retangulo):
-
-        self.obter_canvas().create_rectangle(
-            retangulo.x1,
-            retangulo.y1,
-            retangulo.x2,
-            retangulo.y2,
-            outline="red",
-            fill="salmon",
-            stipple="gray25"
-        )
-            #ESSE STIPPLE FUNCIONA COMO UM PONTILHADO, E ESSE NUMERO É A % DE PONTILHADO
-            #SIGNIFICA QUE É 25% PONTILHADO SENDO POSSIVEL VER ATRAVES DELE
+        self.obter_canvas().create_rectangle(retangulo.x1, retangulo.y1, retangulo.x2, retangulo.y2, outline="red", fill="salmon", stipple="gray25")
         
-
     # Para finalizar, loop da janela
     def iniciar(self):
         self.root.mainloop()
