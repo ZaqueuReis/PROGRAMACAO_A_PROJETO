@@ -11,7 +11,7 @@ class Janela:
         self.controller = None
 
         self.root = Tk()
-        self.root.title("Paint - Figuras Compostas")
+        self.root.title("Paint - Figuras Compostas + Undo / Redo")
 
         # Frame da parte superior
         self.frame = Frame(self.root)
